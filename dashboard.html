@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Desenvolvimento Pessoal</title>
+    <link rel="stylesheet" href="dashboard-styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@1.0.1/dist/chartjs-adapter-moment.min.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="dashboard-header">
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-chart-line"></i>
+                <h1>Desenvolvimento Pessoal</h1>
+            </div>
+            <div class="header-stats">
+                <div class="stat-item">
+                    <span class="stat-label">Última Atualização</span>
+                    <span class="stat-value" id="lastUpdate">Carregando...</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Status</span>
+                    <span class="stat-value status-online">
+                        <i class="fas fa-circle"></i> Online
+                    </span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Dashboard -->
+    <main class="dashboard-main">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <nav class="sidebar-nav">
+                <a href="#overview" class="nav-item active" data-section="overview">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Visão Geral</span>
+                </a>
+                <a href="#skills" class="nav-item" data-section="skills">
+                    <i class="fas fa-code"></i>
+                    <span>Habilidades</span>
+                </a>
+                <a href="#projects" class="nav-item" data-section="projects">
+                    <i class="fas fa-project-diagram"></i>
+                    <span>Projetos</span>
+                </a>
+                <a href="#learning" class="nav-item" data-section="learning">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>Aprendizado</span>
+                </a>
+                <a href="#goals" class="nav-item" data-section="goals">
+                    <i class="fas fa-bullseye"></i>
+                    <span>Metas</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Content Area -->
+        <div class="content-area">
+            <!-- Overview Section -->
+            <section id="overview" class="dashboard-section active">
+                <div class="section-header">
+                    <h2>Visão Geral</h2>
+                    <button class="refresh-btn" onclick="refreshData()">
+                        <i class="fas fa-sync-alt"></i>
+                        Atualizar Dados
+                    </button>
+                </div>
+
+                <!-- KPI Cards -->
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <div class="kpi-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <div class="kpi-content">
+                            <h3 id="totalSkills">0</h3>
+                            <p>Habilidades Técnicas</p>
+                            <span class="kpi-trend positive">
+                                <i class="fas fa-arrow-up"></i> +12% este mês
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="kpi-card">
+                        <div class="kpi-icon">
+                            <i class="fas fa-project-diagram"></i>
+                        </div>
+                        <div class="kpi-content">
+                            <h3 id="totalProjects">0</h3>
+                            <p>Projetos Concluídos</p>
+                            <span class="kpi-trend positive">
+                                <i class="fas fa-arrow-up"></i> +3 este mês
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="kpi-card">
+                        <div class="kpi-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="kpi-content">
+                            <h3 id="studyHours">0h</h3>
+                            <p>Horas de Estudo</p>
+                            <span class="kpi-trend positive">
+                                <i class="fas fa-arrow-up"></i> +25h esta semana
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="kpi-card">
+                        <div class="kpi-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="kpi-content">
+                            <h3 id="achievements">0</h3>
+                            <p>Conquistas</p>
+                            <span class="kpi-trend positive">
+                                <i class="fas fa-arrow-up"></i> +2 esta semana
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Row -->
+                <div class="charts-row">
+                    <div class="chart-container">
+                        <div class="chart-header">
+                            <h3>Progresso de Habilidades</h3>
+                            <div class="chart-controls">
+                                <select id="skillsTimeframe">
+                                    <option value="month">Último Mês</option>
+                                    <option value="quarter">Último Trimestre</option>
+                                    <option value="year">Último Ano</option>
+                                </select>
+                            </div>
+                        </div>
+                        <canvas id="skillsChart"></canvas>
+                    </div>
+
+                    <div class="chart-container">
+                        <div class="chart-header">
+                            <h3>Distribuição de Tempo</h3>
+                        </div>
+                        <canvas id="timeDistributionChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Activity Timeline -->
+                <div class="activity-section">
+                    <h3>Atividades Recentes</h3>
+                    <div class="activity-timeline" id="activityTimeline">
+                        <!-- Activities will be populated by JavaScript -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Skills Section -->
+            <section id="skills" class="dashboard-section">
+                <div class="section-header">
+                    <h2>Habilidades Técnicas</h2>
+                </div>
+                
+                <div class="skills-grid" id="skillsGrid">
+                    <!-- Skills will be populated by JavaScript -->
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h3>Evolução das Habilidades</h3>
+                    </div>
+                    <canvas id="skillsEvolutionChart"></canvas>
+                </div>
+            </section>
+
+            <!-- Projects Section -->
+            <section id="projects" class="dashboard-section">
+                <div class="section-header">
+                    <h2>Projetos</h2>
+                </div>
+                
+                <div class="projects-grid" id="projectsGrid">
+                    <!-- Projects will be populated by JavaScript -->
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h3>Status dos Projetos</h3>
+                    </div>
+                    <canvas id="projectsStatusChart"></canvas>
+                </div>
+            </section>
+
+            <!-- Learning Section -->
+            <section id="learning" class="dashboard-section">
+                <div class="section-header">
+                    <h2>Aprendizado</h2>
+                </div>
+                
+                <div class="learning-stats">
+                    <div class="stat-card">
+                        <h4>Cursos em Andamento</h4>
+                        <span class="stat-number" id="ongoingCourses">0</span>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Cursos Concluídos</h4>
+                        <span class="stat-number" id="completedCourses">0</span>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Certificações</h4>
+                        <span class="stat-number" id="certifications">0</span>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h3>Horas de Estudo por Categoria</h3>
+                    </div>
+                    <canvas id="studyHoursChart"></canvas>
+                </div>
+            </section>
+
+            <!-- Goals Section -->
+            <section id="goals" class="dashboard-section">
+                <div class="section-header">
+                    <h2>Metas e Objetivos</h2>
+                </div>
+                
+                <div class="goals-grid" id="goalsGrid">
+                    <!-- Goals will be populated by JavaScript -->
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h3>Progresso das Metas</h3>
+                    </div>
+                    <canvas id="goalsProgressChart"></canvas>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+            <p>Carregando dados...</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="dashboard-script.js"></script>
+</body>
+</html>
