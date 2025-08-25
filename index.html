@@ -1084,50 +1084,10 @@
         </div>
     </div>
 
-    <!-- Modal de Autenticação -->
-    <div id="authModal" class="modal">
-        <div class="modal-content" style="max-width: 400px;">
-            <div class="modal-header">
-                <h2>Autenticação Necessária</h2>
-                <span class="close" onclick="closeAuthModal()">&times;</span>
-            </div>
-            <div class="modal-body">
-                <p style="color: #a1a1aa; margin-bottom: 1.5rem;">Identifique-se e digite a senha para realizar esta ação:</p>
-                <form id="authForm">
-                    <div class="form-group">
-                        <label for="userSelect">Quem é você?</label>
-                        <select id="userSelect" name="user" required>
-                            <option value="">Selecione...</option>
-                            <option value="fe">👩‍💻 Fê</option>
-                            <option value="santi">👨‍💻 Santi</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="authPassword">Senha:</label>
-                        <input type="password" id="authPassword" name="password" required placeholder="Digite a senha">
-                    </div>
-                    <div id="authError" style="color: #ef4444; font-size: 0.9rem; margin-top: 0.5rem; display: none;">
-                        Senha incorreta. Tente novamente.
-                    </div>
-                    <div class="form-actions">
-                        <button type="button" class="btn-cancel" onclick="closeAuthModal()">Cancelar</button>
-                        <button type="submit" class="btn-save">Confirmar</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+
 
     <script>
         function showSection(sectionId) {
-            // Verificar se mudou de seção e limpar autenticação
-            if (currentActiveSection !== sectionId) {
-                authenticatedSection = null; // Limpar autenticação ao mudar de seção
-                currentUser = null; // Limpar usuário atual
-                currentActiveSection = sectionId;
-                console.log(`🔄 Mudança de seção: ${sectionId} - Autenticação e usuário limpos`);
-            }
-            
             // Esconder todas as seções
             const sections = document.querySelectorAll('.section');
             sections.forEach(section => section.classList.remove('active'));
@@ -1179,7 +1139,9 @@
         
         // Função para adicionar nova evidência
         function addNewEvidence(section) {
-            authenticateAction('add', { section: section });
+            currentSection = section;
+            currentUser = 'fe'; // Usuário padrão
+            openModal();
         }
         
         // Função para abrir o modal
@@ -1311,7 +1273,8 @@
         
         // Função para copiar evidência
         function copyEvidence(button) {
-            authenticateAction('copy', { button: button });
+            currentUser = 'fe'; // Usuário padrão
+            _copyEvidence(button);
         }
         
         // Função interna para copiar evidência (após autenticação)
@@ -1371,7 +1334,8 @@
         
         // Função para deletar evidência
         function deleteEvidence(button) {
-            authenticateAction('delete', { button: button });
+            currentUser = 'fe'; // Usuário padrão
+            _deleteEvidence(button);
         }
         
         // Função interna para deletar evidência (após autenticação)
