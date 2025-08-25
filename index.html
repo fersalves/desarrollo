@@ -1159,7 +1159,16 @@
         let pendingAction = null;
         let pendingActionData = null;
         let authenticatedSection = null; // Seção atualmente autenticada
-        let currentActiveSection = 'overview'; // Seção ativa atual
+        let currentActiveSection = null; // Seção ativa atual
+        
+        // Função para detectar seção ativa atual
+        function getCurrentActiveSection() {
+            const activeSection = document.querySelector('.section.active');
+            if (activeSection) {
+                return activeSection.id;
+            }
+            return 'overview'; // fallback
+        }
         let currentUser = null; // Usuário atualmente autenticado
         
         // Mapeamento de usuários
@@ -1379,13 +1388,18 @@
         
         // Sistema de Autenticação
         function authenticateAction(action, data) {
+            // Detectar seção ativa atual dinamicamente
+            currentActiveSection = getCurrentActiveSection();
+            console.log(`🔍 Debug: authenticatedSection='${authenticatedSection}', currentActiveSection='${currentActiveSection}'`);
+            
             // Verificar se a seção atual já está autenticada
-            if (authenticatedSection === currentActiveSection) {
+            if (authenticatedSection === currentActiveSection && authenticatedSection !== null) {
                 console.log(`✅ Seção ${currentActiveSection} já autenticada - executando ação diretamente`);
                 executeAction(action, data);
                 return;
             }
             
+            console.log(`🔐 Seção não autenticada - solicitando senha`);
             // Se não está autenticada, solicitar senha
             pendingAction = action;
             pendingActionData = data;
@@ -1437,7 +1451,8 @@
         function executeAuthenticatedAction() {
             if (!pendingAction || !pendingActionData) return;
             
-            // Marcar seção atual como autenticada
+            // Detectar seção ativa atual e marcar como autenticada
+            currentActiveSection = getCurrentActiveSection();
             authenticatedSection = currentActiveSection;
             console.log(`🔓 Seção ${currentActiveSection} autenticada com sucesso`);
             
