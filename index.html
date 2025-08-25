@@ -1087,6 +1087,13 @@
 
     <script>
         function showSection(sectionId) {
+            // Verificar se mudou de seção e limpar autenticação
+            if (currentActiveSection !== sectionId) {
+                authenticatedSection = null; // Limpar autenticação ao mudar de seção
+                currentActiveSection = sectionId;
+                console.log(`🔄 Mudança de seção: ${sectionId} - Autenticação limpa`);
+            }
+            
             // Esconder todas as seções
             const sections = document.querySelectorAll('.section');
             sections.forEach(section => section.classList.remove('active'));
@@ -1117,6 +1124,8 @@
         const AUTH_PASSWORD = 'fe2025'; // Altere esta senha conforme necessário
         let pendingAction = null;
         let pendingActionData = null;
+        let authenticatedSection = null; // Seção atualmente autenticada
+        let currentActiveSection = 'overview'; // Seção ativa atual
         
         // Função para adicionar nova evidência
         function addNewEvidence(section) {
@@ -1322,9 +1331,33 @@
         
         // Sistema de Autenticação
         function authenticateAction(action, data) {
+            // Verificar se a seção atual já está autenticada
+            if (authenticatedSection === currentActiveSection) {
+                console.log(`✅ Seção ${currentActiveSection} já autenticada - executando ação diretamente`);
+                executeAction(action, data);
+                return;
+            }
+            
+            // Se não está autenticada, solicitar senha
             pendingAction = action;
             pendingActionData = data;
             openAuthModal();
+        }
+        
+        // Função para executar ação diretamente (sem modal de auth)
+        function executeAction(action, data) {
+            switch (action) {
+                case 'add':
+                    currentSection = data.section;
+                    openModal();
+                    break;
+                case 'copy':
+                    _copyEvidence(data.button);
+                    break;
+                case 'delete':
+                    _deleteEvidence(data.button);
+                    break;
+            }
         }
         
         function openAuthModal() {
@@ -1355,18 +1388,12 @@
         function executeAuthenticatedAction() {
             if (!pendingAction || !pendingActionData) return;
             
-            switch (pendingAction) {
-                case 'add':
-                    currentSection = pendingActionData.section;
-                    openModal();
-                    break;
-                case 'copy':
-                    _copyEvidence(pendingActionData.button);
-                    break;
-                case 'delete':
-                    _deleteEvidence(pendingActionData.button);
-                    break;
-            }
+            // Marcar seção atual como autenticada
+            authenticatedSection = currentActiveSection;
+            console.log(`🔓 Seção ${currentActiveSection} autenticada com sucesso`);
+            
+            // Executar a ação
+            executeAction(pendingAction, pendingActionData);
             
             // Limpar dados pendentes
             pendingAction = null;
