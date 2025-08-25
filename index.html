@@ -315,7 +315,13 @@
         }
         
         .evidence-author-avatar {
-            font-size: 1rem;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            object-fit: cover;
+            flex-shrink: 0;
+            padding: 2px;
+            background: linear-gradient(90deg, #00d4ff, #7c3aed);
         }
         
         .evidence-author-name {
@@ -838,7 +844,7 @@
                     <a href="https://fersalves.github.io/desarrollo/" class="evidence-link">🔗 Ver projeto</a>
                         <div class="evidence-actions">
                             <div class="evidence-author">
-                                <span class="evidence-author-avatar">👩‍💻</span>
+                                <img src="imagens/fe.png" alt="Fê" class="evidence-author-avatar">
                                 <span class="evidence-author-name">Adicionado por Fê</span>
                             </div>
                             <div class="evidence-actions-buttons">
@@ -878,7 +884,7 @@
                     <a href="#" class="evidence-link">🔗 Ver thread Slack</a>
                     <div class="evidence-actions">
                         <div class="evidence-author">
-                            <span class="evidence-author-avatar">👩‍💻</span>
+                            <img src="imagens/fe.png" alt="Fê" class="evidence-author-avatar">
                             <span class="evidence-author-name">Adicionado por Fê</span>
                         </div>
                         <div class="evidence-actions-buttons">
@@ -1181,8 +1187,8 @@
         
         // Mapeamento de usuários
         const USER_INFO = {
-            'fe': { name: 'Fê', avatar: '👩‍💻' },
-            'santi': { name: 'Santi', avatar: '👨‍💻' }
+            'fe': { name: 'Fê', avatar: 'imagens/fe.png' },
+            'santi': { name: 'Santi', avatar: 'imagens/santi.png' }
         };
         
         // Função para adicionar nova evidência
@@ -1289,7 +1295,7 @@
                     ${evidenceData.link ? `<a href="${evidenceData.link}" class="evidence-link">🔗 ${evidenceData.linkName}</a>` : ''}
                     <div class="evidence-actions">
                         <div class="evidence-author">
-                            <span class="evidence-author-avatar">${userInfo.avatar}</span>
+                            <img src="${userInfo.avatar}" alt="${userInfo.name}" class="evidence-author-avatar">
                             <span class="evidence-author-name">Adicionado por ${userInfo.name}</span>
                         </div>
                         <div class="evidence-actions-buttons">
