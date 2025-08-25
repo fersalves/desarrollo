@@ -700,22 +700,22 @@
             
             grids.forEach(grid => {
                 const cards = grid.querySelectorAll('.flip-card');
-                const gridStyle = window.getComputedStyle(grid);
-                const gridTemplateColumns = gridStyle.getPropertyValue('grid-template-columns');
-                
-                // Calcular número de colunas baseado no CSS do grid
-                const columnCount = gridTemplateColumns.split(' ').length;
                 
                 cards.forEach((card, index) => {
-                    const columnPosition = (index % columnCount) + 1;
-                    const isLeftHalf = columnPosition <= Math.ceil(columnCount / 2);
+                    // Detectar posição baseado no layout do grid
+                    const rect = card.getBoundingClientRect();
+                    const gridRect = grid.getBoundingClientRect();
+                    const cardCenterX = rect.left + rect.width / 2;
+                    const gridCenterX = gridRect.left + gridRect.width / 2;
                     
-                    if (isLeftHalf) {
+                    if (cardCenterX < gridCenterX) {
                         card.classList.add('left-side');
                         card.classList.remove('right-side');
+                        console.log(`Card ${index}: LEFT - Center: ${cardCenterX}, Grid Center: ${gridCenterX}`);
                     } else {
                         card.classList.add('right-side');
                         card.classList.remove('left-side');
+                        console.log(`Card ${index}: RIGHT - Center: ${cardCenterX}, Grid Center: ${gridCenterX}`);
                     }
                 });
             });
@@ -750,12 +750,10 @@
         document.addEventListener('DOMContentLoaded', function() {
             console.log('Dashboard reorganizado carregado com sucesso! 🎉');
             
-            // Aplicar direções dos cards
-            setCardDirections();
-            
             // Aguardar um pouco para garantir que tudo foi renderizado
             setTimeout(() => {
                 animateProgressBars();
+                setCardDirections(); // Aplicar direções após layout estar pronto
             }, 500);
         });
         
