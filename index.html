@@ -255,6 +255,44 @@
             text-decoration: underline;
         }
         
+        /* Evidence Actions */
+        .evidence-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            justify-content: flex-end;
+        }
+        
+        .evidence-action {
+            background: #333;
+            border: none;
+            border-radius: 4px;
+            padding: 0.5rem;
+            cursor: pointer;
+            color: #a1a1aa;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        
+        .evidence-action:hover {
+            background: #444;
+            color: white;
+            transform: translateY(-1px);
+        }
+        
+        .evidence-action.copy:hover {
+            background: #00d4ff;
+            color: white;
+        }
+        
+        .evidence-action.delete:hover {
+            background: #ef4444;
+            color: white;
+        }
+        
         /* Card para adicionar evidência */
         .evidence-item-add {
             background: #1e1e2e;
@@ -758,12 +796,20 @@
                 
                 <h3 style="color: white; margin: 2rem 0 0;">Empuja hoy, no mañana</h3>
                 <p style="color: #a1a1aa; font-weight: 300; margin: 0 0 1rem 0; line-height: 1.6;">Ante un blocker, define un próximo paso en el mismo día (no dejes que duerma).</p>
-                <div class="evidence-item">
-                    <div class="evidence-title">Dashboard Pessoal - Blocker Resolvido</div>
-                    <div class="evidence-date">📅 Agosto 2025</div>
-                    <p>Blocker na integração Google Sheets resolvido no mesmo dia com solução offline alternativa, mantendo projeto no prazo</p>
-                    <a href="https://fersalves.github.io/desarrollo/" class="evidence-link">🔗 Ver projeto</a>
-                </div>
+                                    <div class="evidence-item">
+                        <div class="evidence-title">Dashboard Pessoal - Blocker Resolvido</div>
+                        <div class="evidence-date">📅 Agosto 2025</div>
+                        <p>Blocker na integração Google Sheets resolvido no mesmo dia com solução offline alternativa, mantendo projeto no prazo</p>
+                        <a href="https://fersalves.github.io/desarrollo/" class="evidence-link">🔗 Ver projeto</a>
+                        <div class="evidence-actions">
+                            <button class="evidence-action copy" onclick="copyEvidence(this)" title="Copiar evidência">
+                                📋 Copiar
+                            </button>
+                            <button class="evidence-action delete" onclick="deleteEvidence(this)" title="Deletar evidência">
+                                🗑️ Deletar
+                            </button>
+                        </div>
+                    </div>
                 <div class="evidence-item-add" onclick="addNewEvidence('empuja-hoy')">
                     <div class="add-content">
                         <div class="add-icon">+</div>
@@ -1139,6 +1185,14 @@
                     <div class="evidence-date">📅 ${formattedDate}</div>
                     <p>${evidenceData.description}</p>
                     ${evidenceData.link ? `<a href="${evidenceData.link}" class="evidence-link">🔗 ${evidenceData.linkName}</a>` : ''}
+                    <div class="evidence-actions">
+                        <button class="evidence-action copy" onclick="copyEvidence(this)" title="Copiar evidência">
+                            📋 Copiar
+                        </button>
+                        <button class="evidence-action delete" onclick="deleteEvidence(this)" title="Deletar evidência">
+                            🗑️ Deletar
+                        </button>
+                    </div>
                 </div>
             `;
             
@@ -1156,6 +1210,73 @@
             if (evidenceCountElement) {
                 evidenceCountElement.textContent = evidenceItems.length;
                 console.log(`📊 Contador atualizado: ${evidenceItems.length} evidências`);
+            }
+        }
+        
+        // Função para copiar evidência
+        function copyEvidence(button) {
+            const evidenceItem = button.closest('.evidence-item');
+            
+            // Extrair dados da evidência
+            const title = evidenceItem.querySelector('.evidence-title').textContent;
+            const dateText = evidenceItem.querySelector('.evidence-date').textContent.replace('📅 ', '');
+            const description = evidenceItem.querySelector('p').textContent;
+            const linkElement = evidenceItem.querySelector('.evidence-link');
+            const link = linkElement ? linkElement.href : '';
+            const linkName = linkElement ? linkElement.textContent.replace('🔗 ', '') : '';
+            
+            // Converter data de volta para formato YYYY-MM
+            const monthNames = [
+                'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+                'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+            ];
+            const [monthName, year] = dateText.split(' ');
+            const monthIndex = monthNames.indexOf(monthName);
+            const formattedDate = `${year}-${String(monthIndex + 1).padStart(2, '0')}`;
+            
+            // Determinar a seção baseada na posição da evidência
+            let section = '';
+            const evidenceSection = evidenceItem.closest('#evidences');
+            const allCTAs = evidenceSection.querySelectorAll('.evidence-item-add');
+            
+            // Encontrar qual CTA está mais próximo (depois) desta evidência
+            for (let cta of allCTAs) {
+                const ctaPosition = cta.getBoundingClientRect().top;
+                const evidencePosition = evidenceItem.getBoundingClientRect().top;
+                
+                if (ctaPosition > evidencePosition) {
+                    const onclickAttr = cta.getAttribute('onclick');
+                    const match = onclickAttr.match(/'([^']+)'/);
+                    if (match) {
+                        section = match[1];
+                        break;
+                    }
+                }
+            }
+            
+            console.log('Copiando evidência:', { title, dateText, description, link, linkName, section });
+            
+            // Definir seção atual e abrir modal preenchido
+            currentSection = section;
+            openModal();
+            
+            // Preencher formulário com dados da evidência
+            document.getElementById('evidenceTitle').value = title;
+            document.getElementById('evidenceDate').value = formattedDate;
+            document.getElementById('evidenceDescription').value = description;
+            document.getElementById('evidenceLink').value = link;
+            document.getElementById('evidenceLinkName').value = linkName;
+        }
+        
+        // Função para deletar evidência
+        function deleteEvidence(button) {
+            const evidenceItem = button.closest('.evidence-item');
+            const title = evidenceItem.querySelector('.evidence-title').textContent;
+            
+            if (confirm(`Tem certeza que deseja deletar a evidência "${title}"?`)) {
+                evidenceItem.remove();
+                updateEvidenceCount();
+                console.log(`🗑️ Evidência deletada: ${title}`);
             }
         }
         
