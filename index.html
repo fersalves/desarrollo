@@ -1246,6 +1246,19 @@
             // Adicionar a evidência na lista
             addEvidenceToList(formData);
             
+            // Salvar no localStorage
+            const dateObj = new Date(formData.date + '-01');
+            const monthNames = [
+                'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+                'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+            ];
+            const dataToSave = {
+                ...formData,
+                user: currentUser,
+                formattedDate: `${monthNames[dateObj.getMonth()]} ${dateObj.getFullYear()}`
+            };
+            saveEvidenceToStorage(dataToSave);
+            
             // Atualizar contador na visão geral
             updateEvidenceCount();
             
@@ -1286,9 +1299,12 @@
             // Obter informações do usuário atual
             const userInfo = USER_INFO[currentUser] || { name: 'Desconhecido', avatar: '❓' };
             
+            // Gerar ID único para a evidência
+            const evidenceId = Date.now() + Math.random();
+            
             // Criar o HTML da nova evidência
             const evidenceHTML = `
-                <div class="evidence-item" data-author="${currentUser}">
+                <div class="evidence-item" data-author="${currentUser}" data-evidence-id="${evidenceId}">
                     <div class="evidence-title">${evidenceData.title}</div>
                     <div class="evidence-date">📅 ${formattedDate}</div>
                     <p>${evidenceData.description}</p>
@@ -1334,6 +1350,87 @@
                 evidenceCountElement.textContent = evidenceItems.length;
                 console.log(`📊 Contador atualizado: ${evidenceItems.length} evidências`);
             }
+        }
+        
+        // Sistema de persistência com localStorage
+        function saveEvidenceToStorage(evidenceData) {
+            let savedEvidences = JSON.parse(localStorage.getItem('dashboard-evidences') || '[]');
+            savedEvidences.push({
+                ...evidenceData,
+                id: Date.now() + Math.random(), // ID único
+                timestamp: new Date().toISOString()
+            });
+            localStorage.setItem('dashboard-evidences', JSON.stringify(savedEvidences));
+            console.log('💾 Evidência salva no localStorage');
+        }
+        
+        function loadEvidencesFromStorage() {
+            const savedEvidences = JSON.parse(localStorage.getItem('dashboard-evidences') || '[]');
+            console.log(`📂 Carregando ${savedEvidences.length} evidências salvas`);
+            
+            savedEvidences.forEach(evidenceData => {
+                // Encontrar o CTA da seção correspondente
+                const ctaButtons = document.querySelectorAll('.evidence-item-add');
+                let targetCTA = null;
+                
+                ctaButtons.forEach(cta => {
+                    const onclickAttr = cta.getAttribute('onclick');
+                    if (onclickAttr && onclickAttr.includes(`'${evidenceData.section}'`)) {
+                        targetCTA = cta;
+                    }
+                });
+                
+                if (targetCTA) {
+                    // Obter informações do usuário
+                    const userInfo = USER_INFO[evidenceData.user] || { name: 'Desconhecido', avatar: '❓' };
+                    
+                    // Criar HTML da evidência
+                    const evidenceHTML = `
+                        <div class="evidence-item" data-author="${evidenceData.user}" data-evidence-id="${evidenceData.id}">
+                            <div class="evidence-title">${evidenceData.title}</div>
+                            <div class="evidence-date">📅 ${evidenceData.formattedDate}</div>
+                            <p>${evidenceData.description}</p>
+                            ${evidenceData.link ? `<a href="${evidenceData.link}" class="evidence-link">🔗 ${evidenceData.linkName}</a>` : ''}
+                            <div class="evidence-actions">
+                                <div class="evidence-author">
+                                    <img src="${userInfo.avatar}" alt="${userInfo.name}" class="evidence-author-avatar">
+                                    <span class="evidence-author-name">Adicionado por ${userInfo.name}</span>
+                                </div>
+                                <div class="evidence-actions-buttons">
+                                    <button class="evidence-action copy" onclick="copyEvidence(this)" title="Copiar evidência">
+                                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M10.3667 8.34337V0.943359L4.3667 0.943432V2.74228H5.5667V2.14342L9.1667 2.14337V7.14337H8.56889V8.34337H10.3667Z" fill="currentColor" fill-opacity="0.9"/>
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M7.6333 3.6449H1.6333V11.0449H7.6333V3.6449ZM2.8333 9.8449V4.8449H6.4333V9.8449H2.8333Z" fill="currentColor" fill-opacity="0.9"/>
+                                        </svg>
+                                        Copiar
+                                    </button>
+                                    <button class="evidence-action delete" onclick="deleteEvidence(this)" title="Deletar evidência">
+                                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M4.19995 8.99973V4.59973H5.39995V8.99973H4.19995Z" fill="currentColor" fill-opacity="0.9"/>
+                                            <path d="M6.6001 8.99973V4.59973H7.8001V8.99973H6.6001Z" fill="currentColor" fill-opacity="0.9"/>
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M8.29692 2.19934H10.5999V3.39934H9.99988V9.60014C9.99988 10.5942 9.19399 11.4001 8.19988 11.4001H3.79988C2.80576 11.4001 1.99988 10.5942 1.99988 9.60014V3.39934H1.3999V2.19934H3.70274C3.75463 1.30713 4.49461 0.599609 5.39983 0.599609H6.59983C7.50505 0.599609 8.24503 1.30713 8.29692 2.19934ZM4.70696 2.19934H7.2927C7.24406 1.86024 6.95238 1.59961 6.59983 1.59961H5.39983C5.04728 1.59961 4.7556 1.86024 4.70696 2.19934ZM3.19988 3.39934H8.79988V9.60014C8.79988 9.93151 8.53125 10.2001 8.19988 10.2001H3.79988C3.46851 10.2001 3.19988 9.93151 3.19988 9.60014V3.39934Z" fill="currentColor" fill-opacity="0.9"/>
+                                        </svg>
+                                        Deletar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Inserir antes do CTA
+                    targetCTA.insertAdjacentHTML('beforebegin', evidenceHTML);
+                }
+            });
+            
+            // Atualizar contador após carregar
+            updateEvidenceCount();
+        }
+        
+        function deleteEvidenceFromStorage(evidenceId) {
+            let savedEvidences = JSON.parse(localStorage.getItem('dashboard-evidences') || '[]');
+            savedEvidences = savedEvidences.filter(evidence => evidence.id !== evidenceId);
+            localStorage.setItem('dashboard-evidences', JSON.stringify(savedEvidences));
+            console.log('🗑️ Evidência removida do localStorage');
         }
         
         // Função para copiar evidência
@@ -1407,8 +1504,15 @@
         function _deleteEvidence(button) {
             const evidenceItem = button.closest('.evidence-item');
             const title = evidenceItem.querySelector('.evidence-title').textContent;
+            const evidenceId = evidenceItem.getAttribute('data-evidence-id');
             
             if (confirm(`Tem certeza que deseja deletar a evidência "${title}"?`)) {
+                // Remover do localStorage se tiver ID
+                if (evidenceId) {
+                    deleteEvidenceFromStorage(parseFloat(evidenceId));
+                }
+                
+                // Remover do DOM
                 evidenceItem.remove();
                 updateEvidenceCount();
                 console.log(`🗑️ Evidência deletada: ${title}`);
@@ -1644,6 +1748,7 @@
             setTimeout(() => {
                 animateProgressBars();
                 setupCardHoverEffects(); // Configurar efeitos de hover
+                loadEvidencesFromStorage(); // Carregar evidências salvas
             }, 500);
         });
     </script>
