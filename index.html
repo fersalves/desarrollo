@@ -314,15 +314,44 @@
             color: #a1a1aa;
         }
         
-        .evidence-author-avatar {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            object-fit: cover;
-            flex-shrink: 0;
-            padding: 2px;
-            background: linear-gradient(90deg, #00d4ff, #7c3aed);
-        }
+                    .evidence-author-avatar {
+                width: 24px;
+                height: 24px;
+                border-radius: 50%;
+                object-fit: cover;
+                flex-shrink: 0;
+                padding: 2px;
+                background: linear-gradient(90deg, #00d4ff, #7c3aed);
+            }
+            
+            /* Snackbar */
+            .snackbar {
+                visibility: hidden;
+                min-width: 250px;
+                margin-left: -125px;
+                background-color: #4caf50;
+                color: white;
+                text-align: center;
+                border-radius: 8px;
+                padding: 16px;
+                position: fixed;
+                z-index: 1001;
+                left: 50%;
+                bottom: 30px;
+                font-size: 16px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+                transform: translateY(100px);
+                transition: all 0.3s ease;
+            }
+            
+            .snackbar.show {
+                visibility: visible;
+                transform: translateY(0);
+            }
+            
+            .snackbar.error {
+                background-color: #f44336;
+            }
         
         .evidence-author-name {
             font-weight: 500;
@@ -1257,13 +1286,21 @@
                 user: currentUser,
                 formattedDate: `${monthNames[dateObj.getMonth()]} ${dateObj.getFullYear()}`
             };
-            saveEvidenceToStorage(dataToSave);
+            const savedId = saveEvidenceToStorage(dataToSave);
+            
+            // Atualizar o ID no DOM se foi salvo com sucesso
+            if (savedId) {
+                const lastEvidenceItem = document.querySelector(`[onclick*="${currentSection}"]`).previousElementSibling;
+                if (lastEvidenceItem && lastEvidenceItem.classList.contains('evidence-item')) {
+                    lastEvidenceItem.setAttribute('data-evidence-id', savedId);
+                }
+            }
             
             // Atualizar contador na visão geral
             updateEvidenceCount();
             
-            // Mostrar confirmação
-            alert(`Evidência "${formData.title}" adicionada com sucesso!`);
+            // Mostrar confirmação com snackbar
+            showSnackbar(`✅ Evidência "${formData.title}" adicionada com sucesso!`);
             
             // Fechar modal
             closeModal();
@@ -1352,78 +1389,119 @@
             }
         }
         
+        // Funções do Snackbar
+        function showSnackbar(message, type = 'success') {
+            const snackbar = document.getElementById('snackbar');
+            snackbar.textContent = message;
+            snackbar.className = `snackbar ${type}`;
+            snackbar.classList.add('show');
+            
+            setTimeout(() => {
+                snackbar.classList.remove('show');
+            }, 3000);
+        }
+        
         // Sistema de persistência com localStorage
         function saveEvidenceToStorage(evidenceData) {
-            let savedEvidences = JSON.parse(localStorage.getItem('dashboard-evidences') || '[]');
-            savedEvidences.push({
-                ...evidenceData,
-                id: Date.now() + Math.random(), // ID único
-                timestamp: new Date().toISOString()
-            });
-            localStorage.setItem('dashboard-evidences', JSON.stringify(savedEvidences));
-            console.log('💾 Evidência salva no localStorage');
+            try {
+                let savedEvidences = JSON.parse(localStorage.getItem('dashboard-evidences') || '[]');
+                const evidenceWithId = {
+                    ...evidenceData,
+                    id: Date.now() + Math.random(), // ID único
+                    timestamp: new Date().toISOString()
+                };
+                savedEvidences.push(evidenceWithId);
+                localStorage.setItem('dashboard-evidences', JSON.stringify(savedEvidences));
+                console.log('💾 Evidência salva no localStorage:', evidenceWithId);
+                console.log('📊 Total de evidências salvas:', savedEvidences.length);
+                return evidenceWithId.id;
+            } catch (error) {
+                console.error('❌ Erro ao salvar evidência:', error);
+                return null;
+            }
         }
         
         function loadEvidencesFromStorage() {
-            const savedEvidences = JSON.parse(localStorage.getItem('dashboard-evidences') || '[]');
-            console.log(`📂 Carregando ${savedEvidences.length} evidências salvas`);
-            
-            savedEvidences.forEach(evidenceData => {
-                // Encontrar o CTA da seção correspondente
-                const ctaButtons = document.querySelectorAll('.evidence-item-add');
-                let targetCTA = null;
+            try {
+                const savedEvidences = JSON.parse(localStorage.getItem('dashboard-evidences') || '[]');
+                console.log(`📂 Tentando carregar ${savedEvidences.length} evidências salvas`);
+                console.log('📋 Evidências encontradas:', savedEvidences);
                 
-                ctaButtons.forEach(cta => {
-                    const onclickAttr = cta.getAttribute('onclick');
-                    if (onclickAttr && onclickAttr.includes(`'${evidenceData.section}'`)) {
-                        targetCTA = cta;
+                if (savedEvidences.length === 0) {
+                    console.log('📭 Nenhuma evidência salva encontrada');
+                    return;
+                }
+                
+                savedEvidences.forEach((evidenceData, index) => {
+                    console.log(`🔄 Processando evidência ${index + 1}:`, evidenceData);
+                    
+                    // Encontrar o CTA da seção correspondente
+                    const ctaButtons = document.querySelectorAll('.evidence-item-add');
+                    let targetCTA = null;
+                    
+                    console.log(`🔍 Procurando CTA para seção: ${evidenceData.section}`);
+                    console.log(`📋 CTAs encontrados: ${ctaButtons.length}`);
+                    
+                    ctaButtons.forEach((cta, ctaIndex) => {
+                        const onclickAttr = cta.getAttribute('onclick');
+                        console.log(`🔍 CTA ${ctaIndex}: ${onclickAttr}`);
+                        if (onclickAttr && onclickAttr.includes(`'${evidenceData.section}'`)) {
+                            targetCTA = cta;
+                            console.log(`✅ CTA encontrado para ${evidenceData.section}`);
+                        }
+                    });
+                    
+                    if (targetCTA) {
+                        // Obter informações do usuário
+                        const userInfo = USER_INFO[evidenceData.user] || { name: 'Desconhecido', avatar: 'imagens/fe.png' };
+                        
+                        // Criar HTML da evidência
+                        const evidenceHTML = `
+                            <div class="evidence-item" data-author="${evidenceData.user}" data-evidence-id="${evidenceData.id}">
+                                <div class="evidence-title">${evidenceData.title}</div>
+                                <div class="evidence-date">📅 ${evidenceData.formattedDate}</div>
+                                <p>${evidenceData.description}</p>
+                                ${evidenceData.link ? `<a href="${evidenceData.link}" class="evidence-link">🔗 ${evidenceData.linkName}</a>` : ''}
+                                <div class="evidence-actions">
+                                    <div class="evidence-author">
+                                        <img src="${userInfo.avatar}" alt="${userInfo.name}" class="evidence-author-avatar">
+                                        <span class="evidence-author-name">Adicionado por ${userInfo.name}</span>
+                                    </div>
+                                    <div class="evidence-actions-buttons">
+                                        <button class="evidence-action copy" onclick="copyEvidence(this)" title="Copiar evidência">
+                                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M10.3667 8.34337V0.943359L4.3667 0.943432V2.74228H5.5667V2.14342L9.1667 2.14337V7.14337H8.56889V8.34337H10.3667Z" fill="currentColor" fill-opacity="0.9"/>
+                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M7.6333 3.6449H1.6333V11.0449H7.6333V3.6449ZM2.8333 9.8449V4.8449H6.4333V9.8449H2.8333Z" fill="currentColor" fill-opacity="0.9"/>
+                                            </svg>
+                                            Copiar
+                                        </button>
+                                        <button class="evidence-action delete" onclick="deleteEvidence(this)" title="Deletar evidência">
+                                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M4.19995 8.99973V4.59973H5.39995V8.99973H4.19995Z" fill="currentColor" fill-opacity="0.9"/>
+                                                <path d="M6.6001 8.99973V4.59973H7.8001V8.99973H6.6001Z" fill="currentColor" fill-opacity="0.9"/>
+                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M8.29692 2.19934H10.5999V3.39934H9.99988V9.60014C9.99988 10.5942 9.19399 11.4001 8.19988 11.4001H3.79988C2.80576 11.4001 1.99988 10.5942 1.99988 9.60014V3.39934H1.3999V2.19934H3.70274C3.75463 1.30713 4.49461 0.599609 5.39983 0.599609H6.59983C7.50505 0.599609 8.24503 1.30713 8.29692 2.19934ZM4.70696 2.19934H7.2927C7.24406 1.86024 6.95238 1.59961 6.59983 1.59961H5.39983C5.04728 1.59961 4.7556 1.86024 4.70696 2.19934ZM3.19988 3.39934H8.79988V9.60014C8.79988 9.93151 8.53125 10.2001 8.19988 10.2001H3.79988C3.46851 10.2001 3.19988 9.93151 3.19988 9.60014V3.39934Z" fill="currentColor" fill-opacity="0.9"/>
+                                            </svg>
+                                            Deletar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        
+                        // Inserir antes do CTA
+                        targetCTA.insertAdjacentHTML('beforebegin', evidenceHTML);
+                        console.log(`✅ Evidência "${evidenceData.title}" adicionada ao DOM`);
+                    } else {
+                        console.log(`❌ CTA não encontrado para seção: ${evidenceData.section}`);
                     }
                 });
                 
-                if (targetCTA) {
-                    // Obter informações do usuário
-                    const userInfo = USER_INFO[evidenceData.user] || { name: 'Desconhecido', avatar: '❓' };
-                    
-                    // Criar HTML da evidência
-                    const evidenceHTML = `
-                        <div class="evidence-item" data-author="${evidenceData.user}" data-evidence-id="${evidenceData.id}">
-                            <div class="evidence-title">${evidenceData.title}</div>
-                            <div class="evidence-date">📅 ${evidenceData.formattedDate}</div>
-                            <p>${evidenceData.description}</p>
-                            ${evidenceData.link ? `<a href="${evidenceData.link}" class="evidence-link">🔗 ${evidenceData.linkName}</a>` : ''}
-                            <div class="evidence-actions">
-                                <div class="evidence-author">
-                                    <img src="${userInfo.avatar}" alt="${userInfo.name}" class="evidence-author-avatar">
-                                    <span class="evidence-author-name">Adicionado por ${userInfo.name}</span>
-                                </div>
-                                <div class="evidence-actions-buttons">
-                                    <button class="evidence-action copy" onclick="copyEvidence(this)" title="Copiar evidência">
-                                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M10.3667 8.34337V0.943359L4.3667 0.943432V2.74228H5.5667V2.14342L9.1667 2.14337V7.14337H8.56889V8.34337H10.3667Z" fill="currentColor" fill-opacity="0.9"/>
-                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M7.6333 3.6449H1.6333V11.0449H7.6333V3.6449ZM2.8333 9.8449V4.8449H6.4333V9.8449H2.8333Z" fill="currentColor" fill-opacity="0.9"/>
-                                        </svg>
-                                        Copiar
-                                    </button>
-                                    <button class="evidence-action delete" onclick="deleteEvidence(this)" title="Deletar evidência">
-                                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M4.19995 8.99973V4.59973H5.39995V8.99973H4.19995Z" fill="currentColor" fill-opacity="0.9"/>
-                                            <path d="M6.6001 8.99973V4.59973H7.8001V8.99973H6.6001Z" fill="currentColor" fill-opacity="0.9"/>
-                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M8.29692 2.19934H10.5999V3.39934H9.99988V9.60014C9.99988 10.5942 9.19399 11.4001 8.19988 11.4001H3.79988C2.80576 11.4001 1.99988 10.5942 1.99988 9.60014V3.39934H1.3999V2.19934H3.70274C3.75463 1.30713 4.49461 0.599609 5.39983 0.599609H6.59983C7.50505 0.599609 8.24503 1.30713 8.29692 2.19934ZM4.70696 2.19934H7.2927C7.24406 1.86024 6.95238 1.59961 6.59983 1.59961H5.39983C5.04728 1.59961 4.7556 1.86024 4.70696 2.19934ZM3.19988 3.39934H8.79988V9.60014C8.79988 9.93151 8.53125 10.2001 8.19988 10.2001H3.79988C3.46851 10.2001 3.19988 9.93151 3.19988 9.60014V3.39934Z" fill="currentColor" fill-opacity="0.9"/>
-                                        </svg>
-                                        Deletar
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    
-                    // Inserir antes do CTA
-                    targetCTA.insertAdjacentHTML('beforebegin', evidenceHTML);
-                }
-            });
-            
-            // Atualizar contador após carregar
-            updateEvidenceCount();
+                // Atualizar contador após carregar
+                updateEvidenceCount();
+                console.log('✅ Carregamento de evidências concluído');
+            } catch (error) {
+                console.error('❌ Erro ao carregar evidências:', error);
+            }
         }
         
         function deleteEvidenceFromStorage(evidenceId) {
@@ -1752,5 +1830,8 @@
             }, 500);
         });
     </script>
+    
+    <!-- Snackbar -->
+    <div id="snackbar" class="snackbar"></div>
 </body>
 </html>
