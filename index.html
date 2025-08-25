@@ -80,7 +80,8 @@
             height: 100%;
             background: linear-gradient(90deg, #00d4ff, #7c3aed);
             border-radius: 4px;
-            transition: width 0.3s ease;
+            width: 0%;
+            transition: width 1.5s ease-in-out;
         }
         
         .nav {
@@ -256,7 +257,7 @@
                     <div class="card">
                         <h3>Empuja hoy, no mañana</h3>
                         <div class="progress-bar" style="margin-top: 2rem;">
-                            <div class="progress-fill" style="width: 75%"></div>
+                            <div class="progress-fill" data-width="75%"></div>
                         </div>
                         <p style="text-align: center; margin-top: 0.5rem;">75%</p>
                     </div>
@@ -264,7 +265,7 @@
                     <div class="card">
                         <h3>Update proactivo</h3>
                         <div class="progress-bar" style="margin-top: 2rem;">
-                            <div class="progress-fill" style="width: 85%"></div>
+                            <div class="progress-fill" data-width="85%"></div>
                         </div>
                         <p style="text-align: center; margin-top: 0.5rem;">85%</p>
                     </div>
@@ -280,7 +281,7 @@
                     <div class="card">
                         <h3>Marca el pulso</h3>
                         <div class="progress-bar" style="margin-top: 2rem;">
-                            <div class="progress-fill" style="width: 70%"></div>
+                            <div class="progress-fill" data-width="70%"></div>
                         </div>
                         <p style="text-align: center; margin-top: 0.5rem;">70%</p>
                     </div>
@@ -288,7 +289,7 @@
                     <div class="card">
                         <h3>Turnaround express</h3>
                         <div class="progress-bar" style="margin-top: 2rem;">
-                            <div class="progress-fill" style="width: 80%"></div>
+                            <div class="progress-fill" data-width="80%"></div>
                         </div>
                         <p style="text-align: center; margin-top: 0.5rem;">80%</p>
                     </div>
@@ -296,7 +297,7 @@
                     <div class="card">
                         <h3>Feedback senior, acción rápida</h3>
                         <div class="progress-bar" style="margin-top: 2rem;">
-                            <div class="progress-fill" style="width: 90%"></div>
+                            <div class="progress-fill" data-width="90%"></div>
                         </div>
                         <p style="text-align: center; margin-top: 0.5rem;">90%</p>
                     </div>
@@ -304,7 +305,7 @@
                     <div class="card">
                         <h3>Aprendizaje visible</h3>
                         <div class="progress-bar" style="margin-top: 2rem;">
-                            <div class="progress-fill" style="width: 65%"></div>
+                            <div class="progress-fill" data-width="65%"></div>
                         </div>
                         <p style="text-align: center; margin-top: 0.5rem;">65%</p>
                     </div>
@@ -320,7 +321,7 @@
                     <div class="card">
                         <h3>Trae siempre un plan B salvaje</h3>
                         <div class="progress-bar" style="margin-top: 2rem;">
-                            <div class="progress-fill" style="width: 45%"></div>
+                            <div class="progress-fill" data-width="45%"></div>
                         </div>
                         <p style="text-align: center; margin-top: 0.5rem;">45%</p>
                     </div>
@@ -328,7 +329,7 @@
                     <div class="card">
                         <h3>Mira afuera</h3>
                         <div class="progress-bar" style="margin-top: 2rem;">
-                            <div class="progress-fill" style="width: 70%"></div>
+                            <div class="progress-fill" data-width="70%"></div>
                         </div>
                         <p style="text-align: center; margin-top: 0.5rem;">70%</p>
                     </div>
@@ -336,7 +337,7 @@
                     <div class="card">
                         <h3>Rompe Andes con intención</h3>
                         <div class="progress-bar" style="margin-top: 2rem;">
-                            <div class="progress-fill" style="width: 80%"></div>
+                            <div class="progress-fill" data-width="80%"></div>
                         </div>
                         <p style="text-align: center; margin-top: 0.5rem;">80%</p>
                     </div>
@@ -344,7 +345,7 @@
                     <div class="card">
                         <h3>Prototipa con IA</h3>
                         <div class="progress-bar" style="margin-top: 2rem;">
-                            <div class="progress-fill" style="width: 85%"></div>
+                            <div class="progress-fill" data-width="85%"></div>
                         </div>
                         <p style="text-align: center; margin-top: 0.5rem;">85%</p>
                     </div>
@@ -408,7 +409,7 @@
                     <div class="metric-value">3</div>
                     <p>📚 Este trimestre</p>
                     <div class="progress-bar" style="margin-top: 1rem;">
-                        <div class="progress-fill" style="width: 75%"></div>
+                        <div class="progress-fill" data-width="75%"></div>
                     </div>
                     <p style="text-align: center; margin-top: 0.5rem;">75% da meta trimestral (4)</p>
                 </div>
@@ -428,7 +429,7 @@
                     <div class="metric-value">4</div>
                     <p>🛠️ Projetos práticos</p>
                     <div class="progress-bar" style="margin-top: 1rem;">
-                        <div class="progress-fill" style="width: 80%"></div>
+                        <div class="progress-fill" data-width="80%"></div>
                     </div>
                     <p style="text-align: center; margin-top: 0.5rem;">80% da meta trimestral (5)</p>
                 </div>
@@ -567,9 +568,29 @@
             event.target.classList.add('active');
         }
         
-        // Atualizar timestamp
+        // Animar barras de progresso
+        function animateProgressBars() {
+            const progressBars = document.querySelectorAll('.progress-fill');
+            
+            progressBars.forEach((bar, index) => {
+                // Delay escalonado para efeito mais dinâmico
+                setTimeout(() => {
+                    const targetWidth = bar.style.width || bar.getAttribute('data-width');
+                    if (targetWidth) {
+                        bar.style.width = targetWidth;
+                    }
+                }, index * 150); // 150ms de delay entre cada barra
+            });
+        }
+        
+        // Atualizar timestamp e inicializar animações
         document.addEventListener('DOMContentLoaded', function() {
             console.log('Dashboard reorganizado carregado com sucesso! 🎉');
+            
+            // Aguardar um pouco para garantir que tudo foi renderizado
+            setTimeout(() => {
+                animateProgressBars();
+            }, 500);
         });
     </script>
 </body>
