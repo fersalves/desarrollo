@@ -70,6 +70,60 @@
             margin-top: auto;
         }
         
+        /* Flip Card Styles */
+        .flip-card {
+            background: transparent;
+            width: 100%;
+            height: 200px;
+            perspective: 1000px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .flip-card:hover {
+            transform: translateY(-5px) rotateX(5deg);
+        }
+        
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: left;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            background: #1e1e2e;
+            border-radius: 8px;
+            border-left: 4px solid #00d4ff;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .flip-card-back {
+            transform: rotateY(180deg);
+        }
+        
+        .flip-indicator {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            color: #00d4ff;
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+        
         .card h3 {
             color: #00d4ff;
             margin-bottom: 0.5rem;
@@ -222,7 +276,6 @@
         <div class="nav">
             <button class="nav-btn active" onclick="showSection('overview')">📊 Visão Geral</button>
             <button class="nav-btn" onclick="showSection('goals')">🎯 Metas</button>
-            <button class="nav-btn" onclick="showSection('kpis')">📈 KPIs</button>
             <button class="nav-btn" onclick="showSection('evidences')">🏆 Evidências</button>
         </div>
 
@@ -235,9 +288,9 @@
                     <p>Objetivos em andamento</p>
                 </div>
                 <div class="card">
-                    <h3>📈 KPIs Monitorados</h3>
+                    <h3>📋 Metas Detalhadas</h3>
                     <div class="kpi">12</div>
-                    <p>Métricas de performance</p>
+                    <p>Com contexto flip interativo</p>
                 </div>
                 <div class="card">
                     <h3>🏆 Evidências</h3>
@@ -254,7 +307,7 @@
             <div class="card">
                 <h3>📈 Resumo de Performance</h3>
                 <p>✅ <strong>Metas em progresso:</strong> 12 objetivos ativos</p>
-                <p>🚀 <strong>KPIs monitorados:</strong> 12 métricas técnicas e de aprendizado</p>
+                <p>🚀 <strong>Metas detalhadas:</strong> 12 com contexto flip interativo</p>
                 <p>🏆 <strong>Evidências coletadas:</strong> 10 comprovações de desenvolvimento</p>
                 <p>📊 <strong>Performance média:</strong> 72% de progresso geral</p>
             </div>
@@ -268,15 +321,25 @@
                     🔥 <span style="background: linear-gradient(90deg, #00d4ff, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Urgencia & Ritmo</span>
                 </h3>
                 <div class="grid" id="urgencyGoals">
-                    <div class="card">
-                        <div class="card-content">
-                            <h3>Empuja hoy, no mañana</h3>
-                        </div>
-                        <div class="card-bottom">
-                            <div class="progress-bar" style="margin-top: 2rem;">
-                                <div class="progress-fill" data-width="75%"></div>
+                    <div class="flip-card" onclick="flipCard(this)">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div class="flip-indicator">👆 Click to flip</div>
+                                <div class="card-content">
+                                    <h3>Empuja hoy, no mañana</h3>
+                                </div>
+                                <div class="card-bottom">
+                                    <div class="progress-bar" style="margin-top: 2rem;">
+                                        <div class="progress-fill" data-width="75%"></div>
+                                    </div>
+                                    <p style="text-align: right; margin-top: 0.5rem;">75%</p>
+                                </div>
                             </div>
-                            <p style="text-align: right; margin-top: 0.5rem;">75%</p>
+                            <div class="flip-card-back">
+                                <div class="flip-indicator">👆 Click to flip</div>
+                                <h3>Empuja hoy, no mañana</h3>
+                                <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem; flex: 1;">Ante un blocker, define un próximo paso en el mismo día (no dejes que duerma).</p>
+                            </div>
                         </div>
                     </div>
                     
@@ -423,74 +486,7 @@
             </div>
         </div>
 
-        <!-- KPIs -->
-        <div id="kpis" class="section" style="margin-top: 3rem;">
-            <h3 style="color: #00d4ff; margin-bottom: 1rem; font-size: 1.8rem; font-weight: 300;">🔥 Urgencia & Ritmo - Contexto dos KPIs</h3>
-            <div class="grid">
-                <div class="card">
-                    <h3>Empuja hoy, no mañana</h3>
-                    <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem;">Ante un blocker, define un próximo paso en el mismo día (no dejes que duerma).</p>
-                </div>
-                
-                <div class="card">
-                    <h3>Update proactivo</h3>
-                    <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem;">Da visibilidad sin que te la pidan (avance, bloqueo, decisión). Comunicación asíncrona.</p>
-                </div>
-                
-                <div class="card">
-                    <h3>Decide en baja fidelidad</h3>
-                    <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem;">Muestra versiones rápidas (wireframe, sketch) en menos de 24h.</p>
-                </div>
-                
-                <div class="card">
-                    <h3>Marca el pulso</h3>
-                    <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem;">Si el equipo se detiene, sé quien trae agenda clara, pregunta incómoda o propuesta de resolución.</p>
-                </div>
-                
-                <div class="card">
-                    <h3>Turnaround express</h3>
-                    <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem;">Ningún pedido o feedback queda sin respuesta más de 24h.</p>
-                </div>
-                
-                <div class="card">
-                    <h3>Feedback senior, acción rápida</h3>
-                    <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem;">Integra feedback de TL, PL o manager en un máximo de 48h y muestra la versión iterada.</p>
-                </div>
-                
-                <div class="card">
-                    <h3>Aprendizaje visible</h3>
-                    <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem;">Explica en review qué cambió tu diseño gracias al feedback senior → que sea evidente que sumó valor.</p>
-                </div>
-            </div>
-            
-            <h3 style="color: #00d4ff; margin: 3rem 0 1rem; font-size: 1.8rem; font-weight: 300;">💡 Disrupción & Profundidad - Contexto dos KPIs</h3>
-            <div class="grid">
-                <div class="card">
-                    <h3>Trae siempre un plan B salvaje</h3>
-                    <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem;">Además de la opción segura, presenta una que incomode y abra debate.</p>
-                </div>
-                
-                <div class="card">
-                    <h3>Mira afuera</h3>
-                    <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem;">Inspírate en 2 productos de otra industria antes de diseñar (gaming, música, fintech, etc).</p>
-                </div>
-                
-                <div class="card">
-                    <h3>Rompe Andes con intención</h3>
-                    <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem;">Cuestiona al menos un patrón de casa por proyecto, argumenta por qué.</p>
-                </div>
-                
-                <div class="card">
-                    <h3>Prototipa con IA</h3>
-                    <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem;">Usa Cursor, Make, GPT, Gemini para acelerar variaciones y explorar ideas radicales.</p>
-                </div>
-                
-                <div class="card">
-                    <h3>Benchmarka lo inesperado</h3>
-                    <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem;">Analiza una app o producto que el equipo nunca miraría, trae un insight accionable.</p>
-                </div>
-            </div>
-        </div>
+
 
         <!-- Evidências -->
         <div id="evidences" class="section" style="margin-top: 3rem;">
@@ -598,6 +594,11 @@
             setTimeout(() => {
                 animateProgressBars();
             }, 100);
+        }
+        
+        // Flip Card Function
+        function flipCard(card) {
+            card.classList.toggle('flipped');
         }
         
         // Animar barras de progresso
