@@ -54,6 +54,16 @@
             height: 100%;
         }
         
+        .card-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .card-bottom {
+            margin-top: auto;
+        }
+        
         .card h3 {
             color: #00d4ff;
             margin-bottom: 0.5rem;
@@ -73,7 +83,6 @@
             border-radius: 4px;
             margin: 0.5rem 0;
             overflow: hidden;
-            margin-top: auto;
         }
         
         .progress-fill {
@@ -255,59 +264,87 @@
                 </h3>
                 <div class="grid" id="urgencyGoals">
                     <div class="card">
-                        <h3>Empuja hoy, no mañana</h3>
-                        <div class="progress-bar" style="margin-top: 2rem;">
-                            <div class="progress-fill" data-width="75%"></div>
+                        <div class="card-content">
+                            <h3>Empuja hoy, no mañana</h3>
                         </div>
-                        <p style="text-align: center; margin-top: 0.5rem;">75%</p>
+                        <div class="card-bottom">
+                            <div class="progress-bar" style="margin-top: 2rem;">
+                                <div class="progress-fill" data-width="75%"></div>
+                            </div>
+                            <p style="text-align: center; margin-top: 0.5rem;">75%</p>
+                        </div>
                     </div>
                     
                     <div class="card">
-                        <h3>Update proactivo</h3>
-                        <div class="progress-bar" style="margin-top: 2rem;">
-                            <div class="progress-fill" data-width="85%"></div>
+                        <div class="card-content">
+                            <h3>Update proactivo</h3>
                         </div>
-                        <p style="text-align: center; margin-top: 0.5rem;">85%</p>
+                        <div class="card-bottom">
+                            <div class="progress-bar" style="margin-top: 2rem;">
+                                <div class="progress-fill" data-width="85%"></div>
+                            </div>
+                            <p style="text-align: center; margin-top: 0.5rem;">85%</p>
+                        </div>
                     </div>
                     
                     <div class="card">
-                        <h3>Decide en baja fidelidad</h3>
-                        <div class="progress-bar" style="margin-top: 2rem;">
-                            <div class="progress-fill" data-width="60%"></div>
+                        <div class="card-content">
+                            <h3>Decide en baja fidelidad</h3>
                         </div>
-                        <p style="text-align: center; margin-top: 0.5rem;">60%</p>
+                        <div class="card-bottom">
+                            <div class="progress-bar" style="margin-top: 2rem;">
+                                <div class="progress-fill" data-width="60%"></div>
+                            </div>
+                            <p style="text-align: center; margin-top: 0.5rem;">60%</p>
+                        </div>
                     </div>
                     
                     <div class="card">
-                        <h3>Marca el pulso</h3>
-                        <div class="progress-bar" style="margin-top: 2rem;">
-                            <div class="progress-fill" data-width="70%"></div>
+                        <div class="card-content">
+                            <h3>Marca el pulso</h3>
                         </div>
-                        <p style="text-align: center; margin-top: 0.5rem;">70%</p>
+                        <div class="card-bottom">
+                            <div class="progress-bar" style="margin-top: 2rem;">
+                                <div class="progress-fill" data-width="70%"></div>
+                            </div>
+                            <p style="text-align: center; margin-top: 0.5rem;">70%</p>
+                        </div>
                     </div>
                     
                     <div class="card">
-                        <h3>Turnaround express</h3>
-                        <div class="progress-bar" style="margin-top: 2rem;">
-                            <div class="progress-fill" data-width="80%"></div>
+                        <div class="card-content">
+                            <h3>Turnaround express</h3>
                         </div>
-                        <p style="text-align: center; margin-top: 0.5rem;">80%</p>
+                        <div class="card-bottom">
+                            <div class="progress-bar" style="margin-top: 2rem;">
+                                <div class="progress-fill" data-width="80%"></div>
+                            </div>
+                            <p style="text-align: center; margin-top: 0.5rem;">80%</p>
+                        </div>
                     </div>
                     
                     <div class="card">
-                        <h3>Feedback senior, acción rápida</h3>
-                        <div class="progress-bar" style="margin-top: 2rem;">
-                            <div class="progress-fill" data-width="90%"></div>
+                        <div class="card-content">
+                            <h3>Feedback senior, acción rápida</h3>
                         </div>
-                        <p style="text-align: center; margin-top: 0.5rem;">90%</p>
+                        <div class="card-bottom">
+                            <div class="progress-bar" style="margin-top: 2rem;">
+                                <div class="progress-fill" data-width="90%"></div>
+                            </div>
+                            <p style="text-align: center; margin-top: 0.5rem;">90%</p>
+                        </div>
                     </div>
                     
                     <div class="card">
-                        <h3>Aprendizaje visible</h3>
-                        <div class="progress-bar" style="margin-top: 2rem;">
-                            <div class="progress-fill" data-width="65%"></div>
+                        <div class="card-content">
+                            <h3>Aprendizaje visible</h3>
                         </div>
-                        <p style="text-align: center; margin-top: 0.5rem;">65%</p>
+                        <div class="card-bottom">
+                            <div class="progress-bar" style="margin-top: 2rem;">
+                                <div class="progress-fill" data-width="65%"></div>
+                            </div>
+                            <p style="text-align: center; margin-top: 0.5rem;">65%</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -319,43 +356,63 @@
                 </h3>
                 <div class="grid" id="disruptionGoals">
                     <div class="card">
-                        <h3>Trae siempre un plan B salvaje</h3>
-                        <div class="progress-bar" style="margin-top: 2rem;">
-                            <div class="progress-fill" data-width="45%"></div>
+                        <div class="card-content">
+                            <h3>Trae siempre un plan B salvaje</h3>
                         </div>
-                        <p style="text-align: center; margin-top: 0.5rem;">45%</p>
+                        <div class="card-bottom">
+                            <div class="progress-bar" style="margin-top: 2rem;">
+                                <div class="progress-fill" data-width="45%"></div>
+                            </div>
+                            <p style="text-align: center; margin-top: 0.5rem;">45%</p>
+                        </div>
                     </div>
                     
                     <div class="card">
-                        <h3>Mira afuera</h3>
-                        <div class="progress-bar" style="margin-top: 2rem;">
-                            <div class="progress-fill" data-width="70%"></div>
+                        <div class="card-content">
+                            <h3>Mira afuera</h3>
                         </div>
-                        <p style="text-align: center; margin-top: 0.5rem;">70%</p>
+                        <div class="card-bottom">
+                            <div class="progress-bar" style="margin-top: 2rem;">
+                                <div class="progress-fill" data-width="70%"></div>
+                            </div>
+                            <p style="text-align: center; margin-top: 0.5rem;">70%</p>
+                        </div>
                     </div>
                     
                     <div class="card">
-                        <h3>Rompe Andes con intención</h3>
-                        <div class="progress-bar" style="margin-top: 2rem;">
-                            <div class="progress-fill" data-width="80%"></div>
+                        <div class="card-content">
+                            <h3>Rompe Andes con intención</h3>
                         </div>
-                        <p style="text-align: center; margin-top: 0.5rem;">80%</p>
+                        <div class="card-bottom">
+                            <div class="progress-bar" style="margin-top: 2rem;">
+                                <div class="progress-fill" data-width="80%"></div>
+                            </div>
+                            <p style="text-align: center; margin-top: 0.5rem;">80%</p>
+                        </div>
                     </div>
                     
                     <div class="card">
-                        <h3>Prototipa con IA</h3>
-                        <div class="progress-bar" style="margin-top: 2rem;">
-                            <div class="progress-fill" data-width="85%"></div>
+                        <div class="card-content">
+                            <h3>Prototipa con IA</h3>
                         </div>
-                        <p style="text-align: center; margin-top: 0.5rem;">85%</p>
+                        <div class="card-bottom">
+                            <div class="progress-bar" style="margin-top: 2rem;">
+                                <div class="progress-fill" data-width="85%"></div>
+                            </div>
+                            <p style="text-align: center; margin-top: 0.5rem;">85%</p>
+                        </div>
                     </div>
                     
                     <div class="card">
-                        <h3>Benchmarka lo inesperado</h3>
-                        <div class="progress-bar" style="margin-top: 2rem;">
-                            <div class="progress-fill" data-width="55%"></div>
+                        <div class="card-content">
+                            <h3>Benchmarka lo inesperado</h3>
                         </div>
-                        <p style="text-align: center; margin-top: 0.5rem;">55%</p>
+                        <div class="card-bottom">
+                            <div class="progress-bar" style="margin-top: 2rem;">
+                                <div class="progress-fill" data-width="55%"></div>
+                            </div>
+                            <p style="text-align: center; margin-top: 0.5rem;">55%</p>
+                        </div>
                     </div>
                 </div>
             </div>
