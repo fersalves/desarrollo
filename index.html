@@ -81,16 +81,8 @@
             transition: transform 0.3s ease;
         }
         
-        .flip-card:hover {
-            transform: translateY(-3px) rotateY(12deg);
-        }
-        
-        .flip-card.left-side:hover {
-            transform: translateY(-3px) rotateY(-12deg);
-        }
-        
-        .flip-card.right-side:hover {
-            transform: translateY(-3px) rotateY(12deg);
+        .flip-card {
+            transform-origin: center center;
         }
         
         .flip-card-inner {
@@ -694,29 +686,33 @@
             card.classList.toggle('flipped');
         }
         
-        // Aplicar classes de direção baseado na posição no grid
-        function setCardDirections() {
-            const grids = document.querySelectorAll('.grid');
+        // Adicionar efeito hover baseado na posição do mouse
+        function setupCardHoverEffects() {
+            const flipCards = document.querySelectorAll('.flip-card');
             
-            grids.forEach(grid => {
-                const cards = grid.querySelectorAll('.flip-card');
+            flipCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-3px)';
+                });
                 
-                cards.forEach((card, index) => {
-                    // Detectar posição baseado no layout do grid
-                    const rect = card.getBoundingClientRect();
-                    const gridRect = grid.getBoundingClientRect();
+                card.addEventListener('mousemove', function(e) {
+                    const rect = this.getBoundingClientRect();
                     const cardCenterX = rect.left + rect.width / 2;
-                    const gridCenterX = gridRect.left + gridRect.width / 2;
+                    const mouseX = e.clientX;
                     
-                    if (cardCenterX < gridCenterX) {
-                        card.classList.add('left-side');
-                        card.classList.remove('right-side');
-                        console.log(`Card ${index}: LEFT - Center: ${cardCenterX}, Grid Center: ${gridCenterX}`);
-                    } else {
-                        card.classList.add('right-side');
-                        card.classList.remove('left-side');
-                        console.log(`Card ${index}: RIGHT - Center: ${cardCenterX}, Grid Center: ${gridCenterX}`);
-                    }
+                    // Calcular a diferença entre mouse e centro do card
+                    const deltaX = mouseX - cardCenterX;
+                    
+                    // Converter para ângulo de rotação (máximo 15 graus)
+                    const maxRotation = 15;
+                    const rotationY = (deltaX / (rect.width / 2)) * maxRotation;
+                    
+                    // Aplicar transformação
+                    this.style.transform = `translateY(-3px) rotateY(${rotationY}deg)`;
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = '';
                 });
             });
         }
@@ -753,12 +749,9 @@
             // Aguardar um pouco para garantir que tudo foi renderizado
             setTimeout(() => {
                 animateProgressBars();
-                setCardDirections(); // Aplicar direções após layout estar pronto
+                setupCardHoverEffects(); // Configurar efeitos de hover
             }, 500);
         });
-        
-        // Recalcular direções quando a janela for redimensionada
-        window.addEventListener('resize', setCardDirections);
     </script>
 </body>
 </html>
