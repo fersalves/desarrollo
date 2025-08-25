@@ -1092,15 +1092,72 @@
             
             console.log('Nova evidência:', formData);
             
-            // Aqui você pode implementar a lógica para salvar a evidência
-            // Por exemplo: enviar para um servidor, salvar no localStorage, etc.
+            // Adicionar a evidência na lista
+            addEvidenceToList(formData);
+            
+            // Atualizar contador na visão geral
+            updateEvidenceCount();
             
             // Mostrar confirmação
-            alert(`Evidência "${formData.title}" adicionada com sucesso para a meta "${currentSection}"!`);
+            alert(`Evidência "${formData.title}" adicionada com sucesso!`);
             
             // Fechar modal
             closeModal();
         });
+        
+        // Função para adicionar evidência na lista
+        function addEvidenceToList(evidenceData) {
+            // Encontrar o CTA button da seção específica
+            const ctaButtons = document.querySelectorAll('.evidence-item-add');
+            let targetCTA = null;
+            
+            // Procurar o CTA correto baseado no onclick
+            ctaButtons.forEach(cta => {
+                const onclickAttr = cta.getAttribute('onclick');
+                if (onclickAttr && onclickAttr.includes(`'${evidenceData.section}'`)) {
+                    targetCTA = cta;
+                }
+            });
+            
+            if (!targetCTA) {
+                console.error('CTA não encontrado para a seção:', evidenceData.section);
+                return;
+            }
+            
+            // Formatar a data para exibição
+            const dateObj = new Date(evidenceData.date + '-01');
+            const monthNames = [
+                'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+                'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+            ];
+            const formattedDate = `${monthNames[dateObj.getMonth()]} ${dateObj.getFullYear()}`;
+            
+            // Criar o HTML da nova evidência
+            const evidenceHTML = `
+                <div class="evidence-item">
+                    <div class="evidence-title">${evidenceData.title}</div>
+                    <div class="evidence-date">📅 ${formattedDate}</div>
+                    <p>${evidenceData.description}</p>
+                    ${evidenceData.link ? `<a href="${evidenceData.link}" class="evidence-link">🔗 ${evidenceData.linkName}</a>` : ''}
+                </div>
+            `;
+            
+            // Inserir a nova evidência antes do CTA
+            targetCTA.insertAdjacentHTML('beforebegin', evidenceHTML);
+            
+            console.log(`✅ Evidência adicionada para ${evidenceData.section}`);
+        }
+        
+        // Função para atualizar o contador de evidências na visão geral
+        function updateEvidenceCount() {
+            const evidenceItems = document.querySelectorAll('.evidence-item');
+            const evidenceCountElement = document.querySelector('#overview .card:nth-child(2) .kpi');
+            
+            if (evidenceCountElement) {
+                evidenceCountElement.textContent = evidenceItems.length;
+                console.log(`📊 Contador atualizado: ${evidenceItems.length} evidências`);
+            }
+        }
         
         // Adicionar efeito hover baseado na posição do mouse
         function setupCardHoverEffects() {
