@@ -1,0 +1,20 @@
+# Arquivos de configuração sensíveis
+config.js
+
+# Arquivos do sistema
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Arquivos temporários
+*.tmp
+*.temp
+
+# Node modules (se usar no futuro)
+node_modules/
+
+# Arquivos de backup
+*.bak
+*.backup

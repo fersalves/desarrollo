@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Desenvolvimento Pessoal (Offline)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: #0a0a0f;
+            color: white;
+            line-height: 1.6;
+        }
+        
+        .header {
+            background: #1a1a2e;
+            padding: 1rem 2rem;
+            border-bottom: 1px solid #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header h1 {
+            color: #00d4ff;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .update-info {
+            color: #a1a1aa;
+            font-size: 0.9rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .update-section {
+            background: #1e1e2e;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            border-left: 4px solid #f59e0b;
+        }
+        
+        .update-section h3 {
+            color: #f59e0b;
+            margin-bottom: 1rem;
+        }
+        
+        .update-section textarea {
+            width: 100%;
+            min-height: 150px;
+            background: #0a0a0f;
+            border: 1px solid #333;
+            border-radius: 4px;
+            color: white;
+            padding: 1rem;
+            font-family: monospace;
+            margin-bottom: 1rem;
+        }
+        
+        .update-btn {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-right: 1rem;
+        }
+        
+        .update-btn:hover {
+            background: #059669;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .card {
+            background: #1e1e2e;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #00d4ff;
+        }
+        
+        .card h3 {
+            color: #00d4ff;
+            margin-bottom: 0.5rem;
+        }
+        
+        .kpi {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #00d4ff;
+            margin: 0.5rem 0;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #333;
+            border-radius: 4px;
+            margin: 0.5rem 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00d4ff, #7c3aed);
+            border-radius: 4px;
+            transition: width 0.8s ease;
+        }
+        
+        .nav {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .nav-btn {
+            background: #1e1e2e;
+            color: white;
+            border: 1px solid #333;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .nav-btn:hover, .nav-btn.active {
+            background: #00d4ff;
+            color: #0a0a0f;
+        }
+        
+        .section {
+            display: none;
+        }
+        
+        .section.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .skill-item {
+            margin-bottom: 1rem;
+        }
+        
+        .skill-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        
+        .project-status {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .completed { background: #10b981; color: white; }
+        .in-progress { background: #f59e0b; color: white; }
+        .planned { background: #6b7280; color: white; }
+        
+        .instructions {
+            background: #1e1e2e;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            border-left: 4px solid #00d4ff;
+        }
+        
+        .copy-btn {
+            background: #6b7280;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        
+        @media (max-width: 768px) {
+            .container { padding: 1rem; }
+            .grid { grid-template-columns: 1fr; }
+            .nav { flex-wrap: wrap; }
+            .header { flex-direction: column; gap: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>📊 Dashboard de Desenvolvimento Pessoal</h1>
+        <div class="update-info">
+            <span>🕐 Última atualização: <span id="lastUpdate">Nunca</span></span>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Seção de Atualização Manual -->
+        <div class="update-section" id="updateSection">
+            <h3>📝 Atualizar Dados da Planilha</h3>
+            <div class="instructions">
+                <p><strong>📋 Como atualizar:</strong></p>
+                <ol>
+                    <li>Vá para sua <a href="https://docs.google.com/spreadsheets/d/15slU-6c3xuinmAtPPwwli-5z5VM_EhEthattL8QVuOQ/edit" target="_blank" style="color: #00d4ff;">planilha Google Sheets</a></li>
+                    <li>Selecione toda a aba (Ctrl+A)</li>
+                    <li>Copie os dados (Ctrl+C)</li>
+                    <li>Cole aqui na área de texto abaixo</li>
+                    <li>Clique em "Atualizar Seção"</li>
+                </ol>
+            </div>
+            
+            <h4 style="color: #00d4ff; margin-top: 1.5rem;">Skills (Habilidades):</h4>
+            <textarea id="skillsData" placeholder="Cole aqui os dados da aba 'Skills' da sua planilha...&#10;&#10;Formato esperado:&#10;Nome	Nível	Categoria	Descrição&#10;JavaScript	85	Frontend	Desenvolvimento web moderno&#10;Python	78	Backend	Análise de dados"></textarea>
+            <button class="update-btn" onclick="updateSkills()">🔄 Atualizar Habilidades</button>
+            <button class="copy-btn" onclick="copySkillsTemplate()">📋 Copiar Template</button>
+            
+            <h4 style="color: #00d4ff; margin-top: 1.5rem;">Projects (Projetos):</h4>
+            <textarea id="projectsData" placeholder="Cole aqui os dados da aba 'Projects' da sua planilha...&#10;&#10;Formato esperado:&#10;Nome	Status	Progresso	Descrição	Tecnologias	Data Início	Data Fim&#10;E-commerce Platform	completed	100	Plataforma completa	React,Node.js	2024-01-15	2024-03-20"></textarea>
+            <button class="update-btn" onclick="updateProjects()">🔄 Atualizar Projetos</button>
+            <button class="copy-btn" onclick="copyProjectsTemplate()">📋 Copiar Template</button>
+            
+            <h4 style="color: #00d4ff; margin-top: 1.5rem;">Goals (Metas):</h4>
+            <textarea id="goalsData" placeholder="Cole aqui os dados da aba 'Goals' da sua planilha...&#10;&#10;Formato esperado:&#10;Título	Prioridade	Progresso	Prazo	Descrição	Categoria&#10;Certificação AWS	high	60	2024-06-30	Conquistar certificação	Certification"></textarea>
+            <button class="update-btn" onclick="updateGoals()">🔄 Atualizar Metas</button>
+            <button class="copy-btn" onclick="copyGoalsTemplate()">📋 Copiar Template</button>
+            
+            <button class="update-btn" onclick="updateAll()" style="background: #7c3aed; margin-top: 1rem;">⚡ Atualizar Tudo</button>
+            <button class="update-btn" onclick="toggleUpdateSection()" style="background: #6b7280;">👁️ Ocultar Seção</button>
+        </div>
+
+        <div class="nav">
+            <button class="nav-btn active" onclick="showSection('overview')">📊 Visão Geral</button>
+            <button class="nav-btn" onclick="showSection('skills')">💻 Habilidades</button>
+            <button class="nav-btn" onclick="showSection('projects')">🚀 Projetos</button>
+            <button class="nav-btn" onclick="showSection('goals')">🎯 Metas</button>
+            <button class="nav-btn" onclick="toggleUpdateSection()">⚙️ Atualizar</button>
+        </div>
+
+        <!-- Visão Geral -->
+        <div id="overview" class="section active">
+            <h2>📊 Visão Geral</h2>
+            <div class="grid" id="kpiGrid">
+                <div class="card">
+                    <h3>💻 Habilidades Técnicas</h3>
+                    <div class="kpi" id="totalSkills">0</div>
+                    <p>Tecnologias dominadas</p>
+                </div>
+                <div class="card">
+                    <h3>🚀 Projetos</h3>
+                    <div class="kpi" id="totalProjects">0</div>
+                    <p>Projetos concluídos</p>
+                </div>
+                <div class="card">
+                    <h3>⏰ Horas de Estudo</h3>
+                    <div class="kpi" id="studyHours">0h</div>
+                    <p>Total estimado</p>
+                </div>
+                <div class="card">
+                    <h3>🏆 Conquistas</h3>
+                    <div class="kpi" id="achievements">0</div>
+                    <p>Metas alcançadas</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>📈 Resumo do Desenvolvimento</h3>
+                <div id="summaryContainer">
+                    <p style="color: #6b7280;">📝 Atualize os dados para ver o resumo do seu desenvolvimento</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Habilidades -->
+        <div id="skills" class="section">
+            <h2>💻 Habilidades Técnicas</h2>
+            <div class="grid" id="skillsContainer">
+                <div class="card">
+                    <p style="color: #6b7280;">📝 Atualize os dados da seção "Skills" para ver suas habilidades</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Projetos -->
+        <div id="projects" class="section">
+            <h2>🚀 Projetos</h2>
+            <div class="grid" id="projectsContainer">
+                <div class="card">
+                    <p style="color: #6b7280;">📝 Atualize os dados da seção "Projects" para ver seus projetos</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Metas -->
+        <div id="goals" class="section">
+            <h2>🎯 Metas e Objetivos</h2>
+            <div class="grid" id="goalsContainer">
+                <div class="card">
+                    <p style="color: #6b7280;">📝 Atualize os dados da seção "Goals" para ver suas metas</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dados do dashboard
+        let dashboardData = {
+            skills: [],
+            projects: [],
+            goals: []
+        };
+
+        // Carregar dados salvos
+        function loadSavedData() {
+            const saved = localStorage.getItem('dashboard_data');
+            if (saved) {
+                dashboardData = JSON.parse(saved);
+                updateDashboard();
+                updateLastUpdateTime();
+            }
+        }
+
+        // Salvar dados
+        function saveData() {
+            localStorage.setItem('dashboard_data', JSON.stringify(dashboardData));
+            updateLastUpdateTime();
+        }
+
+        // Atualizar timestamp
+        function updateLastUpdateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleString('pt-BR');
+            document.getElementById('lastUpdate').textContent = timeString;
+        }
+
+        // Parsear dados do textarea (formato TSV - Tab Separated Values)
+        function parseTabData(data) {
+            if (!data.trim()) return [];
+            
+            const lines = data.trim().split('\n');
+            if (lines.length < 2) return [];
+            
+            const headers = lines[0].split('\t').map(h => h.trim().toLowerCase());
+            const rows = lines.slice(1);
+            
+            return rows.map(row => {
+                const values = row.split('\t');
+                const item = {};
+                headers.forEach((header, index) => {
+                    item[header] = values[index] ? values[index].trim() : '';
+                });
+                return item;
+            });
+        }
+
+        // Atualizar habilidades
+        function updateSkills() {
+            const data = document.getElementById('skillsData').value;
+            dashboardData.skills = parseTabData(data);
+            saveData();
+            updateDashboard();
+            showMessage('✅ Habilidades atualizadas!');
+        }
+
+        // Atualizar projetos
+        function updateProjects() {
+            const data = document.getElementById('projectsData').value;
+            dashboardData.projects = parseTabData(data);
+            saveData();
+            updateDashboard();
+            showMessage('✅ Projetos atualizados!');
+        }
+
+        // Atualizar metas
+        function updateGoals() {
+            const data = document.getElementById('goalsData').value;
+            dashboardData.goals = parseTabData(data);
+            saveData();
+            updateDashboard();
+            showMessage('✅ Metas atualizadas!');
+        }
+
+        // Atualizar tudo
+        function updateAll() {
+            updateSkills();
+            updateProjects();
+            updateGoals();
+            showMessage('🎉 Todos os dados atualizados!');
+        }
+
+        // Atualizar dashboard
+        function updateDashboard() {
+            updateKPIs();
+            updateSkillsSection();
+            updateProjectsSection();
+            updateGoalsSection();
+            updateSummary();
+        }
+
+        // Atualizar KPIs
+        function updateKPIs() {
+            const skills = dashboardData.skills || [];
+            const projects = dashboardData.projects || [];
+            const goals = dashboardData.goals || [];
+            
+            document.getElementById('totalSkills').textContent = skills.length;
+            
+            const completedProjects = projects.filter(p => 
+                (p.status || '').toLowerCase() === 'completed' || 
+                (p.status || '').toLowerCase() === 'concluído'
+            ).length;
+            document.getElementById('totalProjects').textContent = completedProjects;
+            
+            const totalHours = skills.length * 30; // Estimativa de 30h por skill
+            document.getElementById('studyHours').textContent = totalHours + 'h';
+            
+            const achievedGoals = goals.filter(g => parseInt(g.progresso || g.progress || 0) >= 100).length;
+            document.getElementById('achievements').textContent = achievedGoals;
+        }
+
+        // Atualizar seção de habilidades
+        function updateSkillsSection() {
+            const container = document.getElementById('skillsContainer');
+            const skills = dashboardData.skills || [];
+            
+            if (skills.length === 0) {
+                container.innerHTML = '<div class="card"><p style="color: #6b7280;">📝 Nenhuma habilidade cadastrada. Atualize os dados na seção de configuração.</p></div>';
+                return;
+            }
+            
+            container.innerHTML = skills.map(skill => `
+                <div class="card">
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <strong>${skill.nome || skill.name || 'Habilidade'}</strong>
+                            <span>${skill.nível || skill.nivel || skill.level || '0'}%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${skill.nível || skill.nivel || skill.level || 0}%"></div>
+                        </div>
+                        <p>${skill.descrição || skill.descricao || skill.description || ''}</p>
+                        <small style="color: #6b7280;">${skill.categoria || skill.category || ''}</small>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Atualizar seção de projetos
+        function updateProjectsSection() {
+            const container = document.getElementById('projectsContainer');
+            const projects = dashboardData.projects || [];
+            
+            if (projects.length === 0) {
+                container.innerHTML = '<div class="card"><p style="color: #6b7280;">📝 Nenhum projeto cadastrado. Atualize os dados na seção de configuração.</p></div>';
+                return;
+            }
+            
+            container.innerHTML = projects.map(project => `
+                <div class="card">
+                    <h3>${project.nome || project.name || 'Projeto'}</h3>
+                    <span class="project-status ${getStatusClass(project.status)}">${getStatusText(project.status)}</span>
+                    <p style="margin: 1rem 0;">${project.descrição || project.descricao || project.description || ''}</p>
+                    ${project.tecnologias || project.technologies ? `<p><strong>Tecnologias:</strong> ${project.tecnologias || project.technologies}</p>` : ''}
+                    <div class="progress-bar" style="margin-top: 1rem;">
+                        <div class="progress-fill" style="width: ${project.progresso || project.progress || 0}%"></div>
+                    </div>
+                    <p style="text-align: center; margin-top: 0.5rem;">${project.progresso || project.progress || 0}%</p>
+                </div>
+            `).join('');
+        }
+
+        // Atualizar seção de metas
+        function updateGoalsSection() {
+            const container = document.getElementById('goalsContainer');
+            const goals = dashboardData.goals || [];
+            
+            if (goals.length === 0) {
+                container.innerHTML = '<div class="card"><p style="color: #6b7280;">📝 Nenhuma meta cadastrada. Atualize os dados na seção de configuração.</p></div>';
+                return;
+            }
+            
+            container.innerHTML = goals.map(goal => `
+                <div class="card">
+                    <h3>${goal.título || goal.titulo || goal.title || 'Meta'}</h3>
+                    <span class="project-status ${getPriorityClass(goal.prioridade || goal.priority)}">${getPriorityText(goal.prioridade || goal.priority)}</span>
+                    <p style="margin: 1rem 0;">${goal.descrição || goal.descricao || goal.description || ''}</p>
+                    <p><strong>Prazo:</strong> ${formatDate(goal.prazo || goal.deadline)}</p>
+                    <div class="progress-bar" style="margin-top: 1rem;">
+                        <div class="progress-fill" style="width: ${goal.progresso || goal.progress || 0}%"></div>
+                    </div>
+                    <p style="text-align: center; margin-top: 0.5rem;">${goal.progresso || goal.progress || 0}%</p>
+                </div>
+            `).join('');
+        }
+
+        // Atualizar resumo
+        function updateSummary() {
+            const container = document.getElementById('summaryContainer');
+            const skills = dashboardData.skills || [];
+            const projects = dashboardData.projects || [];
+            const goals = dashboardData.goals || [];
+            
+            if (skills.length === 0 && projects.length === 0 && goals.length === 0) {
+                container.innerHTML = '<p style="color: #6b7280;">📝 Atualize os dados para ver o resumo do seu desenvolvimento</p>';
+                return;
+            }
+            
+            const topSkills = skills.slice(0, 3).map(s => s.nome || s.name).join(', ');
+            const recentProject = projects.length > 0 ? projects[0].nome || projects[0].name : 'Nenhum';
+            const nextGoal = goals.find(g => (parseInt(g.progresso || g.progress || 0) < 100));
+            
+            container.innerHTML = `
+                <p>🚀 <strong>Principais habilidades:</strong> ${topSkills || 'Nenhuma cadastrada'}</p>
+                <p>💼 <strong>Projeto recente:</strong> ${recentProject}</p>
+                <p>🎯 <strong>Próxima meta:</strong> ${nextGoal ? (nextGoal.título || nextGoal.titulo || nextGoal.title) : 'Todas concluídas!'}</p>
+                <p>📊 <strong>Total:</strong> ${skills.length} habilidades, ${projects.length} projetos, ${goals.length} metas</p>
+            `;
+        }
+
+        // Funções auxiliares
+        function getStatusClass(status) {
+            const s = (status || '').toLowerCase();
+            if (s === 'completed' || s === 'concluído') return 'completed';
+            if (s === 'in-progress' || s === 'em andamento') return 'in-progress';
+            return 'planned';
+        }
+
+        function getStatusText(status) {
+            const s = (status || '').toLowerCase();
+            if (s === 'completed' || s === 'concluído') return 'CONCLUÍDO';
+            if (s === 'in-progress' || s === 'em andamento') return 'EM ANDAMENTO';
+            return 'PLANEJADO';
+        }
+
+        function getPriorityClass(priority) {
+            const p = (priority || '').toLowerCase();
+            if (p === 'high' || p === 'alta') return 'completed'; // verde
+            if (p === 'medium' || p === 'média') return 'in-progress'; // amarelo
+            return 'planned'; // cinza
+        }
+
+        function getPriorityText(priority) {
+            const p = (priority || '').toLowerCase();
+            if (p === 'high' || p === 'alta') return 'ALTA';
+            if (p === 'medium' || p === 'média') return 'MÉDIA';
+            return 'BAIXA';
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return 'N/A';
+            try {
+                return new Date(dateString).toLocaleDateString('pt-BR');
+            } catch {
+                return dateString;
+            }
+        }
+
+        // Templates para copiar
+        function copySkillsTemplate() {
+            const template = `Nome	Nível	Categoria	Descrição
+JavaScript	85	Frontend	Desenvolvimento web moderno
+Python	78	Backend	Análise de dados e automação
+React	82	Frontend	Biblioteca para interfaces
+Node.js	75	Backend	Runtime JavaScript`;
+            navigator.clipboard.writeText(template);
+            showMessage('📋 Template de Skills copiado!');
+        }
+
+        function copyProjectsTemplate() {
+            const template = `Nome	Status	Progresso	Descrição	Tecnologias	Data Início	Data Fim
+E-commerce Platform	completed	100	Plataforma completa de e-commerce	React,Node.js,MongoDB	2024-01-15	2024-03-20
+Dashboard Analytics	in-progress	85	Dashboard para análise de dados	JavaScript,Google Sheets	2024-02-01	2024-04-30`;
+            navigator.clipboard.writeText(template);
+            showMessage('📋 Template de Projects copiado!');
+        }
+
+        function copyGoalsTemplate() {
+            const template = `Título	Prioridade	Progresso	Prazo	Descrição	Categoria
+Certificação AWS	high	60	2024-06-30	Conquistar certificação AWS	Certification
+Open Source	medium	30	2024-12-31	Contribuir para projetos OSS	Community`;
+            navigator.clipboard.writeText(template);
+            showMessage('📋 Template de Goals copiado!');
+        }
+
+        // UI Functions
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        function toggleUpdateSection() {
+            const section = document.getElementById('updateSection');
+            section.style.display = section.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function showMessage(message) {
+            // Criar toast notification simples
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #10b981;
+                color: white;
+                padding: 1rem;
+                border-radius: 4px;
+                z-index: 1000;
+                animation: slideIn 0.3s ease;
+            `;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSavedData();
+            
+            // Adicionar estilo para animação do toast
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideIn {
+                    from { transform: translateX(100%); }
+                    to { transform: translateX(0); }
+                }
+            `;
+            document.head.appendChild(style);
+        });
+    </script>
+</body>
+</html>

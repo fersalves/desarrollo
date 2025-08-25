@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Desenvolvimento Pessoal (Google Sheets)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: #0a0a0f;
+            color: white;
+            line-height: 1.6;
+        }
+        
+        .header {
+            background: #1a1a2e;
+            padding: 1rem 2rem;
+            border-bottom: 1px solid #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header h1 {
+            color: #00d4ff;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .status {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: #1e1e2e;
+            border-radius: 4px;
+            border-left: 3px solid #10b981;
+        }
+        
+        .status-indicator.loading {
+            border-left-color: #f59e0b;
+        }
+        
+        .status-indicator.error {
+            border-left-color: #ef4444;
+        }
+        
+        .refresh-btn {
+            background: #00d4ff;
+            color: #0a0a0f;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        
+        .refresh-btn:hover {
+            background: #0ea5e9;
+        }
+        
+        .refresh-btn:disabled {
+            background: #6b7280;
+            cursor: not-allowed;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .card {
+            background: #1e1e2e;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #00d4ff;
+            position: relative;
+        }
+        
+        .card.loading::after {
+            content: '⏳';
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            animation: spin 1s linear infinite;
+        }
+        
+        .card h3 {
+            color: #00d4ff;
+            margin-bottom: 0.5rem;
+        }
+        
+        .kpi {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #00d4ff;
+            margin: 0.5rem 0;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #333;
+            border-radius: 4px;
+            margin: 0.5rem 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00d4ff, #7c3aed);
+            border-radius: 4px;
+            transition: width 0.8s ease;
+        }
+        
+        .nav {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .nav-btn {
+            background: #1e1e2e;
+            color: white;
+            border: 1px solid #333;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .nav-btn:hover, .nav-btn.active {
+            background: #00d4ff;
+            color: #0a0a0f;
+        }
+        
+        .section {
+            display: none;
+        }
+        
+        .section.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .skill-item {
+            margin-bottom: 1rem;
+        }
+        
+        .skill-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        
+        .project-status {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .completed { background: #10b981; color: white; }
+        .in-progress { background: #f59e0b; color: white; }
+        .planned { background: #6b7280; color: white; }
+        
+        .config-section {
+            background: #1e1e2e;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            border-left: 4px solid #f59e0b;
+        }
+        
+        .config-section h3 {
+            color: #f59e0b;
+            margin-bottom: 1rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #a1a1aa;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 0.5rem;
+            background: #0a0a0f;
+            border: 1px solid #333;
+            border-radius: 4px;
+            color: white;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #00d4ff;
+        }
+        
+        .connect-btn {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .connect-btn:hover {
+            background: #059669;
+        }
+        
+        .error-message {
+            background: #ef4444;
+            color: white;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+        
+        .success-message {
+            background: #10b981;
+            color: white;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .container { padding: 1rem; }
+            .grid { grid-template-columns: 1fr; }
+            .nav { flex-wrap: wrap; }
+            .header { flex-direction: column; gap: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>📊 Dashboard de Desenvolvimento Pessoal</h1>
+        <div class="status">
+            <div class="status-indicator" id="connectionStatus">
+                <span>🔴</span>
+                <span id="statusText">Desconectado</span>
+            </div>
+            <button class="refresh-btn" onclick="refreshData()" id="refreshBtn">
+                🔄 Atualizar
+            </button>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Seção de Configuração -->
+        <div class="config-section" id="configSection">
+            <h3>⚙️ Configuração do Google Sheets</h3>
+            <p style="margin-bottom: 1rem; color: #a1a1aa;">
+                Configure sua planilha Google Sheets para conectar os dados em tempo real.
+            </p>
+            
+            <div id="messages"></div>
+            
+            <div class="form-group">
+                <label for="apiKey">Chave da API do Google Sheets:</label>
+                <input type="text" id="apiKey" placeholder="AIzaSyC..." />
+            </div>
+            
+            <div class="form-group">
+                <label for="sheetId">ID da Planilha:</label>
+                <input type="text" id="sheetId" placeholder="1BxiMVs0XRA5..." />
+            </div>
+            
+            <button class="connect-btn" onclick="connectToSheets()">
+                🔗 Conectar ao Google Sheets
+            </button>
+            
+            <button class="connect-btn" onclick="testWithSampleData()" style="background: #6b7280; margin-left: 1rem;">
+                🧪 Testar com Dados de Exemplo
+            </button>
+        </div>
+
+        <div class="nav">
+            <button class="nav-btn active" onclick="showSection('overview')">📊 Visão Geral</button>
+            <button class="nav-btn" onclick="showSection('skills')">💻 Habilidades</button>
+            <button class="nav-btn" onclick="showSection('projects')">🚀 Projetos</button>
+            <button class="nav-btn" onclick="showSection('goals')">🎯 Metas</button>
+        </div>
+
+        <!-- Visão Geral -->
+        <div id="overview" class="section active">
+            <h2>📊 Visão Geral</h2>
+            <div class="grid" id="kpiGrid">
+                <div class="card loading">
+                    <h3>💻 Habilidades Técnicas</h3>
+                    <div class="kpi" id="totalSkills">-</div>
+                    <p>Tecnologias dominadas</p>
+                </div>
+                <div class="card loading">
+                    <h3>🚀 Projetos</h3>
+                    <div class="kpi" id="totalProjects">-</div>
+                    <p>Projetos concluídos</p>
+                </div>
+                <div class="card loading">
+                    <h3>⏰ Horas de Estudo</h3>
+                    <div class="kpi" id="studyHours">-</div>
+                    <p>Total acumulado</p>
+                </div>
+                <div class="card loading">
+                    <h3>🏆 Conquistas</h3>
+                    <div class="kpi" id="achievements">-</div>
+                    <p>Metas alcançadas</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>📈 Atividades Recentes</h3>
+                <div id="activitiesContainer">
+                    <p style="color: #6b7280;">⏳ Carregando atividades...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Habilidades -->
+        <div id="skills" class="section">
+            <h2>💻 Habilidades Técnicas</h2>
+            <div class="grid" id="skillsContainer">
+                <div class="card">
+                    <p style="color: #6b7280;">⏳ Carregando habilidades...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Projetos -->
+        <div id="projects" class="section">
+            <h2>🚀 Projetos</h2>
+            <div class="grid" id="projectsContainer">
+                <div class="card">
+                    <p style="color: #6b7280;">⏳ Carregando projetos...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Metas -->
+        <div id="goals" class="section">
+            <h2>🎯 Metas e Objetivos</h2>
+            <div class="grid" id="goalsContainer">
+                <div class="card">
+                    <p style="color: #6b7280;">⏳ Carregando metas...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuração Global
+        let CONFIG = {
+            API_KEY: '',
+            SHEET_ID: '',
+            connected: false
+        };
+        
+        let dashboardData = {};
+
+        // Carregar configuração salva
+        function loadConfig() {
+            const savedApiKey = localStorage.getItem('sheets_api_key');
+            const savedSheetId = localStorage.getItem('sheets_sheet_id');
+            
+            if (savedApiKey) {
+                document.getElementById('apiKey').value = savedApiKey;
+                CONFIG.API_KEY = savedApiKey;
+            }
+            
+            if (savedSheetId) {
+                document.getElementById('sheetId').value = savedSheetId;
+                CONFIG.SHEET_ID = savedSheetId;
+            }
+            
+            if (savedApiKey && savedSheetId) {
+                connectToSheets();
+            }
+        }
+
+        // Conectar ao Google Sheets
+        async function connectToSheets() {
+            const apiKey = document.getElementById('apiKey').value.trim();
+            const sheetId = document.getElementById('sheetId').value.trim();
+            
+            if (!apiKey || !sheetId) {
+                showMessage('Por favor, preencha a chave da API e o ID da planilha.', 'error');
+                return;
+            }
+            
+            CONFIG.API_KEY = apiKey;
+            CONFIG.SHEET_ID = sheetId;
+            
+            // Salvar configuração
+            localStorage.setItem('sheets_api_key', apiKey);
+            localStorage.setItem('sheets_sheet_id', sheetId);
+            
+            showMessage('Conectando ao Google Sheets...', 'info');
+            updateConnectionStatus('loading', 'Conectando...');
+            
+            try {
+                await loadDataFromSheets();
+                CONFIG.connected = true;
+                showMessage('✅ Conectado com sucesso ao Google Sheets!', 'success');
+                updateConnectionStatus('connected', 'Conectado');
+                document.getElementById('configSection').style.display = 'none';
+                updateDashboard();
+            } catch (error) {
+                console.error('Erro ao conectar:', error);
+                showMessage('❌ Erro ao conectar. Verifique suas credenciais e tente novamente.', 'error');
+                updateConnectionStatus('error', 'Erro de conexão');
+                CONFIG.connected = false;
+            }
+        }
+
+        // Carregar dados do Google Sheets
+        async function loadDataFromSheets() {
+            const ranges = {
+                skills: 'Skills!A:D',
+                projects: 'Projects!A:G',
+                goals: 'Goals!A:F',
+                activities: 'Activities!A:D'
+            };
+            
+            const promises = Object.entries(ranges).map(async ([key, range]) => {
+                const url = `https://sheets.googleapis.com/v4/spreadsheets/${CONFIG.SHEET_ID}/values/${range}?key=${CONFIG.API_KEY}`;
+                
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error(`Erro ao buscar ${key}: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                return { key, data: data.values || [] };
+            });
+            
+            const results = await Promise.all(promises);
+            
+            // Processar dados
+            results.forEach(({ key, data }) => {
+                dashboardData[key] = processSheetData(data);
+            });
+        }
+
+        // Processar dados da planilha
+        function processSheetData(rawData) {
+            if (!rawData || rawData.length === 0) return [];
+            
+            const headers = rawData[0].map(h => h.toLowerCase().replace(/\s+/g, '_'));
+            const rows = rawData.slice(1);
+            
+            return rows.map(row => {
+                const item = {};
+                headers.forEach((header, index) => {
+                    item[header] = row[index] || '';
+                });
+                return item;
+            });
+        }
+
+        // Testar com dados de exemplo
+        function testWithSampleData() {
+            dashboardData = {
+                skills: [
+                    { nome: 'JavaScript', nível: '85', categoria: 'Frontend', descrição: 'Desenvolvimento web moderno' },
+                    { nome: 'Python', nível: '78', categoria: 'Backend', descrição: 'Análise de dados e automação' },
+                    { nome: 'React', nível: '82', categoria: 'Frontend', descrição: 'Biblioteca para interfaces' },
+                    { nome: 'Node.js', nível: '75', categoria: 'Backend', descrição: 'Runtime JavaScript' }
+                ],
+                projects: [
+                    { nome: 'E-commerce Platform', status: 'completed', progresso: '100', descrição: 'Plataforma completa de e-commerce', tecnologias: 'React,Node.js,MongoDB' },
+                    { nome: 'Dashboard Analytics', status: 'in-progress', progresso: '85', descrição: 'Dashboard de análise de dados', tecnologias: 'JavaScript,Google Sheets' }
+                ],
+                goals: [
+                    { título: 'Certificação AWS', prioridade: 'high', progresso: '60', prazo: '2024-06-30', descrição: 'Conquistar certificação AWS' },
+                    { título: 'Open Source', prioridade: 'medium', progresso: '30', prazo: '2024-12-31', descrição: 'Contribuir para projetos OSS' }
+                ],
+                activities: [
+                    { tipo: 'skill', título: 'Completou curso React', descrição: 'Finalizou curso avançado', timestamp: new Date().toISOString() },
+                    { tipo: 'project', título: 'Deploy do Dashboard', descrição: 'Dashboard publicado no GitHub', timestamp: new Date(Date.now() - 3600000).toISOString() }
+                ]
+            };
+            
+            showMessage('✅ Dados de exemplo carregados!', 'success');
+            updateConnectionStatus('connected', 'Dados de Exemplo');
+            document.getElementById('configSection').style.display = 'none';
+            updateDashboard();
+        }
+
+        // Atualizar dashboard com dados
+        function updateDashboard() {
+            updateKPIs();
+            updateSkills();
+            updateProjects();
+            updateGoals();
+            updateActivities();
+            removeLoadingStates();
+        }
+
+        // Atualizar KPIs
+        function updateKPIs() {
+            const skills = dashboardData.skills || [];
+            const projects = dashboardData.projects || [];
+            const goals = dashboardData.goals || [];
+            
+            document.getElementById('totalSkills').textContent = skills.length;
+            
+            const completedProjects = projects.filter(p => p.status === 'completed').length;
+            document.getElementById('totalProjects').textContent = completedProjects;
+            
+            // Calcular horas de estudo (exemplo)
+            const totalHours = skills.length * 25; // 25h por skill em média
+            document.getElementById('studyHours').textContent = totalHours + 'h';
+            
+            const achievedGoals = goals.filter(g => parseInt(g.progresso || 0) >= 100).length;
+            document.getElementById('achievements').textContent = achievedGoals;
+        }
+
+        // Atualizar habilidades
+        function updateSkills() {
+            const container = document.getElementById('skillsContainer');
+            const skills = dashboardData.skills || [];
+            
+            if (skills.length === 0) {
+                container.innerHTML = '<div class="card"><p style="color: #6b7280;">Nenhuma habilidade encontrada.</p></div>';
+                return;
+            }
+            
+            container.innerHTML = skills.map(skill => `
+                <div class="card">
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <strong>${skill.nome || skill.name || 'Skill'}</strong>
+                            <span>${skill.nível || skill.nivel || skill.level || '0'}%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${skill.nível || skill.nivel || skill.level || 0}%"></div>
+                        </div>
+                        <p>${skill.descrição || skill.descricao || skill.description || ''}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Atualizar projetos
+        function updateProjects() {
+            const container = document.getElementById('projectsContainer');
+            const projects = dashboardData.projects || [];
+            
+            if (projects.length === 0) {
+                container.innerHTML = '<div class="card"><p style="color: #6b7280;">Nenhum projeto encontrado.</p></div>';
+                return;
+            }
+            
+            container.innerHTML = projects.map(project => `
+                <div class="card">
+                    <h3>${project.nome || project.name || 'Projeto'}</h3>
+                    <span class="project-status ${project.status || 'planned'}">${getStatusText(project.status)}</span>
+                    <p style="margin: 1rem 0;">${project.descrição || project.descricao || project.description || ''}</p>
+                    ${project.tecnologias || project.technologies ? `<p><strong>Tecnologias:</strong> ${project.tecnologias || project.technologies}</p>` : ''}
+                    <div class="progress-bar" style="margin-top: 1rem;">
+                        <div class="progress-fill" style="width: ${project.progresso || project.progress || 0}%"></div>
+                    </div>
+                    <p style="text-align: center; margin-top: 0.5rem;">${project.progresso || project.progress || 0}%</p>
+                </div>
+            `).join('');
+        }
+
+        // Atualizar metas
+        function updateGoals() {
+            const container = document.getElementById('goalsContainer');
+            const goals = dashboardData.goals || [];
+            
+            if (goals.length === 0) {
+                container.innerHTML = '<div class="card"><p style="color: #6b7280;">Nenhuma meta encontrada.</p></div>';
+                return;
+            }
+            
+            container.innerHTML = goals.map(goal => `
+                <div class="card">
+                    <h3>${goal.título || goal.titulo || goal.title || 'Meta'}</h3>
+                    <span class="project-status ${goal.prioridade || goal.priority || 'medium'}">${getPriorityText(goal.prioridade || goal.priority)}</span>
+                    <p style="margin: 1rem 0;">${goal.descrição || goal.descricao || goal.description || ''}</p>
+                    <p><strong>Prazo:</strong> ${formatDate(goal.prazo || goal.deadline)}</p>
+                    <div class="progress-bar" style="margin-top: 1rem;">
+                        <div class="progress-fill" style="width: ${goal.progresso || goal.progress || 0}%"></div>
+                    </div>
+                    <p style="text-align: center; margin-top: 0.5rem;">${goal.progresso || goal.progress || 0}%</p>
+                </div>
+            `).join('');
+        }
+
+        // Atualizar atividades
+        function updateActivities() {
+            const container = document.getElementById('activitiesContainer');
+            const activities = dashboardData.activities || [];
+            
+            if (activities.length === 0) {
+                container.innerHTML = '<p style="color: #6b7280;">Nenhuma atividade encontrada.</p>';
+                return;
+            }
+            
+            container.innerHTML = activities.slice(0, 5).map(activity => `
+                <p>✅ ${activity.título || activity.titulo || activity.title || 'Atividade'} - <strong>${formatTimeAgo(activity.timestamp)}</strong></p>
+            `).join('');
+        }
+
+        // Funções auxiliares
+        function getStatusText(status) {
+            const statusMap = {
+                'completed': 'CONCLUÍDO',
+                'in-progress': 'EM ANDAMENTO',
+                'planned': 'PLANEJADO'
+            };
+            return statusMap[status] || status?.toUpperCase() || 'INDEFINIDO';
+        }
+
+        function getPriorityText(priority) {
+            const priorityMap = {
+                'high': 'ALTA',
+                'medium': 'MÉDIA',
+                'low': 'BAIXA'
+            };
+            return priorityMap[priority] || priority?.toUpperCase() || 'MÉDIA';
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return 'N/A';
+            try {
+                return new Date(dateString).toLocaleDateString('pt-BR');
+            } catch {
+                return dateString;
+            }
+        }
+
+        function formatTimeAgo(timestamp) {
+            if (!timestamp) return 'N/A';
+            try {
+                const date = new Date(timestamp);
+                const now = new Date();
+                const diffMs = now - date;
+                const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+                const diffDays = Math.floor(diffHours / 24);
+                
+                if (diffDays > 0) {
+                    return `${diffDays} dia${diffDays > 1 ? 's' : ''} atrás`;
+                } else if (diffHours > 0) {
+                    return `${diffHours} hora${diffHours > 1 ? 's' : ''} atrás`;
+                } else {
+                    return 'Agora mesmo';
+                }
+            } catch {
+                return 'N/A';
+            }
+        }
+
+        function removeLoadingStates() {
+            document.querySelectorAll('.card.loading').forEach(card => {
+                card.classList.remove('loading');
+            });
+        }
+
+        // UI Functions
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        function showMessage(message, type) {
+            const container = document.getElementById('messages');
+            const className = type === 'error' ? 'error-message' : type === 'success' ? 'success-message' : 'info-message';
+            
+            container.innerHTML = `<div class="${className}">${message}</div>`;
+            
+            setTimeout(() => {
+                container.innerHTML = '';
+            }, 5000);
+        }
+
+        function updateConnectionStatus(status, text) {
+            const indicator = document.getElementById('connectionStatus');
+            const statusText = document.getElementById('statusText');
+            
+            indicator.className = 'status-indicator ' + status;
+            statusText.textContent = text;
+            
+            const icons = {
+                'connected': '🟢',
+                'loading': '🟡',
+                'error': '🔴'
+            };
+            
+            indicator.querySelector('span').textContent = icons[status] || '🔴';
+        }
+
+        async function refreshData() {
+            if (!CONFIG.connected) {
+                showMessage('Conecte-se ao Google Sheets primeiro.', 'error');
+                return;
+            }
+            
+            const btn = document.getElementById('refreshBtn');
+            btn.disabled = true;
+            btn.textContent = '⏳ Atualizando...';
+            
+            try {
+                await loadDataFromSheets();
+                updateDashboard();
+                showMessage('✅ Dados atualizados com sucesso!', 'success');
+            } catch (error) {
+                console.error('Erro ao atualizar:', error);
+                showMessage('❌ Erro ao atualizar dados.', 'error');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = '🔄 Atualizar';
+            }
+        }
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', function() {
+            loadConfig();
+            updateConnectionStatus('error', 'Desconectado');
+        });
+    </script>
+</body>
+</html>
