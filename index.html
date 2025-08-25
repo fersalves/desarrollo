@@ -105,7 +105,6 @@
             backface-visibility: hidden;
             background: #1e1e2e;
             border-radius: 8px;
-            border-left: 4px solid #00d4ff;
             padding: 1.5rem;
             display: flex;
             flex-direction: column;
@@ -341,75 +340,123 @@
                         </div>
                     </div>
                     
-                    <div class="card">
-                        <div class="card-content">
-                            <h3>Update proactivo</h3>
-                        </div>
-                        <div class="card-bottom">
-                            <div class="progress-bar" style="margin-top: 2rem;">
-                                <div class="progress-fill" data-width="85%"></div>
+                    <div class="flip-card" onclick="flipCard(this)">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div class="card-content">
+                                    <h3>Update proactivo</h3>
+                                </div>
+                                <div class="card-bottom">
+                                    <div class="progress-bar" style="margin-top: 2rem;">
+                                        <div class="progress-fill" data-width="85%"></div>
+                                    </div>
+                                    <p style="text-align: right; margin-top: 0.5rem;">85%</p>
+                                </div>
                             </div>
-                            <p style="text-align: right; margin-top: 0.5rem;">85%</p>
+                            <div class="flip-card-back">
+                                <h3>Update proactivo</h3>
+                                <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem; flex: 1;">Da visibilidad sin que te la pidan (avance, bloqueo, decisión). Comunicación asíncrona.</p>
+                            </div>
                         </div>
                     </div>
                     
-                    <div class="card">
-                        <div class="card-content">
-                            <h3>Decide en baja fidelidad</h3>
-                        </div>
-                        <div class="card-bottom">
-                            <div class="progress-bar" style="margin-top: 2rem;">
-                                <div class="progress-fill" data-width="60%"></div>
+                    <div class="flip-card" onclick="flipCard(this)">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div class="card-content">
+                                    <h3>Decide en baja fidelidad</h3>
+                                </div>
+                                <div class="card-bottom">
+                                    <div class="progress-bar" style="margin-top: 2rem;">
+                                        <div class="progress-fill" data-width="60%"></div>
+                                    </div>
+                                    <p style="text-align: right; margin-top: 0.5rem;">60%</p>
+                                </div>
                             </div>
-                            <p style="text-align: right; margin-top: 0.5rem;">60%</p>
+                            <div class="flip-card-back">
+                                <h3>Decide en baja fidelidad</h3>
+                                <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem; flex: 1;">Muestra versiones rápidas (wireframe, sketch) en menos de 24h.</p>
+                            </div>
                         </div>
                     </div>
                     
-                    <div class="card">
-                        <div class="card-content">
-                            <h3>Marca el pulso</h3>
-                        </div>
-                        <div class="card-bottom">
-                            <div class="progress-bar" style="margin-top: 2rem;">
-                                <div class="progress-fill" data-width="70%"></div>
+                    <div class="flip-card" onclick="flipCard(this)">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div class="card-content">
+                                    <h3>Marca el pulso</h3>
+                                </div>
+                                <div class="card-bottom">
+                                    <div class="progress-bar" style="margin-top: 2rem;">
+                                        <div class="progress-fill" data-width="70%"></div>
+                                    </div>
+                                    <p style="text-align: right; margin-top: 0.5rem;">70%</p>
+                                </div>
                             </div>
-                            <p style="text-align: right; margin-top: 0.5rem;">70%</p>
+                            <div class="flip-card-back">
+                                <h3>Marca el pulso</h3>
+                                <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem; flex: 1;">Si el equipo se detiene, sé quien trae agenda clara, pregunta incómoda o propuesta de resolución.</p>
+                            </div>
                         </div>
                     </div>
                     
-                    <div class="card">
-                        <div class="card-content">
-                            <h3>Turnaround express</h3>
-                        </div>
-                        <div class="card-bottom">
-                            <div class="progress-bar" style="margin-top: 2rem;">
-                                <div class="progress-fill" data-width="80%"></div>
+                    <div class="flip-card" onclick="flipCard(this)">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div class="card-content">
+                                    <h3>Turnaround express</h3>
+                                </div>
+                                <div class="card-bottom">
+                                    <div class="progress-bar" style="margin-top: 2rem;">
+                                        <div class="progress-fill" data-width="80%"></div>
+                                    </div>
+                                    <p style="text-align: right; margin-top: 0.5rem;">80%</p>
+                                </div>
                             </div>
-                            <p style="text-align: right; margin-top: 0.5rem;">80%</p>
+                            <div class="flip-card-back">
+                                <h3>Turnaround express</h3>
+                                <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem; flex: 1;">Ningún pedido o feedback queda sin respuesta más de 24h.</p>
+                            </div>
                         </div>
                     </div>
                     
-                    <div class="card">
-                        <div class="card-content">
-                            <h3>Feedback senior, acción rápida</h3>
-                        </div>
-                        <div class="card-bottom">
-                            <div class="progress-bar" style="margin-top: 2rem;">
-                                <div class="progress-fill" data-width="90%"></div>
+                    <div class="flip-card" onclick="flipCard(this)">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div class="card-content">
+                                    <h3>Feedback senior, acción rápida</h3>
+                                </div>
+                                <div class="card-bottom">
+                                    <div class="progress-bar" style="margin-top: 2rem;">
+                                        <div class="progress-fill" data-width="90%"></div>
+                                    </div>
+                                    <p style="text-align: right; margin-top: 0.5rem;">90%</p>
+                                </div>
                             </div>
-                            <p style="text-align: right; margin-top: 0.5rem;">90%</p>
+                            <div class="flip-card-back">
+                                <h3>Feedback senior, acción rápida</h3>
+                                <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem; flex: 1;">Integra feedback de TL, PL o manager en un máximo de 48h y muestra la versión iterada.</p>
+                            </div>
                         </div>
                     </div>
                     
-                    <div class="card">
-                        <div class="card-content">
-                            <h3>Aprendizaje visible</h3>
-                        </div>
-                        <div class="card-bottom">
-                            <div class="progress-bar" style="margin-top: 2rem;">
-                                <div class="progress-fill" data-width="65%"></div>
+                    <div class="flip-card" onclick="flipCard(this)">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div class="card-content">
+                                    <h3>Aprendizaje visible</h3>
+                                </div>
+                                <div class="card-bottom">
+                                    <div class="progress-bar" style="margin-top: 2rem;">
+                                        <div class="progress-fill" data-width="65%"></div>
+                                    </div>
+                                    <p style="text-align: right; margin-top: 0.5rem;">65%</p>
+                                </div>
                             </div>
-                            <p style="text-align: right; margin-top: 0.5rem;">65%</p>
+                            <div class="flip-card-back">
+                                <h3>Aprendizaje visible</h3>
+                                <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem; flex: 1;">Explica en review qué cambió tu diseño gracias al feedback senior → que sea evidente que sumó valor.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -421,63 +468,103 @@
                     💡 <span style="background: linear-gradient(90deg, #00d4ff, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Disrupción & Profundidad</span>
                 </h3>
                 <div class="grid" id="disruptionGoals">
-                    <div class="card">
-                        <div class="card-content">
-                            <h3>Trae siempre un plan B salvaje</h3>
-                        </div>
-                        <div class="card-bottom">
-                            <div class="progress-bar" style="margin-top: 2rem;">
-                                <div class="progress-fill" data-width="45%"></div>
+                    <div class="flip-card" onclick="flipCard(this)">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div class="card-content">
+                                    <h3>Trae siempre un plan B salvaje</h3>
+                                </div>
+                                <div class="card-bottom">
+                                    <div class="progress-bar" style="margin-top: 2rem;">
+                                        <div class="progress-fill" data-width="45%"></div>
+                                    </div>
+                                    <p style="text-align: right; margin-top: 0.5rem;">45%</p>
+                                </div>
                             </div>
-                            <p style="text-align: right; margin-top: 0.5rem;">45%</p>
+                            <div class="flip-card-back">
+                                <h3>Trae siempre un plan B salvaje</h3>
+                                <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem; flex: 1;">Además de la opción segura, presenta una que incomode y abra debate.</p>
+                            </div>
                         </div>
                     </div>
                     
-                    <div class="card">
-                        <div class="card-content">
-                            <h3>Mira afuera</h3>
-                        </div>
-                        <div class="card-bottom">
-                            <div class="progress-bar" style="margin-top: 2rem;">
-                                <div class="progress-fill" data-width="70%"></div>
+                    <div class="flip-card" onclick="flipCard(this)">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div class="card-content">
+                                    <h3>Mira afuera</h3>
+                                </div>
+                                <div class="card-bottom">
+                                    <div class="progress-bar" style="margin-top: 2rem;">
+                                        <div class="progress-fill" data-width="70%"></div>
+                                    </div>
+                                    <p style="text-align: right; margin-top: 0.5rem;">70%</p>
+                                </div>
                             </div>
-                            <p style="text-align: right; margin-top: 0.5rem;">70%</p>
+                            <div class="flip-card-back">
+                                <h3>Mira afuera</h3>
+                                <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem; flex: 1;">Inspírate en 2 productos de otra industria antes de diseñar (gaming, música, fintech, etc).</p>
+                            </div>
                         </div>
                     </div>
                     
-                    <div class="card">
-                        <div class="card-content">
-                            <h3>Rompe Andes con intención</h3>
-                        </div>
-                        <div class="card-bottom">
-                            <div class="progress-bar" style="margin-top: 2rem;">
-                                <div class="progress-fill" data-width="80%"></div>
+                    <div class="flip-card" onclick="flipCard(this)">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div class="card-content">
+                                    <h3>Rompe Andes con intención</h3>
+                                </div>
+                                <div class="card-bottom">
+                                    <div class="progress-bar" style="margin-top: 2rem;">
+                                        <div class="progress-fill" data-width="80%"></div>
+                                    </div>
+                                    <p style="text-align: right; margin-top: 0.5rem;">80%</p>
+                                </div>
                             </div>
-                            <p style="text-align: right; margin-top: 0.5rem;">80%</p>
+                            <div class="flip-card-back">
+                                <h3>Rompe Andes con intención</h3>
+                                <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem; flex: 1;">Cuestiona al menos un patrón de casa por proyecto, argumenta por qué.</p>
+                            </div>
                         </div>
                     </div>
                     
-                    <div class="card">
-                        <div class="card-content">
-                            <h3>Prototipa con IA</h3>
-                        </div>
-                        <div class="card-bottom">
-                            <div class="progress-bar" style="margin-top: 2rem;">
-                                <div class="progress-fill" data-width="85%"></div>
+                    <div class="flip-card" onclick="flipCard(this)">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div class="card-content">
+                                    <h3>Prototipa con IA</h3>
+                                </div>
+                                <div class="card-bottom">
+                                    <div class="progress-bar" style="margin-top: 2rem;">
+                                        <div class="progress-fill" data-width="85%"></div>
+                                    </div>
+                                    <p style="text-align: right; margin-top: 0.5rem;">85%</p>
+                                </div>
                             </div>
-                            <p style="text-align: right; margin-top: 0.5rem;">85%</p>
+                            <div class="flip-card-back">
+                                <h3>Prototipa con IA</h3>
+                                <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem; flex: 1;">Usa Cursor, Make, GPT, Gemini para acelerar variaciones y explorar ideas radicales.</p>
+                            </div>
                         </div>
                     </div>
                     
-                    <div class="card">
-                        <div class="card-content">
-                            <h3>Benchmarka lo inesperado</h3>
-                        </div>
-                        <div class="card-bottom">
-                            <div class="progress-bar" style="margin-top: 2rem;">
-                                <div class="progress-fill" data-width="55%"></div>
+                    <div class="flip-card" onclick="flipCard(this)">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div class="card-content">
+                                    <h3>Benchmarka lo inesperado</h3>
+                                </div>
+                                <div class="card-bottom">
+                                    <div class="progress-bar" style="margin-top: 2rem;">
+                                        <div class="progress-fill" data-width="55%"></div>
+                                    </div>
+                                    <p style="text-align: right; margin-top: 0.5rem;">55%</p>
+                                </div>
                             </div>
-                            <p style="text-align: right; margin-top: 0.5rem;">55%</p>
+                            <div class="flip-card-back">
+                                <h3>Benchmarka lo inesperado</h3>
+                                <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem; flex: 1;">Analiza una app o producto que el equipo nunca miraría, trae un insight accionable.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
