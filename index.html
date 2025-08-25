@@ -82,7 +82,15 @@
         }
         
         .flip-card:hover {
-            transform: translateY(-3px) rotateY(8deg);
+            transform: translateY(-3px) rotateY(12deg);
+        }
+        
+        .flip-card.left-side:hover {
+            transform: translateY(-3px) rotateY(-12deg);
+        }
+        
+        .flip-card.right-side:hover {
+            transform: translateY(-3px) rotateY(12deg);
         }
         
         .flip-card-inner {
@@ -686,6 +694,33 @@
             card.classList.toggle('flipped');
         }
         
+        // Aplicar classes de direção baseado na posição no grid
+        function setCardDirections() {
+            const grids = document.querySelectorAll('.grid');
+            
+            grids.forEach(grid => {
+                const cards = grid.querySelectorAll('.flip-card');
+                const gridStyle = window.getComputedStyle(grid);
+                const gridTemplateColumns = gridStyle.getPropertyValue('grid-template-columns');
+                
+                // Calcular número de colunas baseado no CSS do grid
+                const columnCount = gridTemplateColumns.split(' ').length;
+                
+                cards.forEach((card, index) => {
+                    const columnPosition = (index % columnCount) + 1;
+                    const isLeftHalf = columnPosition <= Math.ceil(columnCount / 2);
+                    
+                    if (isLeftHalf) {
+                        card.classList.add('left-side');
+                        card.classList.remove('right-side');
+                    } else {
+                        card.classList.add('right-side');
+                        card.classList.remove('left-side');
+                    }
+                });
+            });
+        }
+        
         // Animar barras de progresso
         function animateProgressBars() {
             // Resetar todas as barras primeiro
@@ -715,11 +750,17 @@
         document.addEventListener('DOMContentLoaded', function() {
             console.log('Dashboard reorganizado carregado com sucesso! 🎉');
             
+            // Aplicar direções dos cards
+            setCardDirections();
+            
             // Aguardar um pouco para garantir que tudo foi renderizado
             setTimeout(() => {
                 animateProgressBars();
             }, 500);
         });
+        
+        // Recalcular direções quando a janela for redimensionada
+        window.addEventListener('resize', setCardDirections);
     </script>
 </body>
 </html>
