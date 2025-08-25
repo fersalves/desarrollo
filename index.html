@@ -1492,8 +1492,35 @@
             if (password === AUTH_PASSWORD) {
                 currentUser = selectedUser; // Armazenar usuário atual
                 console.log(`👤 Usuário autenticado: ${USER_INFO[selectedUser].name}`);
+                
+                // Marcar seção como autenticada ANTES de fechar modal
+                currentActiveSection = getCurrentActiveSection();
+                authenticatedSection = currentActiveSection;
+                
+                // Fechar modal
                 closeAuthModal();
-                executeAuthenticatedAction();
+                
+                // Executar ação imediatamente
+                if (pendingAction && pendingActionData) {
+                    console.log(`⚡ Executando ação: ${pendingAction}`);
+                    
+                    switch (pendingAction) {
+                        case 'add':
+                            currentSection = pendingActionData.section;
+                            openModal();
+                            break;
+                        case 'copy':
+                            _copyEvidence(pendingActionData.button);
+                            break;
+                        case 'delete':
+                            _deleteEvidence(pendingActionData.button);
+                            break;
+                    }
+                    
+                    // Limpar dados pendentes
+                    pendingAction = null;
+                    pendingActionData = null;
+                }
             } else {
                 errorElement.textContent = 'Senha incorreta. Tente novamente.';
                 errorElement.style.display = 'block';
