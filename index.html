@@ -255,6 +255,64 @@
             text-decoration: underline;
         }
         
+        /* Card para adicionar evidência */
+        .evidence-item-add {
+            background: #1e1e2e;
+            border: 2px dashed #444;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            min-height: 80px;
+        }
+        
+        .evidence-item-add:hover {
+            background: #2a2a3e;
+            border-color: #00d4ff;
+            transform: translateY(-2px);
+        }
+        
+        .add-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            width: 100%;
+        }
+        
+        .add-icon {
+            font-size: 2rem;
+            color: #666;
+            font-weight: 300;
+            transition: color 0.3s ease;
+        }
+        
+        .evidence-item-add:hover .add-icon {
+            color: #00d4ff;
+        }
+        
+        .add-text {
+            flex: 1;
+        }
+        
+        .add-title {
+            font-weight: 500;
+            color: #a1a1aa;
+            transition: color 0.3s ease;
+        }
+        
+        .evidence-item-add:hover .add-title {
+            color: white;
+        }
+        
+        .add-subtitle {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 0.25rem;
+        }
+        
         @media (max-width: 768px) {
             .container { padding: 1rem; }
             .grid { grid-template-columns: 1fr; }
@@ -627,6 +685,17 @@
                     <p>Review técnico: documentei como feedback sobre hooks customizados mudou estrutura do projeto (+30% performance)</p>
                     <a href="#" class="evidence-link">🔗 Ver documentação</a>
                 </div>
+                
+                <!-- Card para adicionar nova evidência -->
+                <div class="evidence-item-add" onclick="addNewEvidence('urgencia')">
+                    <div class="add-content">
+                        <div class="add-icon">+</div>
+                        <div class="add-text">
+                            <div class="add-title">Adicionar Nova Evidência</div>
+                            <div class="add-subtitle">Urgencia & Ritmo</div>
+                        </div>
+                    </div>
+                </div>
             </div>
             
             <!-- Disrupción & Profundidad -->
@@ -679,6 +748,17 @@
                     <p>Análise Duolingo (gamificação): implementação de "streak" e "conquistas" em tool dev (+45% engajamento)</p>
                     <a href="#" class="evidence-link">🔗 Ver metrics</a>
                 </div>
+                
+                <!-- Card para adicionar nova evidência -->
+                <div class="evidence-item-add" onclick="addNewEvidence('disrupcion')">
+                    <div class="add-content">
+                        <div class="add-icon">+</div>
+                        <div class="add-text">
+                            <div class="add-title">Adicionar Nova Evidência</div>
+                            <div class="add-subtitle">Disrupción & Profundidad</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -706,6 +786,14 @@
         // Flip Card Function
         function flipCard(card) {
             card.classList.toggle('flipped');
+        }
+        
+        // Função para adicionar nova evidência
+        function addNewEvidence(section) {
+            console.log(`Adicionando nova evidência para seção: ${section}`);
+            // Aqui você pode implementar a lógica para adicionar uma nova evidência
+            // Por exemplo: abrir um modal, redirecionar para um formulário, etc.
+            alert(`Funcionalidade para adicionar evidência em "${section}" será implementada aqui!`);
         }
         
         // Adicionar efeito hover baseado na posição do mouse
