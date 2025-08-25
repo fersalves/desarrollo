@@ -16,12 +16,18 @@
             background: #0a0a0f;
             color: white;
             line-height: 1.6;
+            padding-top: 80px;
         }
         
         .header {
             background: #1a1a2e;
             padding: 1rem 2rem;
             border-bottom: 1px solid #333;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
         }
         
         .header h1 {
@@ -49,6 +55,70 @@
             padding: 1.5rem;
             border-radius: 8px;
             border-left: 4px solid #00d4ff;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .card-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .card-bottom {
+            margin-top: auto;
+        }
+        
+        /* Flip Card Styles */
+        .flip-card {
+            background: transparent;
+            width: 100%;
+            height: 200px;
+            perspective: 1000px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            transform-origin: center center;
+        }
+        
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: left;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            background: #1e1e2e;
+            border-radius: 8px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+
+        }
+        
+        .flip-card-back {
+            transform: rotateY(180deg);
+        }
+        
+        .flip-indicator {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            color: #00d4ff;
+            font-size: 0.8rem;
+            opacity: 0.7;
         }
         
         .card h3 {
@@ -76,7 +146,8 @@
             height: 100%;
             background: linear-gradient(90deg, #00d4ff, #7c3aed);
             border-radius: 4px;
-            transition: width 0.3s ease;
+            width: 0%;
+            transition: width 1.5s ease-in-out;
         }
         
         .nav {
@@ -89,10 +160,12 @@
             background: #1e1e2e;
             color: white;
             border: 1px solid #333;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
             cursor: pointer;
             transition: background 0.3s;
+            font-size: 1rem;
+            font-weight: 500;
         }
         
         .nav-btn:hover, .nav-btn.active {
@@ -144,7 +217,7 @@
             font-size: 3rem;
             font-weight: bold;
             color: #00d4ff;
-            text-align: center;
+            text-align: right;
             margin: 1rem 0;
         }
         
@@ -152,7 +225,7 @@
             font-size: 1.5rem;
             font-weight: bold;
             color: #10b981;
-            text-align: center;
+            text-align: right;
         }
         
         .evidence-item {
@@ -193,219 +266,313 @@
 </head>
 <body>
     <header class="header">
-        <h1>📊 Dashboard de Desenvolvimento Pessoal</h1>
+        <h1>🚀 Dashboard de desenvolvimento pessoal da Fê</h1>
     </header>
 
     <div class="container">
         <div class="nav">
             <button class="nav-btn active" onclick="showSection('overview')">📊 Visão Geral</button>
             <button class="nav-btn" onclick="showSection('goals')">🎯 Metas</button>
-            <button class="nav-btn" onclick="showSection('kpis')">📈 KPIs</button>
             <button class="nav-btn" onclick="showSection('evidences')">🏆 Evidências</button>
         </div>
 
         <!-- Visão Geral -->
-        <div id="overview" class="section active">
-            <h2>📊 Visão Geral</h2>
+        <div id="overview" class="section active" style="margin-top: 3rem;">
             <div class="grid">
                 <div class="card">
                     <h3>🎯 Metas Ativas</h3>
-                    <div class="kpi">5</div>
+                    <div class="kpi">12</div>
                     <p>Objetivos em andamento</p>
                 </div>
                 <div class="card">
-                    <h3>📈 KPIs Monitorados</h3>
+                    <h3>📋 Metas Detalhadas</h3>
                     <div class="kpi">12</div>
-                    <p>Métricas de performance</p>
+                    <p>Com contexto flip interativo</p>
                 </div>
                 <div class="card">
                     <h3>🏆 Evidências</h3>
-                    <div class="kpi">8</div>
+                    <div class="kpi">10</div>
                     <p>Comprovações de resultados</p>
                 </div>
                 <div class="card">
                     <h3>📊 Performance Geral</h3>
-                    <div class="kpi">87%</div>
-                    <p>Índice de desenvolvimento</p>
+                    <div class="kpi">72%</div>
+                    <p>Média de progresso das metas</p>
                 </div>
             </div>
             
             <div class="card">
                 <h3>📈 Resumo de Performance</h3>
-                <p>✅ <strong>Metas concluídas este trimestre:</strong> 3 de 5</p>
-                <p>🚀 <strong>KPIs acima da meta:</strong> 9 de 12</p>
-                <p>🏆 <strong>Evidências mais recentes:</strong> Certificação AWS, Deploy Dashboard</p>
-                <p>📊 <strong>Tendência:</strong> Crescimento consistente em todas as áreas</p>
+                <p>✅ <strong>Metas em progresso:</strong> 12 objetivos ativos</p>
+                <p>🚀 <strong>Metas detalhadas:</strong> 12 com contexto flip interativo</p>
+                <p>🏆 <strong>Evidências coletadas:</strong> 10 comprovações de desenvolvimento</p>
+                <p>📊 <strong>Performance média:</strong> 72% de progresso geral</p>
             </div>
         </div>
 
         <!-- Metas -->
         <div id="goals" class="section">
-            <h2>🎯 Metas e Objetivos</h2>
-            <div class="grid">
-                <div class="card">
-                    <h3>🎓 Certificação AWS Solutions Architect</h3>
-                    <span class="project-status high">ALTA PRIORIDADE</span>
-                    <p style="margin: 1rem 0;">Conquistar a certificação AWS Solutions Architect Associate para expandir conhecimentos em cloud computing</p>
-                    <p><strong>Prazo:</strong> 30/06/2024</p>
-                    <div class="progress-bar" style="margin-top: 1rem;">
-                        <div class="progress-fill" style="width: 75%"></div>
+            <!-- Urgência & Ritmo -->
+            <div style="margin-bottom: 5rem;">
+                <h3 style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; font-size: 48px; font-weight: 300;">
+                    🔥 <span style="background: linear-gradient(90deg, #00d4ff, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Urgencia & Ritmo</span>
+                </h3>
+                <div class="grid" id="urgencyGoals">
+                    <div class="flip-card" onclick="flipCard(this)">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div class="card-content">
+                                    <h3>Empuja hoy, no mañana</h3>
+                                </div>
+                                <div class="card-bottom">
+                                    <div class="progress-bar" style="margin-top: 2rem;">
+                                        <div class="progress-fill" data-width="75%"></div>
+                                    </div>
+                                    <p style="text-align: right; margin-top: 0.5rem;">75%</p>
+                                </div>
+                            </div>
+                            <div class="flip-card-back">
+                                <h3>Empuja hoy, no mañana</h3>
+                                <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem; flex: 1;">Ante un blocker, define un próximo paso en el mismo día (no dejes que duerma).</p>
+                            </div>
+                        </div>
                     </div>
-                    <p style="text-align: center; margin-top: 0.5rem;">75% - Estudos avançados</p>
+                    
+                    <div class="flip-card" onclick="flipCard(this)">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div class="card-content">
+                                    <h3>Update proactivo</h3>
+                                </div>
+                                <div class="card-bottom">
+                                    <div class="progress-bar" style="margin-top: 2rem;">
+                                        <div class="progress-fill" data-width="85%"></div>
+                                    </div>
+                                    <p style="text-align: right; margin-top: 0.5rem;">85%</p>
+                                </div>
+                            </div>
+                            <div class="flip-card-back">
+                                <h3>Update proactivo</h3>
+                                <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem; flex: 1;">Da visibilidad sin que te la pidan (avance, bloqueo, decisión). Comunicación asíncrona.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flip-card" onclick="flipCard(this)">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div class="card-content">
+                                    <h3>Decide en baja fidelidad</h3>
+                                </div>
+                                <div class="card-bottom">
+                                    <div class="progress-bar" style="margin-top: 2rem;">
+                                        <div class="progress-fill" data-width="60%"></div>
+                                    </div>
+                                    <p style="text-align: right; margin-top: 0.5rem;">60%</p>
+                                </div>
+                            </div>
+                            <div class="flip-card-back">
+                                <h3>Decide en baja fidelidad</h3>
+                                <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem; flex: 1;">Muestra versiones rápidas (wireframe, sketch) en menos de 24h.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flip-card" onclick="flipCard(this)">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div class="card-content">
+                                    <h3>Marca el pulso</h3>
+                                </div>
+                                <div class="card-bottom">
+                                    <div class="progress-bar" style="margin-top: 2rem;">
+                                        <div class="progress-fill" data-width="70%"></div>
+                                    </div>
+                                    <p style="text-align: right; margin-top: 0.5rem;">70%</p>
+                                </div>
+                            </div>
+                            <div class="flip-card-back">
+                                <h3>Marca el pulso</h3>
+                                <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem; flex: 1;">Si el equipo se detiene, sé quien trae agenda clara, pregunta incómoda o propuesta de resolución.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flip-card" onclick="flipCard(this)">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div class="card-content">
+                                    <h3>Turnaround express</h3>
+                                </div>
+                                <div class="card-bottom">
+                                    <div class="progress-bar" style="margin-top: 2rem;">
+                                        <div class="progress-fill" data-width="80%"></div>
+                                    </div>
+                                    <p style="text-align: right; margin-top: 0.5rem;">80%</p>
+                                </div>
+                            </div>
+                            <div class="flip-card-back">
+                                <h3>Turnaround express</h3>
+                                <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem; flex: 1;">Ningún pedido o feedback queda sin respuesta más de 24h.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flip-card" onclick="flipCard(this)">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div class="card-content">
+                                    <h3>Feedback senior, acción rápida</h3>
+                                </div>
+                                <div class="card-bottom">
+                                    <div class="progress-bar" style="margin-top: 2rem;">
+                                        <div class="progress-fill" data-width="90%"></div>
+                                    </div>
+                                    <p style="text-align: right; margin-top: 0.5rem;">90%</p>
+                                </div>
+                            </div>
+                            <div class="flip-card-back">
+                                <h3>Feedback senior, acción rápida</h3>
+                                <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem; flex: 1;">Integra feedback de TL, PL o manager en hasta 48h y muestra la versión iterada.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flip-card" onclick="flipCard(this)">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div class="card-content">
+                                    <h3>Aprendizaje visible</h3>
+                                </div>
+                                <div class="card-bottom">
+                                    <div class="progress-bar" style="margin-top: 2rem;">
+                                        <div class="progress-fill" data-width="65%"></div>
+                                    </div>
+                                    <p style="text-align: right; margin-top: 0.5rem;">65%</p>
+                                </div>
+                            </div>
+                            <div class="flip-card-back">
+                                <h3>Aprendizaje visible</h3>
+                                <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem; flex: 1;">Explica en review qué cambió tu diseño gracias al feedback senior → que sea evidente que sumó valor.</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                
-                <div class="card">
-                    <h3>🌍 Contribuições Open Source</h3>
-                    <span class="project-status medium">MÉDIA PRIORIDADE</span>
-                    <p style="margin: 1rem 0;">Realizar 50 contribuições significativas para projetos open source para fortalecer portfólio</p>
-                    <p><strong>Prazo:</strong> 31/12/2024</p>
-                    <div class="progress-bar" style="margin-top: 1rem;">
-                        <div class="progress-fill" style="width: 35%"></div>
+            </div>
+            
+            <!-- Disrupción & Profundidad -->
+            <div style="margin-bottom: 2rem;">
+                <h3 style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; font-size: 48px; font-weight: 300;">
+                    💡 <span style="background: linear-gradient(90deg, #00d4ff, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Disrupción & Profundidad</span>
+                </h3>
+                <div class="grid" id="disruptionGoals">
+                    <div class="flip-card" onclick="flipCard(this)">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div class="card-content">
+                                    <h3>Trae siempre un plan B salvaje</h3>
+                                </div>
+                                <div class="card-bottom">
+                                    <div class="progress-bar" style="margin-top: 2rem;">
+                                        <div class="progress-fill" data-width="45%"></div>
+                                    </div>
+                                    <p style="text-align: right; margin-top: 0.5rem;">45%</p>
+                                </div>
+                            </div>
+                            <div class="flip-card-back">
+                                <h3>Trae siempre un plan B salvaje</h3>
+                                <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem; flex: 1;">Además de la opción segura, presenta una que incomode y abra debate.</p>
+                            </div>
+                        </div>
                     </div>
-                    <p style="text-align: center; margin-top: 0.5rem;">35% - 17/50 contribuições</p>
-                </div>
-                
-                <div class="card">
-                    <h3>📚 Dominar TypeScript</h3>
-                    <span class="project-status high">ALTA PRIORIDADE</span>
-                    <p style="margin: 1rem 0;">Desenvolver expertise avançada em TypeScript para projetos enterprise</p>
-                    <p><strong>Prazo:</strong> 15/05/2024</p>
-                    <div class="progress-bar" style="margin-top: 1rem;">
-                        <div class="progress-fill" style="width: 90%"></div>
+                    
+                    <div class="flip-card" onclick="flipCard(this)">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div class="card-content">
+                                    <h3>Mira afuera</h3>
+                                </div>
+                                <div class="card-bottom">
+                                    <div class="progress-bar" style="margin-top: 2rem;">
+                                        <div class="progress-fill" data-width="70%"></div>
+                                    </div>
+                                    <p style="text-align: right; margin-top: 0.5rem;">70%</p>
+                                </div>
+                            </div>
+                            <div class="flip-card-back">
+                                <h3>Mira afuera</h3>
+                                <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem; flex: 1;">Inspírate en 2 productos de otra industria antes de diseñar (gaming, música, fintech, etc).</p>
+                            </div>
+                        </div>
                     </div>
-                    <p style="text-align: center; margin-top: 0.5rem;">90% - Quase concluído</p>
-                </div>
-                
-                <div class="card">
-                    <h3>🚀 Lançar SaaS Próprio</h3>
-                    <span class="project-status medium">MÉDIA PRIORIDADE</span>
-                    <p style="margin: 1rem 0;">Desenvolver e lançar uma aplicação SaaS para validar habilidades empreendedoriais</p>
-                    <p><strong>Prazo:</strong> 30/09/2024</p>
-                    <div class="progress-bar" style="margin-top: 1rem;">
-                        <div class="progress-fill" style="width: 25%"></div>
+                    
+                    <div class="flip-card" onclick="flipCard(this)">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div class="card-content">
+                                    <h3>Rompe Andes con intención</h3>
+                                </div>
+                                <div class="card-bottom">
+                                    <div class="progress-bar" style="margin-top: 2rem;">
+                                        <div class="progress-fill" data-width="80%"></div>
+                                    </div>
+                                    <p style="text-align: right; margin-top: 0.5rem;">80%</p>
+                                </div>
+                            </div>
+                            <div class="flip-card-back">
+                                <h3>Rompe Andes con intención</h3>
+                                <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem; flex: 1;">Cuestiona al menos un patrón de casa por proyecto, argumenta por qué.</p>
+                            </div>
+                        </div>
                     </div>
-                    <p style="text-align: center; margin-top: 0.5rem;">25% - Fase de planejamento</p>
-                </div>
-                
-                <div class="card">
-                    <h3>💼 Networking Profissional</h3>
-                    <span class="project-status low">BAIXA PRIORIDADE</span>
-                    <p style="margin: 1rem 0;">Expandir rede profissional participando de 12 eventos tech por ano</p>
-                    <p><strong>Prazo:</strong> 31/12/2024</p>
-                    <div class="progress-bar" style="margin-top: 1rem;">
-                        <div class="progress-fill" style="width: 60%"></div>
+                    
+                    <div class="flip-card" onclick="flipCard(this)">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div class="card-content">
+                                    <h3>Prototipa con IA</h3>
+                                </div>
+                                <div class="card-bottom">
+                                    <div class="progress-bar" style="margin-top: 2rem;">
+                                        <div class="progress-fill" data-width="85%"></div>
+                                    </div>
+                                    <p style="text-align: right; margin-top: 0.5rem;">85%</p>
+                                </div>
+                            </div>
+                            <div class="flip-card-back">
+                                <h3>Prototipa con IA</h3>
+                                <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem; flex: 1;">Usa Cursor, Make, GPT, Gemini para acelerar variaciones y explorar ideas radicales.</p>
+                            </div>
+                        </div>
                     </div>
-                    <p style="text-align: center; margin-top: 0.5rem;">60% - 7/12 eventos</p>
+                    
+                    <div class="flip-card" onclick="flipCard(this)">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div class="card-content">
+                                    <h3>Benchmarka lo inesperado</h3>
+                                </div>
+                                <div class="card-bottom">
+                                    <div class="progress-bar" style="margin-top: 2rem;">
+                                        <div class="progress-fill" data-width="55%"></div>
+                                    </div>
+                                    <p style="text-align: right; margin-top: 0.5rem;">55%</p>
+                                </div>
+                            </div>
+                            <div class="flip-card-back">
+                                <h3>Benchmarka lo inesperado</h3>
+                                <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem; flex: 1;">Analiza una app o producto que el equipo nunca miraría, trae un insight accionable.</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- KPIs -->
-        <div id="kpis" class="section">
-            <h2>📈 Key Performance Indicators</h2>
-            
-            <h3 style="color: #00d4ff; margin-bottom: 1rem;">💻 Métricas Técnicas</h3>
-            <div class="grid">
-                <div class="card">
-                    <h3>Commits por Semana</h3>
-                    <div class="kpi-large">47</div>
-                    <p>🎯 Meta: 35 | 📈 +34% vs meta</p>
-                </div>
-                
-                <div class="card">
-                    <h3>Linhas de Código</h3>
-                    <div class="kpi-large">12.8K</div>
-                    <p>📊 Este mês | 🚀 +15% vs mês anterior</p>
-                </div>
-                
-                <div class="card">
-                    <h3>Coverage de Testes</h3>
-                    <div class="kpi-large">94%</div>
-                    <p>🎯 Meta: 90% | ✅ Acima da meta</p>
-                </div>
-                
-                <div class="card">
-                    <h3>Issues Fechadas</h3>
-                    <div class="kpi-large">23</div>
-                    <p>🔄 Esta semana | 📈 Tendência positiva</p>
-                </div>
-            </div>
-            
-            <h3 style="color: #00d4ff; margin: 2rem 0 1rem;">📚 Métricas de Aprendizado</h3>
-            <div class="grid">
-                <div class="card">
-                    <h3>Horas de Estudo</h3>
-                    <div class="metric-value">28h</div>
-                    <p>📅 Esta semana</p>
-                    <div class="progress-bar" style="margin-top: 1rem;">
-                        <div class="progress-fill" style="width: 93%"></div>
-                    </div>
-                    <p style="text-align: center; margin-top: 0.5rem;">93% da meta semanal (30h)</p>
-                </div>
-                
-                <div class="card">
-                    <h3>Cursos Concluídos</h3>
-                    <div class="metric-value">3</div>
-                    <p>📚 Este trimestre</p>
-                    <div class="progress-bar" style="margin-top: 1rem;">
-                        <div class="progress-fill" style="width: 75%"></div>
-                    </div>
-                    <p style="text-align: center; margin-top: 0.5rem;">75% da meta trimestral (4)</p>
-                </div>
-                
-                <div class="card">
-                    <h3>Artigos Lidos</h3>
-                    <div class="metric-value">15</div>
-                    <p>📖 Este mês</p>
-                    <div class="progress-bar" style="margin-top: 1rem;">
-                        <div class="progress-fill" style="width: 100%"></div>
-                    </div>
-                    <p style="text-align: center; margin-top: 0.5rem;">100% da meta mensal ✅</p>
-                </div>
-                
-                <div class="card">
-                    <h3>Hands-on Projects</h3>
-                    <div class="metric-value">4</div>
-                    <p>🛠️ Projetos práticos</p>
-                    <div class="progress-bar" style="margin-top: 1rem;">
-                        <div class="progress-fill" style="width: 80%"></div>
-                    </div>
-                    <p style="text-align: center; margin-top: 0.5rem;">80% da meta trimestral (5)</p>
-                </div>
-            </div>
-            
-            <h3 style="color: #00d4ff; margin: 2rem 0 1rem;">🌐 Métricas de Visibilidade</h3>
-            <div class="grid">
-                <div class="card">
-                    <h3>LinkedIn Impressions</h3>
-                    <div class="metric-value">2.4K</div>
-                    <p>👀 Últimos 30 dias | +18% vs anterior</p>
-                </div>
-                
-                <div class="card">
-                    <h3>GitHub Stars</h3>
-                    <div class="metric-value">127</div>
-                    <p>⭐ Repositórios públicos | +23 este mês</p>
-                </div>
-                
-                <div class="card">
-                    <h3>Tech Articles</h3>
-                    <div class="metric-value">2</div>
-                    <p>✍️ Artigos publicados este trimestre</p>
-                </div>
-                
-                <div class="card">
-                    <h3>Networking Score</h3>
-                    <div class="metric-value">8.7</div>
-                    <p>🤝 Índice de conexões (0-10)</p>
-                </div>
-            </div>
-        </div>
+
 
         <!-- Evidências -->
-        <div id="evidences" class="section">
-            <h2>🏆 Evidências de Desenvolvimento</h2>
-            
+        <div id="evidences" class="section" style="margin-top: 3rem;">
             <h3 style="color: #00d4ff; margin-bottom: 1rem;">🎓 Certificações e Cursos</h3>
             <div class="evidence-item">
                 <div class="evidence-title">AWS Cloud Practitioner Certification</div>
@@ -505,11 +672,97 @@
             const buttons = document.querySelectorAll('.nav-btn');
             buttons.forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
+            
+            // Animar barras de progresso da seção ativa
+            setTimeout(() => {
+                animateProgressBars();
+            }, 100);
         }
         
-        // Atualizar timestamp
+        // Flip Card Function
+        function flipCard(card) {
+            card.classList.toggle('flipped');
+        }
+        
+        // Adicionar efeito hover baseado na posição do mouse
+        function setupCardHoverEffects() {
+            const flipCards = document.querySelectorAll('.flip-card');
+            console.log(`🎮 Configurando hover para ${flipCards.length} cards`);
+            
+            flipCards.forEach((card, index) => {
+                console.log(`✅ Card ${index + 1} configurado`);
+                
+                // Definir handlers
+                card._mouseEnterHandler = function() {
+                    this.style.transform = 'translateY(-3px)';
+                };
+                
+                card._mouseMoveHandler = function(e) {
+                    const rect = this.getBoundingClientRect();
+                    const cardCenterX = rect.left + rect.width / 2;
+                    const mouseX = e.clientX;
+                    
+                    // Calcular a diferença entre mouse e centro do card
+                    const deltaX = mouseX - cardCenterX;
+                    
+                    // Converter para ângulo de rotação (máximo 25 graus)
+                    const maxRotation = 25;
+                    const rotationY = (deltaX / (rect.width / 2)) * maxRotation;
+                    
+                    // Aplicar transformação
+                    this.style.transform = `translateY(-3px) rotateY(${rotationY}deg)`;
+                };
+                
+                card._mouseLeaveHandler = function() {
+                    this.style.transform = '';
+                };
+                
+                // Limpar eventos anteriores
+                card.removeEventListener('mouseenter', card._mouseEnterHandler);
+                card.removeEventListener('mousemove', card._mouseMoveHandler);
+                card.removeEventListener('mouseleave', card._mouseLeaveHandler);
+                
+                // Adicionar novos eventos
+                card.addEventListener('mouseenter', card._mouseEnterHandler);
+                card.addEventListener('mousemove', card._mouseMoveHandler);
+                card.addEventListener('mouseleave', card._mouseLeaveHandler);
+            });
+        }
+        
+        // Animar barras de progresso
+        function animateProgressBars() {
+            // Resetar todas as barras primeiro
+            const allProgressBars = document.querySelectorAll('.progress-fill');
+            allProgressBars.forEach(bar => {
+                bar.style.width = '0%';
+            });
+            
+            // Animar apenas barras da seção ativa
+            const activeSection = document.querySelector('.section.active');
+            if (activeSection) {
+                const progressBars = activeSection.querySelectorAll('.progress-fill');
+                
+                progressBars.forEach((bar, index) => {
+                    // Delay escalonado para efeito mais dinâmico
+                    setTimeout(() => {
+                        const targetWidth = bar.getAttribute('data-width');
+                        if (targetWidth) {
+                            bar.style.width = targetWidth;
+                        }
+                    }, index * 150); // 150ms de delay entre cada barra
+                });
+            }
+        }
+        
+        // Atualizar timestamp e inicializar animações
         document.addEventListener('DOMContentLoaded', function() {
             console.log('Dashboard reorganizado carregado com sucesso! 🎉');
+            
+            // Aguardar um pouco para garantir que tudo foi renderizado
+            setTimeout(() => {
+                animateProgressBars();
+                setupCardHoverEffects(); // Configurar efeitos de hover
+            }, 500);
         });
     </script>
 </body>
