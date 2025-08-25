@@ -293,6 +293,24 @@
             color: white;
         }
         
+        /* Evidence Author */
+        .evidence-author {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            color: #a1a1aa;
+        }
+        
+        .evidence-author-avatar {
+            font-size: 1rem;
+        }
+        
+        .evidence-author-name {
+            font-weight: 500;
+        }
+        
         /* Card para adicionar evidência */
         .evidence-item-add {
             background: #1e1e2e;
@@ -423,7 +441,8 @@
         }
         
         .form-group input,
-        .form-group textarea {
+        .form-group textarea,
+        .form-group select {
             width: 100%;
             padding: 0.75rem;
             border: 1px solid #444;
@@ -435,9 +454,15 @@
         }
         
         .form-group input:focus,
-        .form-group textarea:focus {
+        .form-group textarea:focus,
+        .form-group select:focus {
             outline: none;
             border-color: #00d4ff;
+        }
+        
+        .form-group select option {
+            background: #2a2a3e;
+            color: white;
         }
         
         .form-group textarea {
@@ -1067,8 +1092,18 @@
                 <span class="close" onclick="closeAuthModal()">&times;</span>
             </div>
             <div class="modal-body">
-                <p style="color: #a1a1aa; margin-bottom: 1.5rem;">Digite a senha para realizar esta ação:</p>
+                <p style="color: #a1a1aa; margin-bottom: 1.5rem;">Identifique-se e digite a senha para realizar esta ação:</p>
                 <form id="authForm">
+                    <div class="form-group">
+                        <label for="userSelect">Quem é você?</label>
+                        <select id="userSelect" name="user" required>
+                            <option value="">Selecione...</option>
+                            <option value="fe">👩‍💻 Fê</option>
+                            <option value="admin">👨‍💼 Admin</option>
+                            <option value="guest">👤 Convidado</option>
+                            <option value="team">👥 Equipe</option>
+                        </select>
+                    </div>
                     <div class="form-group">
                         <label for="authPassword">Senha:</label>
                         <input type="password" id="authPassword" name="password" required placeholder="Digite a senha">
@@ -1090,8 +1125,9 @@
             // Verificar se mudou de seção e limpar autenticação
             if (currentActiveSection !== sectionId) {
                 authenticatedSection = null; // Limpar autenticação ao mudar de seção
+                currentUser = null; // Limpar usuário atual
                 currentActiveSection = sectionId;
-                console.log(`🔄 Mudança de seção: ${sectionId} - Autenticação limpa`);
+                console.log(`🔄 Mudança de seção: ${sectionId} - Autenticação e usuário limpos`);
             }
             
             // Esconder todas as seções
@@ -1126,6 +1162,15 @@
         let pendingActionData = null;
         let authenticatedSection = null; // Seção atualmente autenticada
         let currentActiveSection = 'overview'; // Seção ativa atual
+        let currentUser = null; // Usuário atualmente autenticado
+        
+        // Mapeamento de usuários
+        const USER_INFO = {
+            'fe': { name: 'Fê', avatar: '👩‍💻' },
+            'admin': { name: 'Admin', avatar: '👨‍💼' },
+            'guest': { name: 'Convidado', avatar: '👤' },
+            'team': { name: 'Equipe', avatar: '👥' }
+        };
         
         // Função para adicionar nova evidência
         function addNewEvidence(section) {
@@ -1217,13 +1262,20 @@
             ];
             const formattedDate = `${monthNames[dateObj.getMonth()]} ${dateObj.getFullYear()}`;
             
+            // Obter informações do usuário atual
+            const userInfo = USER_INFO[currentUser] || { name: 'Desconhecido', avatar: '❓' };
+            
             // Criar o HTML da nova evidência
             const evidenceHTML = `
-                <div class="evidence-item">
+                <div class="evidence-item" data-author="${currentUser}">
                     <div class="evidence-title">${evidenceData.title}</div>
                     <div class="evidence-date">📅 ${formattedDate}</div>
                     <p>${evidenceData.description}</p>
                     ${evidenceData.link ? `<a href="${evidenceData.link}" class="evidence-link">🔗 ${evidenceData.linkName}</a>` : ''}
+                    <div class="evidence-author">
+                        <span class="evidence-author-avatar">${userInfo.avatar}</span>
+                        <span class="evidence-author-name">Adicionado por ${userInfo.name}</span>
+                    </div>
                     <div class="evidence-actions">
                         <button class="evidence-action copy" onclick="copyEvidence(this)" title="Copiar evidência">
                             📋 Copiar
@@ -1365,13 +1417,14 @@
             modal.style.display = 'block';
             document.body.style.overflow = 'hidden';
             
-            // Limpar campo de senha e erro
+            // Limpar campos e erro
+            document.getElementById('userSelect').value = '';
             document.getElementById('authPassword').value = '';
             document.getElementById('authError').style.display = 'none';
             
-            // Focar no campo de senha
+            // Focar no select de usuário
             setTimeout(() => {
-                document.getElementById('authPassword').focus();
+                document.getElementById('userSelect').focus();
             }, 100);
         }
         
@@ -1404,13 +1457,24 @@
         document.getElementById('authForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
+            const selectedUser = document.getElementById('userSelect').value;
             const password = document.getElementById('authPassword').value;
             const errorElement = document.getElementById('authError');
             
+            if (!selectedUser) {
+                errorElement.textContent = 'Por favor, selecione quem você é.';
+                errorElement.style.display = 'block';
+                document.getElementById('userSelect').focus();
+                return;
+            }
+            
             if (password === AUTH_PASSWORD) {
+                currentUser = selectedUser; // Armazenar usuário atual
+                console.log(`👤 Usuário autenticado: ${USER_INFO[selectedUser].name}`);
                 closeAuthModal();
                 executeAuthenticatedAction();
             } else {
+                errorElement.textContent = 'Senha incorreta. Tente novamente.';
                 errorElement.style.display = 'block';
                 document.getElementById('authPassword').value = '';
                 document.getElementById('authPassword').focus();
