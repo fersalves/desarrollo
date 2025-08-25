@@ -1270,12 +1270,11 @@
                 linkName: document.getElementById('evidenceLinkName').value || 'Ver mais'
             };
             
-            console.log('Nova evidência:', formData);
+            console.log('🆕 Nova evidência:', formData);
+            console.log('📍 Seção atual:', currentSection);
+            console.log('👤 Usuário atual:', currentUser);
             
-            // Adicionar a evidência na lista
-            addEvidenceToList(formData);
-            
-            // Salvar no localStorage
+            // Preparar dados para salvar
             const dateObj = new Date(formData.date + '-01');
             const monthNames = [
                 'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
@@ -1283,24 +1282,26 @@
             ];
             const dataToSave = {
                 ...formData,
+                section: currentSection,
                 user: currentUser,
                 formattedDate: `${monthNames[dateObj.getMonth()]} ${dateObj.getFullYear()}`
             };
-            const savedId = saveEvidenceToStorage(dataToSave);
             
-            // Atualizar o ID no DOM se foi salvo com sucesso
-            if (savedId) {
-                const lastEvidenceItem = document.querySelector(`[onclick*="${currentSection}"]`).previousElementSibling;
-                if (lastEvidenceItem && lastEvidenceItem.classList.contains('evidence-item')) {
-                    lastEvidenceItem.setAttribute('data-evidence-id', savedId);
-                }
-            }
+            console.log('💾 Dados para salvar:', dataToSave);
+            
+            // Salvar no localStorage PRIMEIRO
+            const savedId = saveEvidenceToStorage(dataToSave);
+            console.log('🆔 ID salvo:', savedId);
+            
+            // Adicionar a evidência na lista COM o ID
+            formData.savedId = savedId;
+            addEvidenceToList(formData);
             
             // Atualizar contador na visão geral
             updateEvidenceCount();
             
             // Mostrar confirmação com snackbar
-            showSnackbar(`✅ Evidência "${formData.title}" adicionada com sucesso!`);
+            showSnackbar(`Evidência "${formData.title}" adicionada com sucesso!`);
             
             // Fechar modal
             closeModal();
@@ -1336,8 +1337,8 @@
             // Obter informações do usuário atual
             const userInfo = USER_INFO[currentUser] || { name: 'Desconhecido', avatar: '❓' };
             
-            // Gerar ID único para a evidência
-            const evidenceId = Date.now() + Math.random();
+            // Usar ID salvo ou gerar novo
+            const evidenceId = evidenceData.savedId || (Date.now() + Math.random());
             
             // Criar o HTML da nova evidência
             const evidenceHTML = `
@@ -1818,9 +1819,32 @@
             }
         }
         
+        // Função para testar localStorage
+        function testLocalStorage() {
+            try {
+                const testKey = 'test-storage';
+                const testValue = { test: 'funcionando', timestamp: Date.now() };
+                localStorage.setItem(testKey, JSON.stringify(testValue));
+                const retrieved = JSON.parse(localStorage.getItem(testKey));
+                localStorage.removeItem(testKey);
+                console.log('✅ localStorage funcionando:', retrieved);
+                return true;
+            } catch (error) {
+                console.error('❌ localStorage com problema:', error);
+                return false;
+            }
+        }
+        
         // Atualizar timestamp e inicializar animações
         document.addEventListener('DOMContentLoaded', function() {
             console.log('Dashboard reorganizado carregado com sucesso! 🎉');
+            
+            // Testar localStorage
+            testLocalStorage();
+            
+            // Verificar evidências existentes
+            const existing = localStorage.getItem('dashboard-evidences');
+            console.log('🗂️ Evidências existentes no localStorage:', existing);
             
             // Aguardar um pouco para garantir que tudo foi renderizado
             setTimeout(() => {
