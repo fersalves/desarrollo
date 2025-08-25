@@ -1059,6 +1059,32 @@
         </div>
     </div>
 
+    <!-- Modal de Autenticação -->
+    <div id="authModal" class="modal">
+        <div class="modal-content" style="max-width: 400px;">
+            <div class="modal-header">
+                <h2>Autenticação Necessária</h2>
+                <span class="close" onclick="closeAuthModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p style="color: #a1a1aa; margin-bottom: 1.5rem;">Digite a senha para realizar esta ação:</p>
+                <form id="authForm">
+                    <div class="form-group">
+                        <label for="authPassword">Senha:</label>
+                        <input type="password" id="authPassword" name="password" required placeholder="Digite a senha">
+                    </div>
+                    <div id="authError" style="color: #ef4444; font-size: 0.9rem; margin-top: 0.5rem; display: none;">
+                        Senha incorreta. Tente novamente.
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-cancel" onclick="closeAuthModal()">Cancelar</button>
+                        <button type="submit" class="btn-save">Confirmar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script>
         function showSection(sectionId) {
             // Esconder todas as seções
@@ -1087,10 +1113,14 @@
         // Variável global para armazenar a seção atual
         let currentSection = '';
         
+        // Configuração de autenticação
+        const AUTH_PASSWORD = 'fe2025'; // Altere esta senha conforme necessário
+        let pendingAction = null;
+        let pendingActionData = null;
+        
         // Função para adicionar nova evidência
         function addNewEvidence(section) {
-            currentSection = section;
-            openModal();
+            authenticateAction('add', { section: section });
         }
         
         // Função para abrir o modal
@@ -1215,6 +1245,11 @@
         
         // Função para copiar evidência
         function copyEvidence(button) {
+            authenticateAction('copy', { button: button });
+        }
+        
+        // Função interna para copiar evidência (após autenticação)
+        function _copyEvidence(button) {
             const evidenceItem = button.closest('.evidence-item');
             
             // Extrair dados da evidência
@@ -1270,6 +1305,11 @@
         
         // Função para deletar evidência
         function deleteEvidence(button) {
+            authenticateAction('delete', { button: button });
+        }
+        
+        // Função interna para deletar evidência (após autenticação)
+        function _deleteEvidence(button) {
             const evidenceItem = button.closest('.evidence-item');
             const title = evidenceItem.querySelector('.evidence-title').textContent;
             
@@ -1279,6 +1319,84 @@
                 console.log(`🗑️ Evidência deletada: ${title}`);
             }
         }
+        
+        // Sistema de Autenticação
+        function authenticateAction(action, data) {
+            pendingAction = action;
+            pendingActionData = data;
+            openAuthModal();
+        }
+        
+        function openAuthModal() {
+            const modal = document.getElementById('authModal');
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            
+            // Limpar campo de senha e erro
+            document.getElementById('authPassword').value = '';
+            document.getElementById('authError').style.display = 'none';
+            
+            // Focar no campo de senha
+            setTimeout(() => {
+                document.getElementById('authPassword').focus();
+            }, 100);
+        }
+        
+        function closeAuthModal() {
+            const modal = document.getElementById('authModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            
+            // Limpar dados pendentes
+            pendingAction = null;
+            pendingActionData = null;
+        }
+        
+        function executeAuthenticatedAction() {
+            if (!pendingAction || !pendingActionData) return;
+            
+            switch (pendingAction) {
+                case 'add':
+                    currentSection = pendingActionData.section;
+                    openModal();
+                    break;
+                case 'copy':
+                    _copyEvidence(pendingActionData.button);
+                    break;
+                case 'delete':
+                    _deleteEvidence(pendingActionData.button);
+                    break;
+            }
+            
+            // Limpar dados pendentes
+            pendingAction = null;
+            pendingActionData = null;
+        }
+        
+        // Event listener para o formulário de autenticação
+        document.getElementById('authForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const password = document.getElementById('authPassword').value;
+            const errorElement = document.getElementById('authError');
+            
+            if (password === AUTH_PASSWORD) {
+                closeAuthModal();
+                executeAuthenticatedAction();
+            } else {
+                errorElement.style.display = 'block';
+                document.getElementById('authPassword').value = '';
+                document.getElementById('authPassword').focus();
+            }
+        });
+        
+        // Fechar modal de auth ao clicar fora
+        window.addEventListener('click', function(event) {
+            const authModal = document.getElementById('authModal');
+            if (event.target === authModal) {
+                closeAuthModal();
+            }
+        });
         
         // Adicionar efeito hover baseado na posição do mouse
         function setupCardHoverEffects() {
