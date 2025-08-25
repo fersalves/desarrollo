@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste - Dashboard Funcionando</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #0a0a0f;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+            padding: 2rem;
+            background: #1a1a2e;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 212, 255, 0.3);
+        }
+        h1 {
+            color: #00d4ff;
+            margin-bottom: 1rem;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #00d4ff, #7c3aed);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 10px;
+            transition: transform 0.3s;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎉 GitHub Pages Funcionando!</h1>
+        <p>Se você está vendo esta página, o GitHub Pages está funcionando corretamente.</p>
+        <a href="dashboard.html" class="btn">🚀 Abrir Dashboard Completo</a>
+        <a href="index.html" class="btn">📊 Abrir via Index</a>
+        <p><strong>Repositório:</strong> fersalves/desarrollo</p>
+        <p><strong>Status:</strong> ✅ Online</p>
+        <p><strong>Última atualização:</strong> <span id="time"></span></p>
+    </div>
+    
+    <script>
+        document.getElementById('time').textContent = new Date().toLocaleString('pt-BR');
+    </script>
+</body>
+</html>
