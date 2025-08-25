@@ -399,7 +399,7 @@
                     <div class="metric-value">28h</div>
                     <p>📅 Esta semana</p>
                     <div class="progress-bar" style="margin-top: 1rem;">
-                        <div class="progress-fill" style="width: 93%"></div>
+                        <div class="progress-fill" data-width="93%"></div>
                     </div>
                     <p style="text-align: center; margin-top: 0.5rem;">93% da meta semanal (30h)</p>
                 </div>
@@ -419,7 +419,7 @@
                     <div class="metric-value">15</div>
                     <p>📖 Este mês</p>
                     <div class="progress-bar" style="margin-top: 1rem;">
-                        <div class="progress-fill" style="width: 100%"></div>
+                        <div class="progress-fill" data-width="100%"></div>
                     </div>
                     <p style="text-align: center; margin-top: 0.5rem;">100% da meta mensal ✅</p>
                 </div>
@@ -566,21 +566,36 @@
             const buttons = document.querySelectorAll('.nav-btn');
             buttons.forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
+            
+            // Animar barras de progresso da seção ativa
+            setTimeout(() => {
+                animateProgressBars();
+            }, 100);
         }
         
         // Animar barras de progresso
         function animateProgressBars() {
-            const progressBars = document.querySelectorAll('.progress-fill');
-            
-            progressBars.forEach((bar, index) => {
-                // Delay escalonado para efeito mais dinâmico
-                setTimeout(() => {
-                    const targetWidth = bar.style.width || bar.getAttribute('data-width');
-                    if (targetWidth) {
-                        bar.style.width = targetWidth;
-                    }
-                }, index * 150); // 150ms de delay entre cada barra
+            // Resetar todas as barras primeiro
+            const allProgressBars = document.querySelectorAll('.progress-fill');
+            allProgressBars.forEach(bar => {
+                bar.style.width = '0%';
             });
+            
+            // Animar apenas barras da seção ativa
+            const activeSection = document.querySelector('.section.active');
+            if (activeSection) {
+                const progressBars = activeSection.querySelectorAll('.progress-fill');
+                
+                progressBars.forEach((bar, index) => {
+                    // Delay escalonado para efeito mais dinâmico
+                    setTimeout(() => {
+                        const targetWidth = bar.getAttribute('data-width');
+                        if (targetWidth) {
+                            bar.style.width = targetWidth;
+                        }
+                    }, index * 150); // 150ms de delay entre cada barra
+                });
+            }
         }
         
         // Atualizar timestamp e inicializar animações
