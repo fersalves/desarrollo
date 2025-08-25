@@ -689,13 +689,17 @@
         // Adicionar efeito hover baseado na posição do mouse
         function setupCardHoverEffects() {
             const flipCards = document.querySelectorAll('.flip-card');
+            console.log(`🎮 Configurando hover para ${flipCards.length} cards`);
             
-            flipCards.forEach(card => {
-                card.addEventListener('mouseenter', function() {
-                    this.style.transform = 'translateY(-3px)';
-                });
+            flipCards.forEach((card, index) => {
+                console.log(`✅ Card ${index + 1} configurado`);
                 
-                card.addEventListener('mousemove', function(e) {
+                // Definir handlers
+                card._mouseEnterHandler = function() {
+                    this.style.transform = 'translateY(-3px)';
+                };
+                
+                card._mouseMoveHandler = function(e) {
                     const rect = this.getBoundingClientRect();
                     const cardCenterX = rect.left + rect.width / 2;
                     const mouseX = e.clientX;
@@ -703,17 +707,27 @@
                     // Calcular a diferença entre mouse e centro do card
                     const deltaX = mouseX - cardCenterX;
                     
-                    // Converter para ângulo de rotação (máximo 15 graus)
-                    const maxRotation = 15;
+                    // Converter para ângulo de rotação (máximo 25 graus)
+                    const maxRotation = 25;
                     const rotationY = (deltaX / (rect.width / 2)) * maxRotation;
                     
                     // Aplicar transformação
                     this.style.transform = `translateY(-3px) rotateY(${rotationY}deg)`;
-                });
+                };
                 
-                card.addEventListener('mouseleave', function() {
+                card._mouseLeaveHandler = function() {
                     this.style.transform = '';
-                });
+                };
+                
+                // Limpar eventos anteriores
+                card.removeEventListener('mouseenter', card._mouseEnterHandler);
+                card.removeEventListener('mousemove', card._mouseMoveHandler);
+                card.removeEventListener('mouseleave', card._mouseLeaveHandler);
+                
+                // Adicionar novos eventos
+                card.addEventListener('mouseenter', card._mouseEnterHandler);
+                card.addEventListener('mousemove', card._mouseMoveHandler);
+                card.addEventListener('mouseleave', card._mouseLeaveHandler);
             });
         }
         
