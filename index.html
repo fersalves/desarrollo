@@ -1408,17 +1408,23 @@
         
         // Função para executar ação diretamente (sem modal de auth)
         function executeAction(action, data) {
+            console.log(`🚀 Executando ação: ${action}`);
             switch (action) {
                 case 'add':
                     currentSection = data.section;
+                    console.log(`📝 Abrindo modal para adicionar evidência na seção: ${data.section}`);
                     openModal();
                     break;
                 case 'copy':
+                    console.log(`📋 Copiando evidência`);
                     _copyEvidence(data.button);
                     break;
                 case 'delete':
+                    console.log(`🗑️ Deletando evidência`);
                     _deleteEvidence(data.button);
                     break;
+                default:
+                    console.error(`❌ Ação desconhecida: ${action}`);
             }
         }
         
@@ -1449,12 +1455,16 @@
         }
         
         function executeAuthenticatedAction() {
-            if (!pendingAction || !pendingActionData) return;
+            if (!pendingAction || !pendingActionData) {
+                console.error(`❌ Erro: pendingAction='${pendingAction}', pendingActionData=`, pendingActionData);
+                return;
+            }
             
             // Detectar seção ativa atual e marcar como autenticada
             currentActiveSection = getCurrentActiveSection();
             authenticatedSection = currentActiveSection;
             console.log(`🔓 Seção ${currentActiveSection} autenticada com sucesso`);
+            console.log(`⚡ Executando ação pendente: ${pendingAction}`);
             
             // Executar a ação
             executeAction(pendingAction, pendingActionData);
