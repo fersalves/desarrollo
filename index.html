@@ -1435,7 +1435,7 @@
         };
         
         // Função para abrir modal de evidências
-        function openEvidenceModal(goalKey, event) {
+        async function openEvidenceModal(goalKey, event) {
             // Impedir que o clique se propague para o card (evitar flip)
             if (event) {
                 event.stopPropagation();
@@ -1461,7 +1461,7 @@
                 evidenceGrid.innerHTML = '';
                 
                 // Carregar evidências salvas
-                const savedEvidences = loadSavedEvidences();
+                const savedEvidences = await loadSavedEvidences();
                 const goalEvidences = savedEvidences[goalKey] || [];
                 
                 console.log('Carregando evidências para:', goalKey);
@@ -1632,24 +1632,43 @@
             }
         }
         
-        // Funções para localStorage
-        function loadSavedEvidences() {
+        // Funções para carregar evidências do GitHub
+        async function loadSavedEvidences() {
             try {
-                const saved = localStorage.getItem('dashboardEvidences');
-                console.log('Carregando do localStorage:', saved);
-                return saved ? JSON.parse(saved) : {};
+                console.log('Carregando evidências do GitHub...');
+                const response = await fetch('./evidences.json');
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('Evidências carregadas do GitHub:', data.evidences);
+                    return data.evidences || {};
+                } else {
+                    console.log('Arquivo evidences.json não encontrado, usando dados vazios');
+                    return {};
+                }
             } catch (error) {
-                console.error('Erro ao carregar evidências:', error);
-                return {};
+                console.error('Erro ao carregar evidências do GitHub:', error);
+                // Fallback para localStorage temporariamente
+                try {
+                    const saved = localStorage.getItem('dashboardEvidences');
+                    return saved ? JSON.parse(saved) : {};
+                } catch (localError) {
+                    console.error('Erro no fallback localStorage:', localError);
+                    return {};
+                }
             }
         }
         
         function saveEvidences(evidences) {
             try {
+                // Salvar temporariamente no localStorage
                 localStorage.setItem('dashboardEvidences', JSON.stringify(evidences));
-                console.log('Evidências salvas no localStorage:', evidences);
+                console.log('Evidências salvas temporariamente no localStorage:', evidences);
+                
+                // Mostrar mensagem explicativa
+                showSnackbar('Evidência salva localmente! Para persistir permanentemente, as evidências serão salvas no GitHub em breve.', 'success');
             } catch (error) {
                 console.error('Erro ao salvar evidências:', error);
+                showSnackbar('Erro ao salvar evidência', 'error');
             }
         }
         
@@ -2289,79 +2308,18 @@
             document.body.style.overflow = 'auto';
         }
         
-        // Função copyEvidenceFromModal - movida para o HEAD
-        
-        // Função deleteEvidenceFromModal - movida para o HEAD
-        
-        // Variável currentModalGoal - já declarada no HEAD
-        
         // Função para adicionar nova evidência a partir do modal
         function addNewEvidenceFromModal(goalKey) {
             console.log('Adicionar nova evidência para:', goalKey);
             currentModalGoal = goalKey;
-            currentSection = goalKey;
             
             // Fechar modal de visualização
             closeViewEvidenceModal();
             
             // Abrir modal de adicionar evidência
-            openModal();
-        }
-        
-        // Função para abrir o modal de adicionar evidência
-        function openModal() {
-            const modal = document.getElementById('evidenceModal');
-            modal.style.display = 'block';
-            document.body.style.overflow = 'hidden';
-            
-            // Limpar formulário
-            document.getElementById('evidenceForm').reset();
-            
-            // Definir data padrão como agosto 2025
-            document.getElementById('evidenceDate').value = '2025-08';
-        }
-        
-        // Função para fechar o modal de adicionar evidência
-        function closeModal() {
-            const modal = document.getElementById('evidenceModal');
-            modal.style.display = 'none';
-            document.body.style.overflow = 'auto';
-            
-            // Não zerar currentModalGoal aqui - deixar para quem chama decidir
-        }
-        
-        // Função para animar barras de progresso
-        function animateProgressBars() {
-            // Resetar todas as barras primeiro
-            const allProgressBars = document.querySelectorAll('.progress-fill');
-            allProgressBars.forEach(bar => {
-                bar.style.width = '0%';
-            });
-            
-            // Animar apenas barras da seção ativa
-            const activeSection = document.querySelector('.section.active');
-            if (activeSection) {
-                const progressBars = activeSection.querySelectorAll('.progress-fill');
-                
-                progressBars.forEach((bar, index) => {
-                    // Delay escalonado para efeito mais dinâmico
-                    setTimeout(() => {
-                        const targetWidth = bar.getAttribute('data-width');
-                        if (targetWidth) {
-                            bar.style.width = targetWidth;
-                        }
-                    }, index * 150); // 150ms de delay entre cada barra
-                });
-            }
-        }
-        
-        // Função para fechar o modal
-        function closeModal() {
-            const modal = document.getElementById('evidenceModal');
-            if (modal) {
-                modal.style.display = 'none';
-                document.body.style.overflow = 'auto';
-            }
+            setTimeout(() => {
+                openModal();
+            }, 100);
         }
         
         // Mapeamento de metas para suas evidências
@@ -2400,7 +2358,7 @@
             // Configurar formulário de evidência
             const evidenceForm = document.getElementById('evidenceForm');
             if (evidenceForm) {
-                evidenceForm.addEventListener('submit', function(e) {
+                evidenceForm.addEventListener('submit', async function(e) {
                     console.log('Form submit interceptado');
                     e.preventDefault();
                     e.stopPropagation();
@@ -2436,7 +2394,7 @@
                     // Salvar no localStorage
                     if (currentModalGoal) {
                         console.log('Salvando evidência para meta:', currentModalGoal);
-                        const savedEvidences = loadSavedEvidences();
+                        const savedEvidences = await loadSavedEvidences();
                         console.log('Evidências existentes:', savedEvidences);
                         
                         if (!savedEvidences[currentModalGoal]) {
