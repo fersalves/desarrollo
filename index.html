@@ -1791,6 +1791,89 @@
             }
         }
         
+        // Função para processar submit do formulário
+        async function handleFormSubmit() {
+            console.log('handleFormSubmit chamada!');
+            
+            try {
+                // Coletar dados do formulário
+                const formData = {
+                    title: document.getElementById('evidenceTitle').value,
+                    date: document.getElementById('evidenceDate').value,
+                    description: document.getElementById('evidenceDescription').value,
+                    link: document.getElementById('evidenceLink').value,
+                    linkName: document.getElementById('evidenceLinkName').value
+                };
+                
+                console.log('Dados coletados:', formData);
+                
+                // Validar campos obrigatórios
+                if (!formData.title || !formData.date || !formData.description) {
+                    showSnackbar('Por favor, preencha todos os campos obrigatórios', 'error');
+                    return;
+                }
+                
+                // Formatar a data para exibição
+                const dateObj = new Date(formData.date + '-01');
+                const monthNames = [
+                    'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+                    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+                ];
+                const formattedDate = `${monthNames[dateObj.getMonth()]} ${dateObj.getFullYear()}`;
+                
+                // Preparar evidência para salvar
+                const newEvidence = {
+                    title: formData.title,
+                    date: formattedDate,
+                    description: formData.description,
+                    link: formData.link,
+                    linkName: formData.linkName
+                };
+                
+                console.log('Nova evidência preparada:', newEvidence);
+                
+                // Salvar evidência
+                if (currentModalGoal) {
+                    console.log('Salvando evidência para meta:', currentModalGoal);
+                    const savedEvidences = await loadSavedEvidences();
+                    console.log('Evidências existentes:', savedEvidences);
+                    
+                    if (!savedEvidences[currentModalGoal]) {
+                        savedEvidences[currentModalGoal] = [];
+                    }
+                    savedEvidences[currentModalGoal].push(newEvidence);
+                    saveEvidences(savedEvidences);
+                    console.log('Evidência salva permanentemente para:', currentModalGoal);
+                    
+                    // Mostrar snackbar de sucesso
+                    showSnackbar('Evidência criada com sucesso!');
+                    
+                    // Fechar modal de adicionar
+                    closeModal();
+                    
+                    // Reabrir modal de visualização atualizado
+                    setTimeout(() => {
+                        if (currentModalGoal) {
+                            const goalToReopen = currentModalGoal;
+                            openEvidenceModal(goalToReopen);
+                            // Só zerar depois que o modal reabrir
+                            setTimeout(() => {
+                                currentModalGoal = '';
+                            }, 100);
+                        }
+                    }, 200);
+                    
+                } else {
+                    console.error('currentModalGoal não definido! Não foi possível salvar evidência.');
+                    showSnackbar('Erro: Meta não identificada', 'error');
+                }
+                
+            } catch (error) {
+                console.error('Erro ao processar formulário:', error);
+                showSnackbar('Erro ao salvar evidência', 'error');
+            }
+        }
+        
         // Variável global para rastrear meta atual
         var currentModalGoal = '';
         
@@ -2578,8 +2661,7 @@
                     
                     <div class="form-actions">
                         <button type="button" class="btn-cancel" onclick="closeModal()">Cancelar</button>
-                        <button type="button" class="btn-save" onclick="console.log('Testando snackbar...'); showSnackbar('Teste do snackbar!');" style="margin-right: 10px;">Testar Snackbar</button>
-                        <button type="submit" class="btn-save" onclick="console.log('Botão Adicionar clicado!')">Adicionar</button>
+                        <button type="button" class="btn-save" onclick="handleFormSubmit()">Adicionar</button>
                     </div>
                 </form>
             </div>
