@@ -130,3 +130,4 @@ Uma vez conectado:
 **🎉 Sua planilha está pronta para ser conectada ao dashboard!**
 
 **📍 ID da Planilha:** `15slU-6c3xuinmAtPPwwli-5z5VM_EhEthattL8QVuOQ`
+
