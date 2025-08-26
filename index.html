@@ -859,14 +859,17 @@
         }
         
         .select-wrapper::after {
-            content: '▼';
+            content: '';
             position: absolute;
             right: 0.75rem;
             top: 50%;
-            transform: translateY(-50%);
-            color: white;
+            transform: translateY(-50%) rotate(90deg);
+            width: 12px;
+            height: 12px;
+            background-image: url("data:image/svg+xml,%3Csvg width='12' height='12' viewBox='0 0 12 12' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4.89779 1.85254L4.10229 2.64803L7.45455 6.00029L4.10229 9.35254L4.89779 10.148L9.04554 6.00029L4.89779 1.85254Z' fill='white' fill-opacity='0.9'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-size: contain;
             pointer-events: none;
-            font-size: 12px;
         }
         
         .form-actions {
