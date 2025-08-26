@@ -355,6 +355,67 @@
                 background-color: #f44336;
             }
             
+            /* Modal de Evidências */
+            .evidence-modal {
+                display: none;
+                position: fixed;
+                z-index: 1000;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.8);
+                backdrop-filter: blur(4px);
+            }
+            
+            .evidence-modal-content {
+                background: #1e1e2e;
+                margin: 2% auto;
+                padding: 0;
+                border-radius: 12px;
+                width: 90%;
+                max-width: 1000px;
+                max-height: 90vh;
+                overflow-y: auto;
+                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            }
+            
+            .evidence-modal-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 2rem;
+                border-bottom: 1px solid #333;
+            }
+            
+            .evidence-modal-header h2 {
+                color: #00d4ff;
+                margin: 0;
+                font-size: 1.5rem;
+            }
+            
+            .evidence-modal-close {
+                color: #aaa;
+                font-size: 2rem;
+                font-weight: bold;
+                cursor: pointer;
+                transition: color 0.3s ease;
+            }
+            
+            .evidence-modal-close:hover {
+                color: #00d4ff;
+            }
+            
+            .evidence-modal-body {
+                padding: 2rem;
+            }
+            
+            .evidence-modal-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 1.5rem;
+            }
+            
             /* Link Ver Evidências nos cards */
             .card-divider {
                 margin-top: 1rem;
@@ -659,7 +720,7 @@
                                     </div>
                                     <p style="text-align: right; margin-top: 0.5rem;">75%</p>
                                     <div class="card-divider">
-                                        <a class="card-link" onclick="showSection('evidences')">
+                                        <a class="card-link" onclick="openEvidenceModal('empuja-hoy')">
                                             Ver evidências
                                             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M4.89779 1.85254L4.10229 2.64803L7.45455 6.00029L4.10229 9.35254L4.89779 10.148L9.04554 6.00029L4.89779 1.85254Z" fill="currentColor" fill-opacity="0.9"/>
@@ -1719,6 +1780,86 @@
             _deleteEvidence(button);
         }
         
+        // Mapeamento de metas para suas evidências
+        const GOAL_EVIDENCE_MAP = {
+            'empuja-hoy': 'Empuja hoy, no mañana',
+            'update-proactivo': 'Update proactivo',
+            'decide-baja-fidelidad': 'Decide en baja fidelidad',
+            'marca-pulso': 'Marca el pulso',
+            'turnaround-express': 'Turnaround express',
+            'feedback-senior': 'Feedback senior, acción rápida',
+            'aprendizaje-visible': 'Aprendizaje visible',
+            'plan-b-salvaje': 'Trae siempre un plan B salvaje',
+            'mira-afuera': 'Mira afuera',
+            'rompe-andes': 'Rompe Andes con intención',
+            'prototipa-ia': 'Prototipa con IA',
+            'benchmarka-inesperado': 'Benchmarka lo inesperado'
+        };
+        
+        // Função para abrir modal de evidências de uma meta específica
+        function openEvidenceModal(goalKey) {
+            const goalName = GOAL_EVIDENCE_MAP[goalKey];
+            if (!goalName) return;
+            
+            // Atualizar título do modal
+            document.getElementById('evidenceModalTitle').textContent = `Evidências: ${goalName}`;
+            
+            // Buscar evidências da meta específica
+            const evidenceGrid = document.getElementById('evidenceModalGrid');
+            evidenceGrid.innerHTML = '';
+            
+            // Buscar evidências salvas no localStorage
+            const savedEvidences = JSON.parse(localStorage.getItem('dashboard-evidences') || '[]');
+            const goalEvidences = savedEvidences.filter(evidence => evidence.section === goalKey);
+            
+            if (goalEvidences.length === 0) {
+                evidenceGrid.innerHTML = `
+                    <div style="text-align: center; color: #a1a1aa; padding: 2rem;">
+                        <p>Nenhuma evidência encontrada para esta meta.</p>
+                        <p>Adicione evidências na seção principal para vê-las aqui.</p>
+                    </div>
+                `;
+            } else {
+                goalEvidences.forEach(evidence => {
+                    const userInfo = USER_INFO[evidence.user] || { name: 'Desconhecido', avatar: 'imagens/fe.png' };
+                    
+                    const evidenceCard = `
+                        <div class="evidence-item">
+                            <div class="evidence-title">${evidence.title}</div>
+                            <div class="evidence-date">📅 ${evidence.formattedDate}</div>
+                            <p>${evidence.description}</p>
+                            ${evidence.link ? `<a href="${evidence.link}" class="evidence-link" target="_blank">🔗 ${evidence.linkName}</a>` : ''}
+                            <div class="evidence-actions">
+                                <div class="evidence-author">
+                                    <img src="${userInfo.avatar}" alt="${userInfo.name}" class="evidence-author-avatar">
+                                    <span class="evidence-author-name">Adicionado por ${userInfo.name}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    evidenceGrid.innerHTML += evidenceCard;
+                });
+            }
+            
+            // Mostrar modal
+            document.getElementById('evidenceModal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // Função para fechar modal de evidências
+        function closeEvidenceModal() {
+            document.getElementById('evidenceModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Fechar modal ao clicar fora dele
+        window.onclick = function(event) {
+            const modal = document.getElementById('evidenceModal');
+            if (event.target === modal) {
+                closeEvidenceModal();
+            }
+        }
+        
         // Função interna para deletar evidência (após autenticação)
         function _deleteEvidence(button) {
             const evidenceItem = button.closest('.evidence-item');
@@ -1997,5 +2138,20 @@
     
     <!-- Snackbar -->
     <div id="snackbar" class="snackbar"></div>
+    
+    <!-- Modal de Evidências -->
+    <div id="evidenceModal" class="evidence-modal">
+        <div class="evidence-modal-content">
+            <div class="evidence-modal-header">
+                <h2 id="evidenceModalTitle">Evidências</h2>
+                <span class="evidence-modal-close" onclick="closeEvidenceModal()">&times;</span>
+            </div>
+            <div class="evidence-modal-body">
+                <div id="evidenceModalGrid" class="evidence-modal-grid">
+                    <!-- Evidências serão inseridas aqui -->
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
