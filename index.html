@@ -1179,13 +1179,55 @@
         .btn-save:hover {
             background: linear-gradient(90deg, #007aa3, #4a1f5c);
         }
-
+        
         @media (max-width: 768px) {
             .container { padding: 1rem; }
             .grid { grid-template-columns: 1fr; }
             .nav { flex-wrap: wrap; }
             .evidence-modal-content { width: 95%; margin: 1% auto; height: 95vh; }
             .evidence-modal-grid { grid-template-columns: 1fr; }
+        }
+        
+        /* Snackbar Styles */
+        .snackbar {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #4ade80;
+            color: white;
+            text-align: center;
+            border-radius: 8px;
+            padding: 16px 24px;
+            position: fixed;
+            z-index: 10000;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 16px;
+            font-weight: 500;
+            box-shadow: 0 4px 20px rgba(74, 222, 128, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .snackbar.show {
+            visibility: visible;
+            animation: fadeInOut 3s ease-in-out;
+        }
+        
+        @keyframes fadeInOut {
+            0% { 
+                opacity: 0; 
+                transform: translateX(-50%) translateY(20px);
+            }
+            10%, 90% { 
+                opacity: 1; 
+                transform: translateX(-50%) translateY(0);
+            }
+            100% { 
+                opacity: 0; 
+                transform: translateX(-50%) translateY(-20px);
+            }
         }
     </style>
     
@@ -1576,7 +1618,7 @@
                     document.getElementById('evidenceDate').value = '2025-08';
                 }
                 
-                console.log('Modal de adicionar evidência aberto');
+                console.log('Modal de adicionar evidência aberto para meta:', currentModalGoal);
             }
         }
         
@@ -1587,6 +1629,41 @@
                 modal.style.display = 'none';
                 document.body.style.overflow = 'auto';
                 console.log('Modal de adicionar evidência fechado');
+            }
+        }
+        
+        // Funções para localStorage
+        function loadSavedEvidences() {
+            try {
+                const saved = localStorage.getItem('dashboardEvidences');
+                console.log('Carregando do localStorage:', saved);
+                return saved ? JSON.parse(saved) : {};
+            } catch (error) {
+                console.error('Erro ao carregar evidências:', error);
+                return {};
+            }
+        }
+        
+        function saveEvidences(evidences) {
+            try {
+                localStorage.setItem('dashboardEvidences', JSON.stringify(evidences));
+                console.log('Evidências salvas no localStorage:', evidences);
+            } catch (error) {
+                console.error('Erro ao salvar evidências:', error);
+            }
+        }
+        
+        // Função para mostrar snackbar
+        function showSnackbar(message, type = 'success') {
+            const snackbar = document.getElementById('snackbar');
+            if (snackbar) {
+                const icon = type === 'success' ? '✅' : '❌';
+                snackbar.innerHTML = `${icon} ${message}`;
+                snackbar.className = 'snackbar show';
+                
+                setTimeout(() => {
+                    snackbar.className = 'snackbar';
+                }, 3000);
             }
         }
         
@@ -2129,12 +2206,12 @@
                             <div class="evidence-date">📅 ${staticEvidence.date}</div>
                             <p>${staticEvidence.description}</p>
                             ${staticEvidence.link ? `<a href="${staticEvidence.link}" class="evidence-link" target="_blank">🔗 ${staticEvidence.linkName}</a>` : ''}
-                        </div>
+                </div>
                         <div class="evidence-actions">
                             <div class="evidence-author">
                                 <img src="imagens/fe.png" alt="Fê" class="evidence-author-avatar">
                                 <span class="evidence-author-name">Adicionado por Fê</span>
-                            </div>
+                        </div>
                             <div class="evidence-actions-buttons">
                                 <button class="evidence-action copy" onclick="copyEvidenceFromModal(this)" title="Copiar evidência">
                                     <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -2151,9 +2228,9 @@
                                     </svg>
                                     Deletar
                                 </button>
-                            </div>
-                        </div>
                     </div>
+                </div>
+                </div>
                 `;
                 evidenceGrid.innerHTML += evidenceCard;
             }
@@ -2166,12 +2243,12 @@
                             <div class="evidence-title">testeeeeee</div>
                             <div class="evidence-date">📅 Julho 2025</div>
                             <p>teste 4</p>
-                        </div>
+                </div>
                         <div class="evidence-actions">
                             <div class="evidence-author">
                                 <img src="imagens/fe.png" alt="Fê" class="evidence-author-avatar">
                                 <span class="evidence-author-name">Adicionado por Fê</span>
-                            </div>
+                        </div>
                             <div class="evidence-actions-buttons">
                                 <button class="evidence-action copy" onclick="copyEvidenceFromModal(this)" title="Copiar evidência">
                                     <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -2188,9 +2265,9 @@
                                     </svg>
                                     Deletar
                                 </button>
-                            </div>
-                        </div>
                     </div>
+                </div>
+                </div>
                 `;
                 evidenceGrid.innerHTML += secondEvidence;
             }
@@ -2280,16 +2357,11 @@
         
         // Função para fechar o modal
         function closeModal() {
-            // Se currentModalGoal está definido, reabrir o modal de visualização
-            if (currentModalGoal) {
-                setTimeout(() => {
-                    openEvidenceModal(currentModalGoal);
-                    currentModalGoal = null;
-                }, 100);
+            const modal = document.getElementById('evidenceModal');
+            if (modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
             }
-            
-            document.getElementById('evidenceModal').style.display = 'none';
-            document.body.style.overflow = 'auto';
         }
         
         // Mapeamento de metas para suas evidências
@@ -2374,8 +2446,13 @@
                         saveEvidences(savedEvidences);
                         console.log('Evidência salva permanentemente para:', currentModalGoal);
                         console.log('Nova evidência:', newEvidence);
+                        
+                        // Mostrar snackbar de sucesso
+                        showSnackbar('Evidência criada com sucesso!');
+                        
                     } else {
                         console.error('currentModalGoal não definido! Não foi possível salvar evidência.');
+                        showSnackbar('Erro ao salvar evidência', 'error');
                     }
                     
                     // Fechar modal de adicionar
@@ -2461,5 +2538,9 @@
             </div>
         </div>
     </div>
+    
+    <!-- Snackbar para feedback -->
+    <div id="snackbar" class="snackbar"></div>
+    
 </body>
 </html>
