@@ -1482,7 +1482,7 @@
                                 </svg>
                                 Copiar
                             </button>
-                            <button class="evidence-action delete" onclick="deleteEvidenceFromModal(this)" title="Deletar evidência" ${isStatic ? 'style="display: none;"' : ''}>
+                            <button class="evidence-action delete" onclick="deleteEvidenceFromModal(this)" title="Deletar evidência">
                                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M4.19995 8.99973V4.59973H5.39995V8.99973H4.19995Z" fill="currentColor" fill-opacity="0.9"/>
                                     <path d="M6.6001 8.99973V4.59973H7.8001V8.99973H6.6001Z" fill="currentColor" fill-opacity="0.9"/>
@@ -1972,39 +1972,42 @@
             const evidenceId = evidenceItem.getAttribute('data-evidence-id');
             const title = evidenceItem.querySelector('.evidence-title').textContent;
             
-            // Verificar se é evidência estática (não pode ser deletada)
-            if (evidenceId.includes('-static')) {
-                alert('Evidências estáticas não podem ser deletadas');
-                return;
-            }
-            
             if (confirm(`Tem certeza que deseja deletar a evidência "${title}"?`)) {
                 try {
-                    // Carregar evidências atuais
-                    const savedEvidences = await loadSavedEvidences();
-                    
-                    // Extrair meta e índice do ID
-                    const parts = evidenceId.split('-saved-');
-                    const goalKey = parts[0];
-                    const evidenceIndex = parseInt(parts[1]);
-                    
-                    // Remover evidência do array
-                    if (savedEvidences[goalKey] && savedEvidences[goalKey][evidenceIndex]) {
-                        savedEvidences[goalKey].splice(evidenceIndex, 1);
-                        saveEvidences(savedEvidences);
+                    // Verificar se é evidência estática ou salva
+                    if (evidenceId.includes('-static')) {
+                        // Evidência estática - remover do objeto STATIC_EVIDENCES
+                        const goalKey = evidenceId.replace('-static', '');
+                        delete STATIC_EVIDENCES[goalKey];
+                        console.log('Evidência estática removida:', goalKey);
+                    } else {
+                        // Evidência salva - remover do localStorage
+                        const savedEvidences = await loadSavedEvidences();
+                        const parts = evidenceId.split('-saved-');
+                        const goalKey = parts[0];
+                        const evidenceIndex = parseInt(parts[1]);
                         
-                        // Remover do DOM
-                        evidenceItem.remove();
-                        console.log('Evidência deletada:', title);
-                        
-                        // Verificar se não há mais evidências e mostrar mensagem
-                        const evidenceGrid = document.getElementById('viewEvidenceModalGrid');
-                        if (evidenceGrid && evidenceGrid.children.length === 0) {
-                            evidenceGrid.innerHTML = '<p style="color: #a1a1aa;">Nenhuma evidência cadastrada ainda.</p>';
+                        if (savedEvidences[goalKey] && savedEvidences[goalKey][evidenceIndex]) {
+                            savedEvidences[goalKey].splice(evidenceIndex, 1);
+                            saveEvidences(savedEvidences);
+                            console.log('Evidência salva removida:', title);
                         }
-                        
-                        showSnackbar('Evidência deletada com sucesso');
                     }
+                    
+                    // Remover do DOM
+                    evidenceItem.remove();
+                    console.log('Evidência deletada:', title);
+                    
+                    // Atualizar contador na home
+                    updateEvidenceCounter();
+                    
+                    // Verificar se não há mais evidências e mostrar mensagem
+                    const evidenceGrid = document.getElementById('viewEvidenceModalGrid');
+                    if (evidenceGrid && evidenceGrid.children.length === 0) {
+                        evidenceGrid.innerHTML = '<p style="color: #a1a1aa;">Nenhuma evidência cadastrada ainda.</p>';
+                    }
+                    
+                    showSnackbar('Evidência deletada com sucesso');
                 } catch (error) {
                     console.error('Erro ao deletar evidência:', error);
                     showSnackbar('Erro ao deletar evidência', 'error');
