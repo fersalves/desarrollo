@@ -397,6 +397,15 @@
                 font-size: 1.5rem;
             }
             
+            .evidence-modal-eyebrow {
+                color: #a1a1aa;
+                font-size: 0.875rem;
+                font-weight: 500;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+                margin: 0 0 0.5rem 0;
+            }
+            
             .evidence-modal-close {
                 color: #aaa;
                 font-size: 2rem;
@@ -1964,8 +1973,9 @@
             const goalName = GOAL_EVIDENCE_MAP[goalKey];
             if (!goalName) return;
             
-            // Atualizar título do modal
-            document.getElementById('viewEvidenceModalTitle').textContent = `Evidências: ${goalName}`;
+            // Atualizar eyebrow e título do modal
+            document.getElementById('viewEvidenceModalEyebrow').textContent = goalName;
+            document.getElementById('viewEvidenceModalTitle').textContent = 'Evidências';
             
             // Buscar evidências da meta específica
             const evidenceGrid = document.getElementById('viewEvidenceModalGrid');
@@ -2665,7 +2675,10 @@
     <div id="viewEvidenceModal" class="evidence-modal">
         <div class="evidence-modal-content">
             <div class="evidence-modal-header">
-                <h2 id="viewEvidenceModalTitle">Evidências</h2>
+                <div>
+                    <div id="viewEvidenceModalEyebrow" class="evidence-modal-eyebrow">Meta</div>
+                    <h2 id="viewEvidenceModalTitle">Evidências</h2>
+                </div>
                 <span class="evidence-modal-close" onclick="closeViewEvidenceModal()">&times;</span>
             </div>
             <div class="evidence-modal-body">
