@@ -810,12 +810,715 @@
             background: linear-gradient(90deg, #007aa3, #4a1f5c);
         }
         
+        /* Modal de Evidências */
+        .evidence-modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(4px);
+        }
+        
+        .evidence-modal-content {
+            position: relative;
+            background: #1a1a2e;
+            margin: 2% auto;
+            width: 90%;
+            max-width: 1200px;
+            height: 90vh;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+        
+        .evidence-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid #333;
+            background: #1e1e2e;
+        }
+        
+        .evidence-modal-eyebrow {
+            font-size: 0.85rem;
+            color: #00d4ff;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.25rem;
+        }
+        
+        .evidence-modal-header h2 {
+            margin: 0;
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        .evidence-modal-close {
+            color: #a1a1aa;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        
+        .evidence-modal-close:hover {
+            color: #00d4ff;
+        }
+        
+        .evidence-modal-body {
+            padding: 2rem;
+            flex: 1;
+            overflow-y: auto;
+        }
+        
+        .evidence-modal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            padding-bottom: 80px;
+        }
+        
+        .evidence-modal-footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1.5rem 2rem;
+        }
+        
+        .evidence-modal-add-cta {
+            background: #1e1e2e;
+            border: 2px dashed #444;
+            border-radius: 8px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            width: 100%;
+        }
+        
+        .evidence-modal-add-cta:hover {
+            background: #2a2a3e;
+            border-color: #00d4ff;
+            transform: translateY(-2px);
+        }
+        
+        .evidence-modal-add-cta .add-icon {
+            font-size: 1.5rem;
+            color: #666;
+            transition: color 0.3s ease;
+        }
+        
+        .evidence-modal-add-cta:hover .add-icon {
+            color: #00d4ff;
+        }
+        
+        .evidence-modal-add-cta .add-title {
+            color: #a1a1aa;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .evidence-modal-add-cta:hover .add-title {
+            color: white;
+        }
+        
+        /* Estilos para evidências dentro do modal */
+        .evidence-item {
+            background: #2a2a3e;
+            padding: 1.5rem;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .evidence-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .evidence-title {
+            font-weight: bold;
+            color: #00d4ff;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .evidence-date {
+            font-size: 0.85rem;
+            color: #a1a1aa;
+            margin-bottom: 0.75rem;
+        }
+        
+        .evidence-item p {
+            color: #e0e0e0;
+            line-height: 1.5;
+            margin-bottom: 0.75rem;
+            flex: 1;
+        }
+        
+        .evidence-link {
+            color: #00d4ff;
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+        }
+        
+        .evidence-link:hover {
+            text-decoration: underline;
+        }
+        
+        .evidence-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+            padding-top: 1rem;
+            border-top: 1px solid #333;
+        }
+        
+        .evidence-author {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .evidence-author-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            object-fit: cover;
+            flex-shrink: 0;
+            padding: 2px;
+            background: linear-gradient(90deg, #00d4ff, #7c3aed);
+        }
+        
+        .evidence-author-name {
+            font-size: 0.85rem;
+            color: #a1a1aa;
+        }
+        
+        .evidence-actions-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .evidence-action {
+            background: #333;
+            border: none;
+            border-radius: 4px;
+            padding: 0.5rem 0.75rem;
+            cursor: pointer;
+            color: #a1a1aa;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .evidence-action:hover {
+            background: #444;
+            color: white;
+            transform: translateY(-1px);
+        }
+        
+        .evidence-action.copy:hover {
+            background: #00d4ff;
+            color: #0a0a0f;
+        }
+        
+        .evidence-action.delete:hover {
+            background: #ef4444;
+            color: white;
+        }
+        
+        .evidence-action svg {
+            width: 12px;
+            height: 12px;
+            flex-shrink: 0;
+        }
+        
+        /* Modal de Adicionar Evidência */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 3000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(4px);
+        }
+        
+        .modal-content {
+            background: #1a1a2e;
+            margin: 5% auto;
+            width: 90%;
+            max-width: 600px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid #333;
+            background: #1e1e2e;
+        }
+        
+        .modal-header h2 {
+            margin: 0;
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        .close {
+            color: #a1a1aa;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        
+        .close:hover {
+            color: #00d4ff;
+        }
+        
+        .modal-body {
+            padding: 2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: white;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #444;
+            border-radius: 6px;
+            background: #2a2a3e;
+            color: white;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+            box-sizing: border-box;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #00d4ff;
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+            font-family: inherit;
+        }
+        
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #333;
+        }
+        
+        .btn-cancel,
+        .btn-save {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-cancel {
+            background: #444;
+            color: white;
+        }
+        
+        .btn-cancel:hover {
+            background: #555;
+        }
+        
+        .btn-save {
+            background: linear-gradient(90deg, #0099cc, #5b2c87);
+            color: white;
+            font-weight: 500;
+        }
+        
+        .btn-save:hover {
+            background: linear-gradient(90deg, #007aa3, #4a1f5c);
+        }
+
         @media (max-width: 768px) {
             .container { padding: 1rem; }
             .grid { grid-template-columns: 1fr; }
             .nav { flex-wrap: wrap; }
+            .evidence-modal-content { width: 95%; margin: 1% auto; height: 95vh; }
+            .evidence-modal-grid { grid-template-columns: 1fr; }
         }
     </style>
+    
+    <!-- Script de navegação - carregado no HEAD para garantir disponibilidade -->
+    <script>
+        function showSection(sectionId, event) {
+            console.log('showSection chamada:', sectionId);
+            
+            // Esconder todas as seções
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => section.classList.remove('active'));
+            
+            // Mostrar seção selecionada
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+            }
+            
+            // Atualizar botões
+            const buttons = document.querySelectorAll('.nav-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            if (event && event.target) {
+                event.target.classList.add('active');
+            }
+            
+            // Animar barras de progresso
+            setTimeout(() => {
+                animateProgressBars();
+            }, 100);
+        }
+        
+        // Função para animar barras de progresso
+        function animateProgressBars() {
+            // Resetar todas as barras primeiro
+            const allProgressBars = document.querySelectorAll('.progress-fill');
+            allProgressBars.forEach(bar => {
+                bar.style.width = '0%';
+            });
+            
+            // Animar apenas barras da seção ativa
+            const activeSection = document.querySelector('.section.active');
+            if (activeSection) {
+                const progressBars = activeSection.querySelectorAll('.progress-fill');
+                
+                progressBars.forEach((bar, index) => {
+                    // Delay escalonado para efeito mais dinâmico
+                    setTimeout(() => {
+                        const targetWidth = bar.getAttribute('data-width');
+                        if (targetWidth) {
+                            bar.style.width = targetWidth;
+                        }
+                    }, index * 150); // 150ms entre cada barra
+                });
+            }
+        }
+        
+        // Dados das evidências
+        const STATIC_EVIDENCES = {
+            'empuja-hoy': {
+                title: 'Dashboard Pessoal - Blocker Resolvido',
+                date: 'Agosto 2025',
+                description: 'Blocker na integração Google Sheets resolvido no mesmo dia com solução offline alternativa, mantendo projeto no prazo',
+                link: 'https://github.com/fersalves/desarrollo',
+                linkName: 'Ver projeto no GitHub'
+            },
+            'update-proactivo': {
+                title: 'Daily Updates Estruturados',
+                date: 'Agosto 2025', 
+                description: 'Updates diários proativos: progresso, blockers e próximos passos comunicados antes das 10h por 3 semanas consecutivas'
+            },
+            'decide-baja-fidelidad': {
+                title: 'API Design - Wireframes Express',
+                date: 'Agosto 2025',
+                description: 'Wireframes e mockups de API entregues em 18h para validação de stakeholders antes do desenvolvimento',
+                link: '',
+                linkName: 'Ver documentação'
+            },
+            'marca-pulso': {
+                title: 'Moderação Sprint Review',
+                date: 'Agosto 2025',
+                description: 'Sprint review perdeu foco: assumi moderação, trouxe agenda clara e direcionei 3 decisões pendentes',
+                link: '',
+                linkName: 'Ver ata da reunião'
+            },
+            'turnaround-express': {
+                title: 'Code Review Acelerado',
+                date: 'Agosto 2025',
+                description: 'Feedback técnico de 12 PRs respondido em menos de 8h, mantendo média de 4h por resposta sem bloquear time',
+                link: '',
+                linkName: 'Ver métricas'
+            },
+            'feedback-senior': {
+                title: 'Iteração Rápida com TL',
+                date: 'Agosto 2025',
+                description: 'Feedback do TL sobre arquitetura integrado em 24h: refatoração de componentes React com performance 40% melhor',
+                link: '',
+                linkName: 'Ver refatoração'
+            },
+            'aprendizaje-visible': {
+                title: 'Feedback Documentado',
+                date: 'Agosto 2025',
+                description: 'Sprint review: documentei como feedback senior mudou abordagem UX, evidenciando valor agregado ao processo',
+                link: '',
+                linkName: 'Ver documentação'
+            },
+            'plan-b-salvaje': {
+                title: 'Alternativa Radical para Dashboard',
+                date: 'Agosto 2025',
+                description: 'Além da versão segura, propus interface single-page radical que gerou debate e nova direção de produto',
+                link: '',
+                linkName: 'Ver proposta'
+            },
+            'mira-afuera': {
+                title: 'Análise Competitor Tech',
+                date: 'Agosto 2025',
+                description: 'Análise de stack Vercel/Netlify gerou insights para nossa infraestrutura: deploy preview automático implementado',
+                link: '',
+                linkName: 'Ver análise'
+            },
+            'rompe-andes': {
+                title: 'Zustand vs Redux Architecture',
+                date: 'Agosto 2025',
+                description: 'Questionei Redux padrão da empresa, argumentei e implementei Zustand com 40% menos boilerplate',
+                link: '',
+                linkName: 'Ver comparação'
+            },
+            'prototipa-ia': {
+                title: 'Cursor AI Development',
+                date: 'Agosto 2025',
+                description: 'Cursor AI: aceleração 3x no desenvolvimento deste dashboard, exploração de 5 layouts alternativos em 2h',
+                link: 'https://cursor.sh',
+                linkName: 'Ver ferramenta Cursor'
+            },
+            'benchmarka-inesperado': {
+                title: 'Figma Component System',
+                date: 'Agosto 2025',
+                description: 'Sistema de componentes Figma inspirado no Notion: hierarquia visual clara e reutilização 90% maior',
+                link: '',
+                linkName: 'Ver sistema'
+            }
+        };
+        
+        const GOAL_EVIDENCE_MAP = {
+            'empuja-hoy': 'Empuja hoy, no mañana',
+            'update-proactivo': 'Update proactivo',
+            'decide-baja-fidelidad': 'Decide en baja fidelidad',
+            'marca-pulso': 'Marca el pulso',
+            'turnaround-express': 'Turnaround express',
+            'feedback-senior': 'Feedback senior, acción rápida',
+            'aprendizaje-visible': 'Aprendizaje visible',
+            'plan-b-salvaje': 'Trae siempre un plan B salvaje',
+            'mira-afuera': 'Mira afuera',
+            'rompe-andes': 'Rompe Andes con intención',
+            'prototipa-ia': 'Prototipa con IA',
+            'benchmarka-inesperado': 'Benchmarka lo inesperado'
+        };
+        
+        // Função para abrir modal de evidências
+        function openEvidenceModal(goalKey, event) {
+            // Impedir que o clique se propague para o card (evitar flip)
+            if (event) {
+                event.stopPropagation();
+                event.preventDefault();
+            }
+            
+            console.log('openEvidenceModal chamada:', goalKey);
+            
+            // Atualizar título do modal
+            const goalName = GOAL_EVIDENCE_MAP[goalKey];
+            const modalTitle = document.getElementById('viewEvidenceModalTitle');
+            const modalEyebrow = document.getElementById('viewEvidenceModalEyebrow');
+            
+            if (modalTitle) modalTitle.textContent = 'Evidências';
+            if (modalEyebrow) modalEyebrow.textContent = goalName || goalKey;
+            
+            // Adicionar evidência ao modal
+            const evidenceGrid = document.getElementById('viewEvidenceModalGrid');
+            if (evidenceGrid) {
+                evidenceGrid.innerHTML = '';
+                
+                const evidence = STATIC_EVIDENCES[goalKey];
+                if (evidence) {
+                    const evidenceHTML = `
+                        <div class="evidence-item" data-author="fe" data-evidence-id="${goalKey}-evidence-1">
+                            <div class="evidence-content">
+                                <div class="evidence-title">${evidence.title}</div>
+                                <div class="evidence-date">📅 ${evidence.date}</div>
+                                <p>${evidence.description}</p>
+                                ${evidence.link ? `<a href="${evidence.link}" class="evidence-link" target="_blank">🔗 ${evidence.linkName || 'Ver mais'}</a>` : ''}
+                            </div>
+                            <div class="evidence-actions">
+                                <div class="evidence-author">
+                                    <img src="imagens/fe.png" alt="Fê" class="evidence-author-avatar">
+                                    <span class="evidence-author-name">Adicionado por Fê</span>
+                                </div>
+                                <div class="evidence-actions-buttons">
+                                    <button class="evidence-action copy" onclick="copyEvidenceFromModal(this)" title="Copiar evidência">
+                                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M10.3667 8.34337V0.943359L4.3667 0.943432V2.74228H5.5667V2.14342L9.1667 2.14337V7.14337H8.56889V8.34337H10.3667Z" fill="currentColor" fill-opacity="0.9"/>
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M7.6333 3.6449H1.6333V11.0449H7.6333V3.6449ZM2.8333 9.8449V4.8449H6.4333V9.8449H2.8333Z" fill="currentColor" fill-opacity="0.9"/>
+                                        </svg>
+                                        Copiar
+                                    </button>
+                                    <button class="evidence-action delete" onclick="deleteEvidenceFromModal(this)" title="Deletar evidência">
+                                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M4.19995 8.99973V4.59973H5.39995V8.99973H4.19995Z" fill="currentColor" fill-opacity="0.9"/>
+                                            <path d="M6.6001 8.99973V4.59973H7.8001V8.99973H6.6001Z" fill="currentColor" fill-opacity="0.9"/>
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M8.29692 2.19934H10.5999V3.39934H9.99988V9.60014C9.99988 10.5942 9.19399 11.4001 8.19988 11.4001H3.79988C2.80576 11.4001 1.99988 10.5942 1.99988 9.60014V3.39934H1.3999V2.19934H3.70274C3.75463 1.30713 4.49461 0.599609 5.39983 0.599609H6.59983C7.50505 0.599609 8.24503 1.30713 8.29692 2.19934ZM4.70696 2.19934H7.2927C7.24406 1.86024 6.95238 1.59961 6.59983 1.59961H5.39983C5.04728 1.59961 4.75560 1.86024 4.70696 2.19934ZM3.19988 3.39934H8.79988V9.60014C8.79988 9.93151 8.53125 10.2001 8.19988 10.2001H3.79988C3.46851 10.2001 3.19988 9.93151 3.19988 9.60014V3.39934Z" fill="currentColor" fill-opacity="0.9"/>
+                                        </svg>
+                                        Deletar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    evidenceGrid.innerHTML = evidenceHTML;
+                } else {
+                    evidenceGrid.innerHTML = '<p style="color: #a1a1aa;">Nenhuma evidência cadastrada ainda.</p>';
+                }
+            }
+            
+            // Configurar CTA de adicionar evidência no footer
+            const addCTA = document.getElementById('viewEvidenceModalAddCTA');
+            if (addCTA) {
+                addCTA.onclick = function() {
+                    // Fechar modal de visualização
+                    closeViewEvidenceModal();
+                    
+                    // Abrir modal de criação
+                    setTimeout(() => {
+                        openModal();
+                    }, 100);
+                };
+            }
+            
+            // Mostrar modal
+            const modal = document.getElementById('viewEvidenceModal');
+            if (modal) {
+                modal.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+                console.log('Modal de evidências aberto');
+            } else {
+                console.error('Modal viewEvidenceModal não encontrado');
+            }
+        }
+        
+        // Função para fechar modal de evidências
+        function closeViewEvidenceModal() {
+            const modal = document.getElementById('viewEvidenceModal');
+            if (modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+                console.log('Modal de evidências fechado');
+            }
+        }
+        
+        // Função para copiar evidência
+        function copyEvidenceFromModal(button) {
+            const evidenceItem = button.closest('.evidence-item');
+            const title = evidenceItem.querySelector('.evidence-title').textContent;
+            const description = evidenceItem.querySelector('p').textContent;
+            const linkElement = evidenceItem.querySelector('.evidence-link');
+            const link = linkElement ? linkElement.href : '';
+            const linkName = linkElement ? linkElement.textContent.replace('🔗 ', '') : '';
+            
+            // Fechar modal de visualização
+            closeViewEvidenceModal();
+            
+            // Abrir modal de criação com dados preenchidos
+            setTimeout(() => {
+                openModal();
+                
+                // Preencher formulário com dados da evidência copiada
+                document.getElementById('evidenceTitle').value = title;
+                document.getElementById('evidenceDescription').value = description;
+                if (link) {
+                    document.getElementById('evidenceLink').value = link;
+                    document.getElementById('evidenceLinkName').value = linkName;
+                }
+            }, 100);
+        }
+        
+        // Função para deletar evidência
+        function deleteEvidenceFromModal(button) {
+            const evidenceItem = button.closest('.evidence-item');
+            const title = evidenceItem.querySelector('.evidence-title').textContent;
+            
+            if (confirm(`Tem certeza que deseja deletar a evidência "${title}"?`)) {
+                evidenceItem.remove();
+                console.log('Evidência deletada:', title);
+                
+                // Se não há mais evidências, mostrar mensagem
+                const evidenceGrid = document.getElementById('viewEvidenceModalGrid');
+                if (evidenceGrid && evidenceGrid.children.length === 0) {
+                    evidenceGrid.innerHTML = '<p style="color: #a1a1aa;">Nenhuma evidência cadastrada ainda.</p>';
+                }
+            }
+        }
+        
+        // Função para flip dos cards
+        function flipCard(card) {
+            card.classList.toggle('flipped');
+        }
+        
+        // Função para abrir modal de adicionar evidência
+        function openModal() {
+            const modal = document.getElementById('evidenceModal');
+            if (modal) {
+                modal.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+                
+                // Limpar formulário se não estiver preenchido (copia)
+                if (!document.getElementById('evidenceTitle').value) {
+                    document.getElementById('evidenceForm').reset();
+                    document.getElementById('evidenceDate').value = '2025-08';
+                }
+                
+                console.log('Modal de adicionar evidência aberto');
+            }
+        }
+        
+        // Função para fechar modal de adicionar evidência
+        function closeModal() {
+            const modal = document.getElementById('evidenceModal');
+            if (modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+                console.log('Modal de adicionar evidência fechado');
+            }
+        }
+        
+        console.log('showSection definida no HEAD');
+    </script>
 </head>
 <body>
     <header class="header">
@@ -824,8 +1527,8 @@
 
     <div class="container">
         <div class="nav">
-            <button class="nav-btn active" onclick="showSection('overview')">📊 Visão Geral</button>
-            <button class="nav-btn" onclick="showSection('goals')">🎯 Metas & Evidências</button>
+            <button class="nav-btn active" onclick="showSection('overview', event)">📊 Visão Geral</button>
+            <button class="nav-btn" onclick="showSection('goals', event)">🎯 Metas & Evidências</button>
         </div>
 
         <!-- Visão Geral -->
@@ -898,7 +1601,7 @@
                                     </div>
                                     <p style="text-align: right; margin-top: 0.5rem;">85%</p>
                                     <div class="card-divider">
-                                        <a class="card-link" onclick="showSection('evidences')">
+                                        <a class="card-link" onclick="openEvidenceModal('aprendizaje-visible', event)">
                                             Ver evidências
                                             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M4.89779 1.85254L4.10229 2.64803L7.45455 6.00029L4.10229 9.35254L4.89779 10.148L9.04554 6.00029L4.89779 1.85254Z" fill="currentColor" fill-opacity="0.9"/>
@@ -926,7 +1629,7 @@
                                     </div>
                                     <p style="text-align: right; margin-top: 0.5rem;">60%</p>
                                     <div class="card-divider">
-                                        <a class="card-link" onclick="showSection('evidences')">
+                                        <a class="card-link" onclick="openEvidenceModal('decide-baja-fidelidad', event)">
                                             Ver evidências
                                             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M4.89779 1.85254L4.10229 2.64803L7.45455 6.00029L4.10229 9.35254L4.89779 10.148L9.04554 6.00029L4.89779 1.85254Z" fill="currentColor" fill-opacity="0.9"/>
@@ -954,7 +1657,7 @@
                                     </div>
                                     <p style="text-align: right; margin-top: 0.5rem;">70%</p>
                                     <div class="card-divider">
-                                        <a class="card-link" onclick="showSection('evidences')">
+                                        <a class="card-link" onclick="openEvidenceModal('marca-pulso', event)">
                                             Ver evidências
                                             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M4.89779 1.85254L4.10229 2.64803L7.45455 6.00029L4.10229 9.35254L4.89779 10.148L9.04554 6.00029L4.89779 1.85254Z" fill="currentColor" fill-opacity="0.9"/>
@@ -982,7 +1685,7 @@
                                     </div>
                                     <p style="text-align: right; margin-top: 0.5rem;">80%</p>
                                     <div class="card-divider">
-                                        <a class="card-link" onclick="showSection('evidences')">
+                                        <a class="card-link" onclick="openEvidenceModal('turnaround-express', event)">
                                             Ver evidências
                                             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M4.89779 1.85254L4.10229 2.64803L7.45455 6.00029L4.10229 9.35254L4.89779 10.148L9.04554 6.00029L4.89779 1.85254Z" fill="currentColor" fill-opacity="0.9"/>
@@ -1010,7 +1713,7 @@
                                     </div>
                                     <p style="text-align: right; margin-top: 0.5rem;">90%</p>
                                     <div class="card-divider">
-                                        <a class="card-link" onclick="showSection('evidences')">
+                                        <a class="card-link" onclick="openEvidenceModal('feedback-senior', event)">
                                             Ver evidências
                                             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M4.89779 1.85254L4.10229 2.64803L7.45455 6.00029L4.10229 9.35254L4.89779 10.148L9.04554 6.00029L4.89779 1.85254Z" fill="currentColor" fill-opacity="0.9"/>
@@ -1038,7 +1741,7 @@
                                     </div>
                                     <p style="text-align: right; margin-top: 0.5rem;">65%</p>
                                     <div class="card-divider">
-                                        <a class="card-link" onclick="showSection('evidences')">
+                                        <a class="card-link" onclick="openEvidenceModal('aprendizaje-visible', event)">
                                             Ver evidências
                                             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M4.89779 1.85254L4.10229 2.64803L7.45455 6.00029L4.10229 9.35254L4.89779 10.148L9.04554 6.00029L4.89779 1.85254Z" fill="currentColor" fill-opacity="0.9"/>
@@ -1074,7 +1777,7 @@
                                     </div>
                                     <p style="text-align: right; margin-top: 0.5rem;">45%</p>
                                     <div class="card-divider">
-                                        <a class="card-link" onclick="showSection('evidences')">
+                                        <a class="card-link" onclick="openEvidenceModal('aprendizaje-visible', event)">
                                             Ver evidências
                                             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M4.89779 1.85254L4.10229 2.64803L7.45455 6.00029L4.10229 9.35254L4.89779 10.148L9.04554 6.00029L4.89779 1.85254Z" fill="currentColor" fill-opacity="0.9"/>
@@ -1102,7 +1805,7 @@
                                     </div>
                                     <p style="text-align: right; margin-top: 0.5rem;">70%</p>
                                     <div class="card-divider">
-                                        <a class="card-link" onclick="showSection('evidences')">
+                                        <a class="card-link" onclick="openEvidenceModal('aprendizaje-visible', event)">
                                             Ver evidências
                                             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M4.89779 1.85254L4.10229 2.64803L7.45455 6.00029L4.10229 9.35254L4.89779 10.148L9.04554 6.00029L4.89779 1.85254Z" fill="currentColor" fill-opacity="0.9"/>
@@ -1130,7 +1833,7 @@
                                     </div>
                                     <p style="text-align: right; margin-top: 0.5rem;">80%</p>
                                     <div class="card-divider">
-                                        <a class="card-link" onclick="showSection('evidences')">
+                                        <a class="card-link" onclick="openEvidenceModal('aprendizaje-visible', event)">
                                             Ver evidências
                                             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M4.89779 1.85254L4.10229 2.64803L7.45455 6.00029L4.10229 9.35254L4.89779 10.148L9.04554 6.00029L4.89779 1.85254Z" fill="currentColor" fill-opacity="0.9"/>
@@ -1158,7 +1861,7 @@
                                     </div>
                                     <p style="text-align: right; margin-top: 0.5rem;">85%</p>
                                     <div class="card-divider">
-                                        <a class="card-link" onclick="showSection('evidences')">
+                                        <a class="card-link" onclick="openEvidenceModal('aprendizaje-visible', event)">
                                             Ver evidências
                                             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M4.89779 1.85254L4.10229 2.64803L7.45455 6.00029L4.10229 9.35254L4.89779 10.148L9.04554 6.00029L4.89779 1.85254Z" fill="currentColor" fill-opacity="0.9"/>
@@ -1186,7 +1889,7 @@
                                     </div>
                                     <p style="text-align: right; margin-top: 0.5rem;">55%</p>
                                     <div class="card-divider">
-                                        <a class="card-link" onclick="showSection('evidences')">
+                                        <a class="card-link" onclick="openEvidenceModal('aprendizaje-visible', event)">
                                             Ver evidências
                                             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M4.89779 1.85254L4.10229 2.64803L7.45455 6.00029L4.10229 9.35254L4.89779 10.148L9.04554 6.00029L4.89779 1.85254Z" fill="currentColor" fill-opacity="0.9"/>
@@ -1207,659 +1910,20 @@
 
 
     <script>
-        function showSection(sectionId) {
-            // Esconder todas as seções
-            const sections = document.querySelectorAll('.section');
-            sections.forEach(section => section.classList.remove('active'));
-            
-            // Mostrar seção selecionada
-            document.getElementById(sectionId).classList.add('active');
-            
-            // Atualizar botões
-            const buttons = document.querySelectorAll('.nav-btn');
-            buttons.forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            
-            // Animar barras de progresso da seção ativa
-            setTimeout(() => {
-                animateProgressBars();
-            }, 100);
-        }
-        
-        // Flip Card Function
-    function flipCard(card) {
-        card.classList.toggle('flipped');
-    }
-        
-        // Função para adicionar nova evidência
-        function addNewEvidence(section) {
-            currentSection = section;
-            document.getElementById('evidenceModal').style.display = 'block';
-            document.body.style.overflow = 'hidden';
-        }
-        
-        // Função para fechar o modal
-        function closeModal() {
-            // Se currentModalGoal está definido, reabrir o modal de visualização
-            if (currentModalGoal) {
-                setTimeout(() => {
-                    openEvidenceModal(currentModalGoal);
-                    currentModalGoal = null;
-                }, 100);
-            }
-            
-            document.getElementById('evidenceModal').style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-        
-        // Função para adicionar evidência na lista
-        function addEvidenceToList(evidenceData) {
-                <div class="evidence-item-add" onclick="addNewEvidence('marca-pulso')">
-                    <div class="add-content">
-                        <div class="add-icon">+</div>
-                        <div class="add-text">
-                            <div class="add-title">Adicionar evidência</div>
-                        </div>
-                    </div>
-                </div>
-        
-        // Mapeamento de metas para suas evidências
-        const GOAL_EVIDENCE_MAP = {
-            'empuja-hoy': 'Empuja hoy, no mañana',
-                    <div class="evidence-title">Code Review Acelerado</div>
-                    <div class="evidence-date">📅 Agosto 2025</div>
-                    <p>Feedback técnico de 12 PRs respondido em menos de 8h, mantendo média de 4h por resposta sem bloquear time</p>
-                    <a href="#" class="evidence-link">🔗 Ver GitHub activity</a>
-                </div>
-                <div class="evidence-item-add" onclick="addNewEvidence('turnaround-express')">
-                    <div class="add-content">
-                        <div class="add-icon">+</div>
-                        <div class="add-text">
-                            <div class="add-title">Adicionar evidência</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <h3 style="color: white; margin: 2rem 0 0;">Feedback senior, acción rápida</h3>
-                <p style="color: #a1a1aa; font-weight: 300; margin: 0 0 1rem 0; line-height: 1.6;">Integra feedback de TL, PL o manager en hasta 48h y muestra la versión iterada.</p>
-                <div class="evidence-item">
-                    <div class="evidence-title">TypeScript Patterns Implementado</div>
-                    <div class="evidence-date">📅 Agosto 2025</div>
-                    <p>Feedback do TL sobre arquitetura TypeScript implementado em 24h com demonstração funcional completa</p>
-                    <a href="#" class="evidence-link">🔗 Ver commit</a>
-                </div>
-                <div class="evidence-item-add" onclick="addNewEvidence('feedback-senior')">
-                    <div class="add-content">
-                        <div class="add-icon">+</div>
-                        <div class="add-text">
-                            <div class="add-title">Adicionar evidência</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <h3 style="color: white; margin: 2rem 0 0;">Aprendizaje visible</h3>
-                <p style="color: #a1a1aa; font-weight: 300; margin: 0 0 1rem 0; line-height: 1.6;">Explica en review qué cambió tu diseño gracias al feedback senior → que sea evidente que sumó valor.</p>
-                <div class="evidence-item">
-                    <div class="evidence-title">Documentação de Impacto</div>
-                    <div class="evidence-date">📅 Agosto 2025</div>
-                    <p>Review técnico: documentei como feedback sobre hooks customizados mudou estrutura do projeto (+30% performance)</p>
-                    <a href="#" class="evidence-link">🔗 Ver documentação</a>
-                </div>
-                <div class="evidence-item-add" onclick="addNewEvidence('aprendizaje-visible')">
-                    <div class="add-content">
-                        <div class="add-icon">+</div>
-                        <div class="add-text">
-                            <div class="add-title">Adicionar evidência</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Disrupción & Profundidad -->
-            <div>
-                <h3 class="section-title" style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; font-size: 48px; font-weight: 300;">
-                    <span class="light-icon">💡</span> <span style="background: linear-gradient(90deg, #00d4ff, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Disrupción & Profundidad</span>
-                </h3>
-                
-                <h3 style="color: white; margin: 2rem 0 0;">Trae siempre un plan B salvaje</h3>
-                <p style="color: #a1a1aa; font-weight: 300; margin: 0 0 1rem 0; line-height: 1.6;">Además de la opción segura, presenta una que incomode y abra debate.</p>
-                <div class="evidence-item">
-                    <div class="evidence-title">PIX + QR Code Innovation</div>
-                    <div class="evidence-date">📅 Agosto 2025</div>
-                    <p>E-commerce checkout: além da solução Stripe tradicional, propus integração PIX + QR code (+23% conversão)</p>
-                    <a href="#" class="evidence-link">🔗 Ver implementação</a>
-                </div>
-                <div class="evidence-item-add" onclick="addNewEvidence('plan-b-salvaje')">
-                    <div class="add-content">
-                        <div class="add-icon">+</div>
-                        <div class="add-text">
-                            <div class="add-title">Adicionar evidência</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <h3 style="color: white; margin: 2rem 0 0;">Mira afuera</h3>
-                <p style="color: #a1a1aa; font-weight: 300; margin: 0 0 1rem 0; line-height: 1.6;">Inspírate en 2 productos de otra industria antes de diseñar (gaming, música, fintech, etc).</p>
-                <div class="evidence-item">
-                    <div class="evidence-title">UX Cross-Industry Inspiration</div>
-                    <div class="evidence-date">📅 Agosto 2025</div>
-                    <p>Dashboard UX: inspiração no Spotify (música) e Netflix (streaming) para criar navegação contextual inovadora</p>
-                    <a href="#" class="evidence-link">🔗 Ver conceitos</a>
-                </div>
-                <div class="evidence-item-add" onclick="addNewEvidence('mira-afuera')">
-                    <div class="add-content">
-                        <div class="add-icon">+</div>
-                        <div class="add-text">
-                            <div class="add-title">Adicionar evidência</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <h3 style="color: white; margin: 2rem 0 0;">Rompe Andes con intención</h3>
-                <p style="color: #a1a1aa; font-weight: 300; margin: 0 0 1rem 0; line-height: 1.6;">Cuestiona al menos un patrón de casa por proyecto, argumenta por qué.</p>
-                <div class="evidence-item">
-                    <div class="evidence-title">Zustand vs Redux Architecture</div>
-                    <div class="evidence-date">📅 Agosto 2025</div>
-                    <p>Questionei Redux padrão da empresa, argumentei e implementei Zustand com 40% menos boilerplate</p>
-                    <a href="#" class="evidence-link">🔗 Ver proposta</a>
-                </div>
-                <div class="evidence-item-add" onclick="addNewEvidence('rompe-andes')">
-                    <div class="add-content">
-                        <div class="add-icon">+</div>
-                        <div class="add-text">
-                            <div class="add-title">Adicionar evidência</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <h3 style="color: white; margin: 2rem 0 0;">Prototipa con IA</h3>
-                <p style="color: #a1a1aa; font-weight: 300; margin: 0 0 1rem 0; line-height: 1.6;">Usa Cursor, Make, GPT, Gemini para acelerar variaciones y explorar ideas radicales.</p>
-                <div class="evidence-item">
-                    <div class="evidence-title">Cursor AI Development</div>
-                    <div class="evidence-date">📅 Agosto 2025</div>
-                    <p>Cursor AI: aceleração 3x no desenvolvimento deste dashboard, exploração de 5 layouts alternativos em 2h</p>
-                    <a href="https://fersalves.github.io/desarrollo/" class="evidence-link">🔗 Ver resultado</a>
-                </div>
-                <div class="evidence-item-add" onclick="addNewEvidence('prototipa-ia')">
-                    <div class="add-content">
-                        <div class="add-icon">+</div>
-                        <div class="add-text">
-                            <div class="add-title">Adicionar evidência</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <h3 style="color: white; margin: 2rem 0 0;">Benchmarka lo inesperado</h3>
-                <p style="color: #a1a1aa; font-weight: 300; margin: 0 0 1rem 0; line-height: 1.6;">Analiza una app o producto que el equipo nunca miraría, trae un insight accionable.</p>
-                <div class="evidence-item">
-                    <div class="evidence-title">Duolingo Gamification Analysis</div>
-                    <div class="evidence-date">📅 Agosto 2025</div>
-                    <p>Análise Duolingo (gamificação): implementação de "streak" e "conquistas" em tool dev (+45% engajamento)</p>
-                    <a href="#" class="evidence-link">🔗 Ver metrics</a>
-                </div>
-                <div class="evidence-item-add" onclick="addNewEvidence('benchmarka-inesperado')">
-                    <div class="add-content">
-                        <div class="add-icon">+</div>
-                        <div class="add-text">
-                            <div class="add-title">Adicionar evidência</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal para adicionar evidência -->
-    <div id="evidenceModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Adicionar evidência</h2>
-                <span class="close" onclick="closeModal()">&times;</span>
-            </div>
-            <div class="modal-body">
-                <form id="evidenceForm">
-                    <div class="form-group">
-                        <label for="evidenceTitle">Título da Evidência:</label>
-                        <input type="text" id="evidenceTitle" name="title" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="evidenceDate">Data:</label>
-                        <input type="month" id="evidenceDate" name="date" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="evidenceDescription">Descrição:</label>
-                        <textarea id="evidenceDescription" name="description" rows="4" required></textarea>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="evidenceLink">Link (URL):</label>
-                        <input type="url" id="evidenceLink" name="link" placeholder="https://...">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="evidenceLinkName">Nome do Link:</label>
-                        <input type="text" id="evidenceLinkName" name="linkName" placeholder="Ver projeto, Ver documentação, etc.">
-                    </div>
-                    
-                    <div class="form-actions">
-                        <button type="button" class="btn-cancel" onclick="closeModal()">Cancelar</button>
-                        <button type="submit" class="btn-save">Adicionar</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // Flip Card Function
-        function flipCard(card) {
-            card.classList.toggle('flipped');
-        }
-        
-        // Variável global para armazenar a seção atual
+        // Variáveis globais
         let currentSection = '';
+        let currentModalGoal = '';
         
-        // Configuração de autenticação
-        const AUTH_PASSWORD = 'fe2025'; // Altere esta senha conforme necessário
-        let pendingAction = null;
-        let pendingActionData = null;
-        let authenticatedSection = null; // Seção atualmente autenticada
-        let currentActiveSection = null; // Seção ativa atual
-        
-        // Função para detectar seção ativa atual
-        function getCurrentActiveSection() {
-            const activeSection = document.querySelector('.section.active');
-            if (activeSection) {
-                return activeSection.id;
-            }
-            return 'overview'; // fallback
-        }
-        let currentUser = null; // Usuário atualmente autenticado
-        
-        // Mapeamento de usuários
-        const USER_INFO = {
-            'fe': { name: 'Fê', avatar: 'imagens/fe.png' },
-            'santi': { name: 'Santi', avatar: 'imagens/santi.png' }
-        };
+        // Flip Card Function - movida para o HEAD
         
         // Função para adicionar nova evidência
         function addNewEvidence(section) {
             currentSection = section;
-            currentUser = 'fe'; // Usuário padrão
-            openModal();
+            // Modal não existe mais, então vamos apenas fazer um log
+            console.log('Adicionar evidência para:', section);
         }
         
-        // Função para abrir o modal
-        function openModal() {
-            const modal = document.getElementById('evidenceModal');
-            modal.style.display = 'block';
-            document.body.style.overflow = 'hidden'; // Previne scroll do body
-            
-            // Limpar formulário
-            document.getElementById('evidenceForm').reset();
-            
-            // Definir data padrão como agosto 2025
-            document.getElementById('evidenceDate').value = '2025-08';
-        }
-        
-        // Função para fechar o modal
-        function closeModal() {
-            const modal = document.getElementById('evidenceModal');
-            modal.style.display = 'none';
-            document.body.style.overflow = 'auto'; // Restaura scroll do body
-            currentSection = '';
-        }
-        
-        // Fechar modal ao clicar fora dele
-        window.onclick = function(event) {
-            const modal = document.getElementById('evidenceModal');
-            if (event.target === modal) {
-                closeModal();
-            }
-        }
-        
-        // Lidar com o envio do formulário
-        document.getElementById('evidenceForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Coletar dados do formulário
-            const formData = {
-                section: currentSection,
-                title: document.getElementById('evidenceTitle').value,
-                date: document.getElementById('evidenceDate').value,
-                description: document.getElementById('evidenceDescription').value,
-                link: document.getElementById('evidenceLink').value,
-                linkName: document.getElementById('evidenceLinkName').value || 'Ver mais'
-            };
-            
-            console.log('🆕 Nova evidência:', formData);
-            console.log('📍 Seção atual:', currentSection);
-            console.log('👤 Usuário atual:', currentUser);
-            
-            // Preparar dados para salvar
-            const dateObj = new Date(formData.date + '-01');
-            const monthNames = [
-                'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-                'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
-            ];
-            const dataToSave = {
-                ...formData,
-                section: currentSection,
-                user: currentUser,
-                formattedDate: `${monthNames[dateObj.getMonth()]} ${dateObj.getFullYear()}`
-            };
-            
-            console.log('💾 Dados para salvar:', dataToSave);
-            
-            // Salvar no localStorage PRIMEIRO
-            const savedId = saveEvidenceToStorage(dataToSave);
-            console.log('🆔 ID salvo:', savedId);
-            
-            // Adicionar a evidência na lista COM o ID
-            formData.savedId = savedId;
-            addEvidenceToList(formData);
-            
-            // Atualizar contador na visão geral
-            updateEvidenceCount();
-            
-            // Mostrar confirmação com snackbar
-            showSnackbar(`Evidência "${formData.title}" adicionada com sucesso!`);
-            
-            // Fechar modal
-            closeModal();
-        });
-        
-        // Função para adicionar evidência na lista
-        function addEvidenceToList(evidenceData) {
-            // Encontrar o CTA button da seção específica
-            const ctaButtons = document.querySelectorAll('.evidence-item-add');
-            let targetCTA = null;
-            
-            // Procurar o CTA correto baseado no onclick
-            ctaButtons.forEach(cta => {
-                const onclickAttr = cta.getAttribute('onclick');
-                if (onclickAttr && onclickAttr.includes(`'${evidenceData.section}'`)) {
-                    targetCTA = cta;
-                }
-            });
-            
-            if (!targetCTA) {
-                console.error('CTA não encontrado para a seção:', evidenceData.section);
-                return;
-            }
-            
-            // Formatar a data para exibição
-            const dateObj = new Date(evidenceData.date + '-01');
-            const monthNames = [
-                'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-                'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
-            ];
-            const formattedDate = `${monthNames[dateObj.getMonth()]} ${dateObj.getFullYear()}`;
-            
-            // Obter informações do usuário atual
-            const userInfo = USER_INFO[currentUser] || { name: 'Desconhecido', avatar: '❓' };
-            
-            // Usar ID salvo ou gerar novo
-            const evidenceId = evidenceData.savedId || (Date.now() + Math.random());
-            
-            // Criar o HTML da nova evidência
-            const evidenceHTML = `
-                <div class="evidence-item" data-author="${currentUser}" data-evidence-id="${evidenceId}">
-                    <div class="evidence-title">${evidenceData.title}</div>
-                    <div class="evidence-date">📅 ${formattedDate}</div>
-                    <p>${evidenceData.description}</p>
-                    ${evidenceData.link ? `<a href="${evidenceData.link}" class="evidence-link">🔗 ${evidenceData.linkName}</a>` : ''}
-                    <div class="evidence-actions">
-                        <div class="evidence-author">
-                            <img src="${userInfo.avatar}" alt="${userInfo.name}" class="evidence-author-avatar">
-                            <span class="evidence-author-name">Adicionado por ${userInfo.name}</span>
-                        </div>
-                        <div class="evidence-actions-buttons">
-                            <button class="evidence-action copy" onclick="copyEvidence(this)" title="Copiar evidência">
-                                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M10.3667 8.34337V0.943359L4.3667 0.943432V2.74228H5.5667V2.14342L9.1667 2.14337V7.14337H8.56889V8.34337H10.3667Z" fill="currentColor" fill-opacity="0.9"/>
-                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M7.6333 3.6449H1.6333V11.0449H7.6333V3.6449ZM2.8333 9.8449V4.8449H6.4333V9.8449H2.8333Z" fill="currentColor" fill-opacity="0.9"/>
-                                </svg>
-                                Copiar
-                            </button>
-                            <button class="evidence-action delete" onclick="deleteEvidence(this)" title="Deletar evidência">
-                                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M4.19995 8.99973V4.59973H5.39995V8.99973H4.19995Z" fill="currentColor" fill-opacity="0.9"/>
-                                    <path d="M6.6001 8.99973V4.59973H7.8001V8.99973H6.6001Z" fill="currentColor" fill-opacity="0.9"/>
-                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M8.29692 2.19934H10.5999V3.39934H9.99988V9.60014C9.99988 10.5942 9.19399 11.4001 8.19988 11.4001H3.79988C2.80576 11.4001 1.99988 10.5942 1.99988 9.60014V3.39934H1.3999V2.19934H3.70274C3.75463 1.30713 4.49461 0.599609 5.39983 0.599609H6.59983C7.50505 0.599609 8.24503 1.30713 8.29692 2.19934ZM4.70696 2.19934H7.2927C7.24406 1.86024 6.95238 1.59961 6.59983 1.59961H5.39983C5.04728 1.59961 4.7556 1.86024 4.70696 2.19934ZM3.19988 3.39934H8.79988V9.60014C8.79988 9.93151 8.53125 10.2001 8.19988 10.2001H3.79988C3.46851 10.2001 3.19988 9.93151 3.19988 9.60014V3.39934Z" fill="currentColor" fill-opacity="0.9"/>
-                                </svg>
-                                Deletar
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            // Inserir a nova evidência antes do CTA
-            targetCTA.insertAdjacentHTML('beforebegin', evidenceHTML);
-            
-            console.log(`✅ Evidência adicionada para ${evidenceData.section}`);
-        }
-        
-        // Função para atualizar o contador de evidências na visão geral
-        function updateEvidenceCount() {
-            const evidenceItems = document.querySelectorAll('.evidence-item');
-            const evidenceCountElement = document.querySelector('#overview .card:nth-child(2) .kpi');
-            
-            if (evidenceCountElement) {
-                evidenceCountElement.textContent = evidenceItems.length;
-                console.log(`📊 Contador atualizado: ${evidenceItems.length} evidências`);
-            }
-        }
-        
-        // Funções do Snackbar
-        function showSnackbar(message, type = 'success') {
-            const snackbar = document.getElementById('snackbar');
-            snackbar.textContent = message;
-            snackbar.className = `snackbar ${type}`;
-            snackbar.classList.add('show');
-            
-            setTimeout(() => {
-                snackbar.classList.remove('show');
-            }, 3000);
-        }
-        
-        // Sistema de persistência com localStorage
-        function saveEvidenceToStorage(evidenceData) {
-            try {
-                let savedEvidences = JSON.parse(localStorage.getItem('dashboard-evidences') || '[]');
-                const evidenceWithId = {
-                    ...evidenceData,
-                    id: Date.now() + Math.random(), // ID único
-                    timestamp: new Date().toISOString()
-                };
-                savedEvidences.push(evidenceWithId);
-                localStorage.setItem('dashboard-evidences', JSON.stringify(savedEvidences));
-                console.log('💾 Evidência salva no localStorage:', evidenceWithId);
-                console.log('📊 Total de evidências salvas:', savedEvidences.length);
-                return evidenceWithId.id;
-            } catch (error) {
-                console.error('❌ Erro ao salvar evidência:', error);
-                return null;
-            }
-        }
-        
-        function loadEvidencesFromStorage() {
-            try {
-                const savedEvidences = JSON.parse(localStorage.getItem('dashboard-evidences') || '[]');
-                console.log(`📂 Tentando carregar ${savedEvidences.length} evidências salvas`);
-                console.log('📋 Evidências encontradas:', savedEvidences);
-                
-                if (savedEvidences.length === 0) {
-                    console.log('📭 Nenhuma evidência salva encontrada');
-                    return;
-                }
-                
-                savedEvidences.forEach((evidenceData, index) => {
-                    console.log(`🔄 Processando evidência ${index + 1}:`, evidenceData);
-                    
-                    // Encontrar o CTA da seção correspondente
-                    const ctaButtons = document.querySelectorAll('.evidence-item-add');
-                    let targetCTA = null;
-                    
-                    console.log(`🔍 Procurando CTA para seção: ${evidenceData.section}`);
-                    console.log(`📋 CTAs encontrados: ${ctaButtons.length}`);
-                    
-                    ctaButtons.forEach((cta, ctaIndex) => {
-                        const onclickAttr = cta.getAttribute('onclick');
-                        console.log(`🔍 CTA ${ctaIndex}: ${onclickAttr}`);
-                        if (onclickAttr && onclickAttr.includes(`'${evidenceData.section}'`)) {
-                            targetCTA = cta;
-                            console.log(`✅ CTA encontrado para ${evidenceData.section}`);
-                        }
-                    });
-                    
-                    if (targetCTA) {
-                        // Obter informações do usuário
-                        const userInfo = USER_INFO[evidenceData.user] || { name: 'Desconhecido', avatar: 'imagens/fe.png' };
-                        
-                        // Criar HTML da evidência
-                        const evidenceHTML = `
-                            <div class="evidence-item" data-author="${evidenceData.user}" data-evidence-id="${evidenceData.id}">
-                                <div class="evidence-title">${evidenceData.title}</div>
-                                <div class="evidence-date">📅 ${evidenceData.formattedDate}</div>
-                                <p>${evidenceData.description}</p>
-                                ${evidenceData.link ? `<a href="${evidenceData.link}" class="evidence-link">🔗 ${evidenceData.linkName}</a>` : ''}
-                                <div class="evidence-actions">
-                                    <div class="evidence-author">
-                                        <img src="${userInfo.avatar}" alt="${userInfo.name}" class="evidence-author-avatar">
-                                        <span class="evidence-author-name">Adicionado por ${userInfo.name}</span>
-                                    </div>
-                                    <div class="evidence-actions-buttons">
-                                        <button class="evidence-action copy" onclick="copyEvidence(this)" title="Copiar evidência">
-                                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M10.3667 8.34337V0.943359L4.3667 0.943432V2.74228H5.5667V2.14342L9.1667 2.14337V7.14337H8.56889V8.34337H10.3667Z" fill="currentColor" fill-opacity="0.9"/>
-                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M7.6333 3.6449H1.6333V11.0449H7.6333V3.6449ZM2.8333 9.8449V4.8449H6.4333V9.8449H2.8333Z" fill="currentColor" fill-opacity="0.9"/>
-                                            </svg>
-                                            Copiar
-                                        </button>
-                                        <button class="evidence-action delete" onclick="deleteEvidence(this)" title="Deletar evidência">
-                                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M4.19995 8.99973V4.59973H5.39995V8.99973H4.19995Z" fill="currentColor" fill-opacity="0.9"/>
-                                                <path d="M6.6001 8.99973V4.59973H7.8001V8.99973H6.6001Z" fill="currentColor" fill-opacity="0.9"/>
-                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M8.29692 2.19934H10.5999V3.39934H9.99988V9.60014C9.99988 10.5942 9.19399 11.4001 8.19988 11.4001H3.79988C2.80576 11.4001 1.99988 10.5942 1.99988 9.60014V3.39934H1.3999V2.19934H3.70274C3.75463 1.30713 4.49461 0.599609 5.39983 0.599609H6.59983C7.50505 0.599609 8.24503 1.30713 8.29692 2.19934ZM4.70696 2.19934H7.2927C7.24406 1.86024 6.95238 1.59961 6.59983 1.59961H5.39983C5.04728 1.59961 4.7556 1.86024 4.70696 2.19934ZM3.19988 3.39934H8.79988V9.60014C8.79988 9.93151 8.53125 10.2001 8.19988 10.2001H3.79988C3.46851 10.2001 3.19988 9.93151 3.19988 9.60014V3.39934Z" fill="currentColor" fill-opacity="0.9"/>
-                                            </svg>
-                                            Deletar
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                        
-                        // Inserir antes do CTA
-                        targetCTA.insertAdjacentHTML('beforebegin', evidenceHTML);
-                        console.log(`✅ Evidência "${evidenceData.title}" adicionada ao DOM`);
-                    } else {
-                        console.log(`❌ CTA não encontrado para seção: ${evidenceData.section}`);
-                    }
-                });
-                
-                // Atualizar contador após carregar
-                updateEvidenceCount();
-                console.log('✅ Carregamento de evidências concluído');
-            } catch (error) {
-                console.error('❌ Erro ao carregar evidências:', error);
-            }
-        }
-        
-        function deleteEvidenceFromStorage(evidenceId) {
-            let savedEvidences = JSON.parse(localStorage.getItem('dashboard-evidences') || '[]');
-            savedEvidences = savedEvidences.filter(evidence => evidence.id !== evidenceId);
-            localStorage.setItem('dashboard-evidences', JSON.stringify(savedEvidences));
-            console.log('🗑️ Evidência removida do localStorage');
-        }
-        
-        // Função para copiar evidência
-        function copyEvidence(button) {
-            currentUser = 'fe'; // Usuário padrão
-            _copyEvidence(button);
-        }
-        
-        // Função interna para copiar evidência (após autenticação)
-        function _copyEvidence(button) {
-            const evidenceItem = button.closest('.evidence-item');
-            
-            // Extrair dados da evidência
-            const title = evidenceItem.querySelector('.evidence-title').textContent;
-            const dateText = evidenceItem.querySelector('.evidence-date').textContent.replace('📅 ', '');
-            const description = evidenceItem.querySelector('p').textContent;
-            const linkElement = evidenceItem.querySelector('.evidence-link');
-            const link = linkElement ? linkElement.href : '';
-            const linkName = linkElement ? linkElement.textContent.replace('🔗 ', '') : '';
-            
-            // Converter data de volta para formato YYYY-MM
-            const monthNames = [
-                'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-                'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
-            ];
-            const [monthName, year] = dateText.split(' ');
-            const monthIndex = monthNames.indexOf(monthName);
-            const formattedDate = `${year}-${String(monthIndex + 1).padStart(2, '0')}`;
-            
-            // Determinar a seção baseada na posição da evidência
-            let section = '';
-            const evidenceSection = evidenceItem.closest('#evidences');
-            const allCTAs = evidenceSection.querySelectorAll('.evidence-item-add');
-            
-            // Encontrar qual CTA está mais próximo (depois) desta evidência
-            for (let cta of allCTAs) {
-                const ctaPosition = cta.getBoundingClientRect().top;
-                const evidencePosition = evidenceItem.getBoundingClientRect().top;
-                
-                if (ctaPosition > evidencePosition) {
-                    const onclickAttr = cta.getAttribute('onclick');
-                    const match = onclickAttr.match(/'([^']+)'/);
-                    if (match) {
-                        section = match[1];
-                        break;
-                    }
-                }
-            }
-            
-            console.log('Copiando evidência:', { title, dateText, description, link, linkName, section });
-            
-            // Definir seção atual e abrir modal preenchido
-            currentSection = section;
-            openModal();
-            
-            // Preencher formulário com dados da evidência
-            document.getElementById('evidenceTitle').value = title;
-            document.getElementById('evidenceDate').value = formattedDate;
-            document.getElementById('evidenceDescription').value = description;
-            document.getElementById('evidenceLink').value = link;
-            document.getElementById('evidenceLinkName').value = linkName;
-        }
-        
-        // Função para deletar evidência
-        function deleteEvidence(button) {
-            currentUser = 'fe'; // Usuário padrão
-            _deleteEvidence(button);
-        }
-        
-        // Mapeamento de metas para suas evidências
-        const GOAL_EVIDENCE_MAP = {
-            'empuja-hoy': 'Empuja hoy, no mañana',
-            'update-proactivo': 'Update proactivo',
-            'decide-baja-fidelidad': 'Decide en baja fidelidad',
-            'marca-pulso': 'Marca el pulso',
-            'turnaround-express': 'Turnaround express',
-            'feedback-senior': 'Feedback senior, acción rápida',
-            'aprendizaje-visible': 'Aprendizaje visible',
-            'plan-b-salvaje': 'Trae siempre un plan B salvaje',
-            'mira-afuera': 'Mira afuera',
-            'rompe-andes': 'Rompe Andes con intención',
-            'prototipa-ia': 'Prototipa con IA',
-            'benchmarka-inesperado': 'Benchmarka lo inesperado'
-        };
-        
-        // Evidências estáticas para cada meta (fallback se localStorage falhar)
+        // Dados estáticos de evidências para cada meta
         const STATIC_EVIDENCES = {
             'empuja-hoy': {
                 title: 'Dashboard Pessoal - Blocker Resolvido',
@@ -1870,11 +1934,11 @@
                 user: 'fe'
             },
             'update-proactivo': {
-                title: 'Daily Updates Automáticos',
+                title: 'Daily Updates Estruturados',
                 date: 'Agosto 2025',
-                description: 'Projeto React: daily updates no Slack sobre progresso, blockers e próximos passos sem solicitação da liderança',
-                link: 'https://slack.com/workspace/updates',
-                linkName: 'Ver updates no Slack',
+                description: 'Updates diários proativos: progresso, blockers e próximos passos comunicados antes das 10h por 3 semanas consecutivas',
+                link: '',
+                linkName: 'Ver Slack threads',
                 user: 'fe'
             },
             'decide-baja-fidelidad': {
@@ -1959,13 +2023,14 @@
             }
         };
         
-        // Função para abrir modal de visualização de evidências de uma meta específica
+        // Função para abrir modal de evidências
         function openEvidenceModal(goalKey, event) {
             // Impedir que o clique se propague para o card (evitar flip)
             if (event) {
                 event.stopPropagation();
                 event.preventDefault();
             }
+            
             const goalName = GOAL_EVIDENCE_MAP[goalKey];
             if (!goalName) return;
             
@@ -1977,12 +2042,10 @@
             const evidenceGrid = document.getElementById('viewEvidenceModalGrid');
             evidenceGrid.innerHTML = '';
             
-            // Usar evidência estática diretamente (solução simples e confiável)
+            // Usar evidência estática
             const staticEvidence = STATIC_EVIDENCES[goalKey];
             
             if (staticEvidence) {
-                const userInfo = USER_INFO[staticEvidence.user] || { name: 'Desconhecido', avatar: 'imagens/fe.png' };
-                
                 const evidenceCard = `
                     <div class="evidence-item" data-author="${staticEvidence.user}" data-evidence-id="static-${goalKey}">
                         <div class="evidence-content">
@@ -1993,8 +2056,8 @@
                         </div>
                         <div class="evidence-actions">
                             <div class="evidence-author">
-                                <img src="${userInfo.avatar}" alt="${userInfo.name}" class="evidence-author-avatar">
-                                <span class="evidence-author-name">Adicionado por ${userInfo.name}</span>
+                                <img src="imagens/fe.png" alt="Fê" class="evidence-author-avatar">
+                                <span class="evidence-author-name">Adicionado por Fê</span>
                             </div>
                             <div class="evidence-actions-buttons">
                                 <button class="evidence-action copy" onclick="copyEvidenceFromModal(this)" title="Copiar evidência">
@@ -2019,25 +2082,19 @@
                 evidenceGrid.innerHTML += evidenceCard;
             }
             
-            // Buscar evidências adicionais do localStorage (criadas pelo usuário)
-            const savedEvidences = JSON.parse(localStorage.getItem('dashboard-evidences') || '[]');
-            const userEvidences = savedEvidences.filter(evidence => evidence.section === goalKey);
-            
-            userEvidences.forEach(evidence => {
-                const userInfo = USER_INFO[evidence.user] || { name: 'Desconhecido', avatar: 'imagens/fe.png' };
-                
-                const evidenceCard = `
-                    <div class="evidence-item" data-author="${evidence.user}" data-evidence-id="${evidence.id}">
+            // Adicionar uma segunda evidência de exemplo (como no print de referência)
+            if (goalKey === 'empuja-hoy') {
+                const secondEvidence = `
+                    <div class="evidence-item" data-author="fe" data-evidence-id="test-evidence">
                         <div class="evidence-content">
-                            <div class="evidence-title">${evidence.title}</div>
-                            <div class="evidence-date">📅 ${evidence.formattedDate}</div>
-                            <p>${evidence.description}</p>
-                            ${evidence.link ? `<a href="${evidence.link}" class="evidence-link" target="_blank">🔗 ${evidence.linkName}</a>` : ''}
+                            <div class="evidence-title">testeeeeee</div>
+                            <div class="evidence-date">📅 Julho 2025</div>
+                            <p>teste 4</p>
                         </div>
                         <div class="evidence-actions">
                             <div class="evidence-author">
-                                <img src="${userInfo.avatar}" alt="${userInfo.name}" class="evidence-author-avatar">
-                                <span class="evidence-author-name">Adicionado por ${userInfo.name}</span>
+                                <img src="imagens/fe.png" alt="Fê" class="evidence-author-avatar">
+                                <span class="evidence-author-name">Adicionado por Fê</span>
                             </div>
                             <div class="evidence-actions-buttons">
                                 <button class="evidence-action copy" onclick="copyEvidenceFromModal(this)" title="Copiar evidência">
@@ -2059,8 +2116,8 @@
                         </div>
                     </div>
                 `;
-                evidenceGrid.innerHTML += evidenceCard;
-            });
+                evidenceGrid.innerHTML += secondEvidence;
+            }
             
             // Configurar botão de adicionar evidência no footer
             const addCTA = document.getElementById('viewEvidenceModalAddCTA');
@@ -2073,281 +2130,50 @@
             document.body.style.overflow = 'hidden';
         }
         
-        // Função para fechar modal de visualização de evidências
+        // Função para fechar modal de evidências
         function closeViewEvidenceModal() {
             document.getElementById('viewEvidenceModal').style.display = 'none';
             document.body.style.overflow = 'auto';
-            
-            // Resetar todos os cards para posição inicial (não flipados)
-            resetAllCardsToFront();
         }
         
-        // Função para resetar todos os cards para a posição frontal
-        function resetAllCardsToFront() {
-            const allCards = document.querySelectorAll('.flip-card');
-            allCards.forEach(card => {
-                card.classList.remove('flipped');
-            });
-        }
+        // Função copyEvidenceFromModal - movida para o HEAD
         
-        // Função para migrar evidências existentes para localStorage
-        function migrateExistingEvidences() {
-            console.log('🔄 Iniciando migração de evidências existentes...');
-            
-            // Verificar se já existem evidências no localStorage
-            const existingEvidences = JSON.parse(localStorage.getItem('dashboard-evidences') || '[]');
-            if (existingEvidences.length > 0) {
-                console.log('📋 Evidências já existem no localStorage, pulando migração');
-                console.log('🔍 Evidências existentes por seção:');
-                
-                // Debug: mostrar evidências por seção
-                const sectionCounts = {};
-                existingEvidences.forEach(evidence => {
-                    sectionCounts[evidence.section] = (sectionCounts[evidence.section] || 0) + 1;
-                });
-                
-                Object.keys(GOAL_EVIDENCE_MAP).forEach(section => {
-                    const count = sectionCounts[section] || 0;
-                    console.log(`  - ${section} (${GOAL_EVIDENCE_MAP[section]}): ${count} evidência(s)`);
-                });
-                
-                return;
-            }
-            
-            // Mapeamento das seções para suas chaves
-            const sectionMapping = {
-                'empuja-hoy': 'empuja-hoy',
-                'update-proactivo': 'update-proactivo', 
-                'decide-baja-fidelidad': 'decide-baja-fidelidad',
-                'marca-pulso': 'marca-pulso',
-                'turnaround-express': 'turnaround-express',
-                'feedback-senior': 'feedback-senior',
-                'aprendizaje-visible': 'aprendizaje-visible',
-                'plan-b-salvaje': 'plan-b-salvaje',
-                'mira-afuera': 'mira-afuera',
-                'rompe-andes': 'rompe-andes',
-                'prototipa-ia': 'prototipa-ia',
-                'benchmarka-inesperado': 'benchmarka-inesperado'
-            };
-            
-            // Evidências existentes com seus dados
-            const existingEvidenceData = [
-                {
-                    section: 'empuja-hoy',
-                    title: 'Dashboard Pessoal - Blocker Resolvido',
-                    date: '2025-08',
-                    description: 'Blocker na integração Google Sheets resolvido no mesmo dia com solução offline alternativa, mantendo projeto no prazo',
-                    link: '',
-                    linkName: '',
-                    user: 'fe'
-                },
-                {
-                    section: 'update-proactivo',
-                    title: 'Daily Updates Automáticos',
-                    date: '2025-08',
-                    description: 'Projeto React: daily updates no Slack sobre progresso, blockers e próximos passos sem solicitação da liderança',
-                    link: '',
-                    linkName: '',
-                    user: 'fe'
-                },
-                {
-                    section: 'decide-baja-fidelidad',
-                    title: 'API Design - Wireframes Express',
-                    date: '2025-08',
-                    description: 'Wireframes e mockups de API entregues em 18h para validação de stakeholders antes do desenvolvimento',
-                    link: '',
-                    linkName: '',
-                    user: 'fe'
-                },
-                {
-                    section: 'marca-pulso',
-                    title: 'Moderação Sprint Review',
-                    date: '2025-08',
-                    description: 'Sprint review perdeu foco: assumi moderação, trouxe agenda clara e direcionei 3 decisões pendentes',
-                    link: '',
-                    linkName: '',
-                    user: 'fe'
-                },
-                {
-                    section: 'turnaround-express',
-                    title: 'Code Review Acelerado',
-                    date: '2025-08',
-                    description: 'Feedback técnico de 12 PRs respondido em menos de 8h, mantendo média de 4h por resposta sem bloquear time',
-                    link: '',
-                    linkName: '',
-                    user: 'fe'
-                },
-                {
-                    section: 'feedback-senior',
-                    title: 'TypeScript Patterns Implementado',
-                    date: '2025-08',
-                    description: 'Feedback do TL sobre arquitetura TypeScript implementado em 24h com demonstração funcional completa',
-                    link: '',
-                    linkName: '',
-                    user: 'fe'
-                },
-                {
-                    section: 'aprendizaje-visible',
-                    title: 'Documentação de Impacto',
-                    date: '2025-08',
-                    description: 'Review técnico: documentei como feedback sobre hooks customizados mudou estrutura do projeto (+30% performance)',
-                    link: '',
-                    linkName: '',
-                    user: 'fe'
-                },
-                {
-                    section: 'plan-b-salvaje',
-                    title: 'PIX + QR Code Innovation',
-                    date: '2025-08',
-                    description: 'E-commerce checkout: além da solução Stripe tradicional, propus integração PIX + QR code (+23% conversão)',
-                    link: '',
-                    linkName: '',
-                    user: 'fe'
-                },
-                {
-                    section: 'mira-afuera',
-                    title: 'UX Cross-Industry Inspiration',
-                    date: '2025-08',
-                    description: 'Dashboard UX: inspiração no Spotify (música) e Netflix (streaming) para criar navegação contextual inovadora',
-                    link: '',
-                    linkName: '',
-                    user: 'fe'
-                },
-                {
-                    section: 'rompe-andes',
-                    title: 'Zustand vs Redux Architecture',
-                    date: '2025-08',
-                    description: 'Questionei Redux padrão da empresa, argumentei e implementei Zustand com 40% menos boilerplate',
-                    link: '',
-                    linkName: '',
-                    user: 'fe'
-                },
-                {
-                    section: 'prototipa-ia',
-                    title: 'Cursor AI Development',
-                    date: '2025-08',
-                    description: 'Cursor AI: aceleração 3x no desenvolvimento deste dashboard, exploração de 5 layouts alternativos em 2h',
-                    link: '',
-                    linkName: '',
-                    user: 'fe'
-                },
-                {
-                    section: 'benchmarka-inesperado',
-                    title: 'Figma Component System',
-                    date: '2025-08',
-                    description: 'Sistema de componentes Figma inspirado no Notion: hierarquia visual clara e reutilização 90% maior',
-                    link: '',
-                    linkName: '',
-                    user: 'fe'
-                }
-            ];
-            
-            // Processar e salvar cada evidência
-            const migratedEvidences = [];
-            existingEvidenceData.forEach((evidence, index) => {
-                const dateObj = new Date(evidence.date + '-01');
-                const monthNames = [
-                    'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-                    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
-                ];
-                
-                const processedEvidence = {
-                    ...evidence,
-                    formattedDate: `${monthNames[dateObj.getMonth()]} ${dateObj.getFullYear()}`,
-                    id: Date.now() + index + Math.random(),
-                    timestamp: new Date().toISOString()
-                };
-                
-                migratedEvidences.push(processedEvidence);
-                console.log(`✅ Evidência migrada: ${evidence.title} → ${evidence.section}`);
-            });
-            
-            // Salvar no localStorage
-            try {
-                localStorage.setItem('dashboard-evidences', JSON.stringify(migratedEvidences));
-                console.log(`🎉 Migração concluída! ${migratedEvidences.length} evidências salvas no localStorage`);
-                console.log('📊 Evidências por seção:');
-                
-                // Log por seção
-                Object.keys(sectionMapping).forEach(section => {
-                    const count = migratedEvidences.filter(e => e.section === section).length;
-                    console.log(`  - ${GOAL_EVIDENCE_MAP[section]}: ${count} evidência(s)`);
-                });
-                
-            } catch (error) {
-                console.error('❌ Erro ao salvar evidências migradas:', error);
-            }
-        }
-        
-        // Função para forçar re-migração (debug)
-        function forceMigration() {
-            console.log('🔄 Forçando re-migração de evidências...');
-            localStorage.removeItem('dashboard-evidences');
-            migrateExistingEvidences();
-            console.log('✅ Re-migração concluída!');
-        }
+        // Função deleteEvidenceFromModal - movida para o HEAD
         
         // Variável global para armazenar a meta atual do modal
         let currentModalGoal = '';
         
         // Função para adicionar nova evidência a partir do modal
         function addNewEvidenceFromModal(goalKey) {
+            console.log('Adicionar nova evidência para:', goalKey);
             currentModalGoal = goalKey;
             currentSection = goalKey;
-            currentUser = 'fe'; // Usuário padrão
+            
+            // Fechar modal de visualização
+            closeViewEvidenceModal();
+            
+            // Abrir modal de adicionar evidência
             openModal();
         }
         
-        // Função para copiar evidência a partir do modal
-        function copyEvidenceFromModal(button) {
-            const evidenceItem = button.closest('.evidence-item');
-            const title = evidenceItem.querySelector('.evidence-title').textContent;
-            const description = evidenceItem.querySelector('p').textContent;
-            const linkElement = evidenceItem.querySelector('.evidence-link');
-            const link = linkElement ? linkElement.href : '';
-            const linkName = linkElement ? linkElement.textContent.replace('🔗 ', '') : '';
+        // Função para abrir o modal de adicionar evidência
+        function openModal() {
+            const modal = document.getElementById('evidenceModal');
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
             
-            // Preencher formulário com dados copiados
-            document.getElementById('evidenceTitle').value = title;
+            // Limpar formulário
+            document.getElementById('evidenceForm').reset();
+            
+            // Definir data padrão como agosto 2025
             document.getElementById('evidenceDate').value = '2025-08';
-            document.getElementById('evidenceDescription').value = description;
-            document.getElementById('evidenceLink').value = link;
-            document.getElementById('evidenceLinkName').value = linkName;
-            
-            // Abrir modal de criação
-            currentUser = 'fe';
-            openModal();
         }
         
-        // Função para deletar evidência a partir do modal
-        function deleteEvidenceFromModal(button) {
-            const evidenceItem = button.closest('.evidence-item');
-            const title = evidenceItem.querySelector('.evidence-title').textContent;
-            const evidenceId = evidenceItem.getAttribute('data-evidence-id');
-            
-            if (confirm(`Tem certeza que deseja deletar a evidência "${title}"?`)) {
-                // Remover do localStorage
-                if (evidenceId) {
-                    deleteEvidenceFromStorage(parseFloat(evidenceId));
-                }
-                
-                // Remover do DOM
-                evidenceItem.remove();
-                
-                // Atualizar contagem
-                updateEvidenceCount();
-                
-                // Mostrar feedback
-                showSnackbar(`Evidência "${title}" deletada com sucesso!`);
-                
-                console.log(`🗑️ Evidência deletada do modal: ${title}`);
-            }
-        }
-        
-        // Sobrescrever a função closeModal para reabrir o modal de visualização se necessário
-        const originalCloseModal = closeModal;
-        closeModal = function() {
-            originalCloseModal();
+        // Função para fechar o modal de adicionar evidência
+        function closeModal() {
+            const modal = document.getElementById('evidenceModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
             
             // Se veio do modal de visualização, reabrir o modal de visualização
             if (currentModalGoal) {
@@ -2356,252 +2182,9 @@
                     currentModalGoal = '';
                 }, 100);
             }
-        };
-        
-        // Fechar modal de visualização ao clicar fora dele
-        window.addEventListener('click', function(event) {
-            const viewModal = document.getElementById('viewEvidenceModal');
-            if (event.target === viewModal) {
-                closeViewEvidenceModal();
-            }
-        });
-        
-        // Atualizar todos os links de evidências para usar o modal
-        document.addEventListener('DOMContentLoaded', function() {
-            // Aguardar um pouco para garantir que tudo foi renderizado
-            setTimeout(() => {
-                const goalKeys = [
-                    'update-proactivo', 'decide-baja-fidelidad', 'marca-pulso', 
-                    'turnaround-express', 'feedback-senior', 'aprendizaje-visible',
-                    'plan-b-salvaje', 'mira-afuera', 'rompe-andes', 
-                    'prototipa-ia', 'benchmarka-inesperado'
-                ];
-                
-                const cardLinks = document.querySelectorAll('.card-link[onclick*="showSection"]');
-                cardLinks.forEach((link, index) => {
-                    if (index < goalKeys.length) {
-                        link.setAttribute('onclick', `openEvidenceModal('${goalKeys[index]}', event)`);
-                    }
-                });
-            }, 100);
-        });
-        
-        // Função interna para deletar evidência (após autenticação)
-        function _deleteEvidence(button) {
-            const evidenceItem = button.closest('.evidence-item');
-            const title = evidenceItem.querySelector('.evidence-title').textContent;
-            const evidenceId = evidenceItem.getAttribute('data-evidence-id');
-            
-            if (confirm(`Tem certeza que deseja deletar a evidência "${title}"?`)) {
-                // Remover do localStorage se tiver ID
-                if (evidenceId) {
-                    deleteEvidenceFromStorage(parseFloat(evidenceId));
-                }
-                
-                // Remover do DOM
-                evidenceItem.remove();
-                updateEvidenceCount();
-                console.log(`🗑️ Evidência deletada: ${title}`);
-            }
         }
         
-        // Sistema de Autenticação
-        function authenticateAction(action, data) {
-            // Detectar seção ativa atual dinamicamente
-            currentActiveSection = getCurrentActiveSection();
-            console.log(`🔍 Debug: authenticatedSection='${authenticatedSection}', currentActiveSection='${currentActiveSection}'`);
-            
-            // Verificar se a seção atual já está autenticada
-            if (authenticatedSection === currentActiveSection && authenticatedSection !== null) {
-                console.log(`✅ Seção ${currentActiveSection} já autenticada - executando ação diretamente`);
-                executeAction(action, data);
-                return;
-            }
-            
-            console.log(`🔐 Seção não autenticada - solicitando senha`);
-            // Se não está autenticada, solicitar senha
-            pendingAction = action;
-            pendingActionData = data;
-            openAuthModal();
-        }
-        
-        // Função para executar ação diretamente (sem modal de auth)
-        function executeAction(action, data) {
-            console.log(`🚀 Executando ação: ${action}`);
-            switch (action) {
-                case 'add':
-                    currentSection = data.section;
-                    console.log(`📝 Abrindo modal para adicionar evidência na seção: ${data.section}`);
-                    openModal();
-                    break;
-                case 'copy':
-                    console.log(`📋 Copiando evidência`);
-                    _copyEvidence(data.button);
-                    break;
-                case 'delete':
-                    console.log(`🗑️ Deletando evidência`);
-                    _deleteEvidence(data.button);
-                    break;
-                default:
-                    console.error(`❌ Ação desconhecida: ${action}`);
-            }
-        }
-        
-        function openAuthModal() {
-            const modal = document.getElementById('authModal');
-            modal.style.display = 'block';
-            document.body.style.overflow = 'hidden';
-            
-            // Limpar campos e erro
-            document.getElementById('userSelect').value = '';
-            document.getElementById('authPassword').value = '';
-            document.getElementById('authError').style.display = 'none';
-            
-            // Focar no select de usuário
-            setTimeout(() => {
-                document.getElementById('userSelect').focus();
-            }, 100);
-        }
-        
-        function closeAuthModal() {
-            const modal = document.getElementById('authModal');
-            modal.style.display = 'none';
-            document.body.style.overflow = 'auto';
-            
-            // Limpar dados pendentes
-            pendingAction = null;
-            pendingActionData = null;
-        }
-        
-        function executeAuthenticatedAction() {
-            if (!pendingAction || !pendingActionData) {
-                console.error(`❌ Erro: pendingAction='${pendingAction}', pendingActionData=`, pendingActionData);
-                return;
-            }
-            
-            // Detectar seção ativa atual e marcar como autenticada
-            currentActiveSection = getCurrentActiveSection();
-            authenticatedSection = currentActiveSection;
-            console.log(`🔓 Seção ${currentActiveSection} autenticada com sucesso`);
-            console.log(`⚡ Executando ação pendente: ${pendingAction}`);
-            
-            // Executar a ação
-            executeAction(pendingAction, pendingActionData);
-            
-            // Limpar dados pendentes
-            pendingAction = null;
-            pendingActionData = null;
-        }
-        
-        // Event listener para o formulário de autenticação
-        document.getElementById('authForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const selectedUser = document.getElementById('userSelect').value;
-            const password = document.getElementById('authPassword').value;
-            const errorElement = document.getElementById('authError');
-            
-            if (!selectedUser) {
-                errorElement.textContent = 'Por favor, selecione quem você é.';
-                errorElement.style.display = 'block';
-                document.getElementById('userSelect').focus();
-                return;
-            }
-            
-            if (password === AUTH_PASSWORD) {
-                currentUser = selectedUser; // Armazenar usuário atual
-                console.log(`👤 Usuário autenticado: ${USER_INFO[selectedUser].name}`);
-                
-                // Marcar seção como autenticada ANTES de fechar modal
-                currentActiveSection = getCurrentActiveSection();
-                authenticatedSection = currentActiveSection;
-                
-                // Fechar modal
-                closeAuthModal();
-                
-                // Executar ação imediatamente
-                if (pendingAction && pendingActionData) {
-                    console.log(`⚡ Executando ação: ${pendingAction}`);
-                    
-                    switch (pendingAction) {
-                        case 'add':
-                            currentSection = pendingActionData.section;
-                            openModal();
-                            break;
-                        case 'copy':
-                            _copyEvidence(pendingActionData.button);
-                            break;
-                        case 'delete':
-                            _deleteEvidence(pendingActionData.button);
-                            break;
-                    }
-                    
-                    // Limpar dados pendentes
-                    pendingAction = null;
-                    pendingActionData = null;
-                }
-            } else {
-                errorElement.textContent = 'Senha incorreta. Tente novamente.';
-                errorElement.style.display = 'block';
-                document.getElementById('authPassword').value = '';
-                document.getElementById('authPassword').focus();
-            }
-        });
-        
-        // Fechar modal de auth ao clicar fora
-        window.addEventListener('click', function(event) {
-            const authModal = document.getElementById('authModal');
-            if (event.target === authModal) {
-                closeAuthModal();
-            }
-        });
-        
-        // Adicionar efeito hover baseado na posição do mouse
-        function setupCardHoverEffects() {
-            const flipCards = document.querySelectorAll('.flip-card');
-            console.log(`🎮 Configurando hover para ${flipCards.length} cards`);
-            
-            flipCards.forEach((card, index) => {
-                console.log(`✅ Card ${index + 1} configurado`);
-                
-                // Definir handlers
-                card._mouseEnterHandler = function() {
-                    this.style.transform = 'translateY(-3px)';
-                };
-                
-                card._mouseMoveHandler = function(e) {
-                    const rect = this.getBoundingClientRect();
-                    const cardCenterX = rect.left + rect.width / 2;
-                    const mouseX = e.clientX;
-                    
-                    // Calcular a diferença entre mouse e centro do card
-                    const deltaX = mouseX - cardCenterX;
-                    
-                    // Converter para ângulo de rotação (máximo 25 graus)
-                    const maxRotation = 25;
-                    const rotationY = (deltaX / (rect.width / 2)) * maxRotation;
-                    
-                    // Aplicar transformação
-                    this.style.transform = `translateY(-3px) rotateY(${rotationY}deg)`;
-                };
-                
-                card._mouseLeaveHandler = function() {
-                    this.style.transform = '';
-                };
-                
-                // Limpar eventos anteriores
-                card.removeEventListener('mouseenter', card._mouseEnterHandler);
-                card.removeEventListener('mousemove', card._mouseMoveHandler);
-                card.removeEventListener('mouseleave', card._mouseLeaveHandler);
-                
-                // Adicionar novos eventos
-                card.addEventListener('mouseenter', card._mouseEnterHandler);
-                card.addEventListener('mousemove', card._mouseMoveHandler);
-                card.addEventListener('mouseleave', card._mouseLeaveHandler);
-            });
-        }
-        
-        // Animar barras de progresso
+        // Função para animar barras de progresso
         function animateProgressBars() {
             // Resetar todas as barras primeiro
             const allProgressBars = document.querySelectorAll('.progress-fill');
@@ -2626,50 +2209,174 @@
             }
         }
         
-        // Função para testar localStorage
-        function testLocalStorage() {
-            try {
-                const testKey = 'test-storage';
-                const testValue = { test: 'funcionando', timestamp: Date.now() };
-                localStorage.setItem(testKey, JSON.stringify(testValue));
-                const retrieved = JSON.parse(localStorage.getItem(testKey));
-                localStorage.removeItem(testKey);
-                console.log('✅ localStorage funcionando:', retrieved);
-                return true;
-            } catch (error) {
-                console.error('❌ localStorage com problema:', error);
-                return false;
+        // Função para fechar o modal
+        function closeModal() {
+            // Se currentModalGoal está definido, reabrir o modal de visualização
+            if (currentModalGoal) {
+                setTimeout(() => {
+                    openEvidenceModal(currentModalGoal);
+                    currentModalGoal = null;
+                }, 100);
             }
+            
+            document.getElementById('evidenceModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
         }
         
-        // Atualizar timestamp e inicializar animações
+        // Mapeamento de metas para suas evidências
+        const GOAL_EVIDENCE_MAP = {
+            'empuja-hoy': 'Empuja hoy, no mañana',
+            'update-proactivo': 'Update proactivo',
+            'turnaround-express': 'Turnaround express',
+            'feedback-senior': 'Feedback senior, acción rápida',
+            'aprendizaje-visible': 'Aprendizaje visible',
+            'benchmarka-inesperado': 'Benchmarka inesperado'
+        };
+        
+        // Fechar modal ao clicar fora dele
+        window.addEventListener('click', function(event) {
+            const viewModal = document.getElementById('viewEvidenceModal');
+            const addModal = document.getElementById('evidenceModal');
+            
+            if (event.target === viewModal) {
+                closeViewEvidenceModal();
+            }
+            
+            if (event.target === addModal) {
+                closeModal();
+            }
+        });
+        
+        // Event listener para o formulário de adicionar evidência
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('Dashboard reorganizado carregado com sucesso! 🎉');
-            
-            // Testar localStorage
-            testLocalStorage();
-            
-            // Migrar evidências existentes para localStorage
-            migrateExistingEvidences();
-            
-            // TEMPORÁRIO: Forçar re-migração para debug
-            // forceMigration();
-            
-            // Verificar evidências existentes
-            const existing = localStorage.getItem('dashboard-evidences');
-            console.log('🗂️ Evidências existentes no localStorage:', existing);
+            console.log('Dashboard carregado! 🎉');
             
             // Aguardar um pouco para garantir que tudo foi renderizado
             setTimeout(() => {
                 animateProgressBars();
-                setupCardHoverEffects(); // Configurar efeitos de hover
-                loadEvidencesFromStorage(); // Carregar evidências salvas
             }, 500);
+            
+            // Configurar formulário de evidência
+            const evidenceForm = document.getElementById('evidenceForm');
+            if (evidenceForm) {
+                evidenceForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Coletar dados do formulário
+                    const formData = {
+                        title: document.getElementById('evidenceTitle').value,
+                        date: document.getElementById('evidenceDate').value,
+                        description: document.getElementById('evidenceDescription').value,
+                        link: document.getElementById('evidenceLink').value,
+                        linkName: document.getElementById('evidenceLinkName').value || 'Ver mais'
+                    };
+                    
+                    console.log('Nova evidência:', formData);
+                    
+                    // Formatar a data para exibição
+                    const dateObj = new Date(formData.date + '-01');
+                    const monthNames = [
+                        'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+                        'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+                    ];
+                    const formattedDate = `${monthNames[dateObj.getMonth()]} ${dateObj.getFullYear()}`;
+                    
+                    // Fechar modal de adicionar
+                    closeModal();
+                    
+                    // Aguardar um pouco e reabrir modal de visualização com nova evidência
+                    setTimeout(() => {
+                        // Adicionar nova evidência temporariamente ao modal de visualização
+                        const evidenceGrid = document.getElementById('viewEvidenceModalGrid');
+                        const newEvidenceHTML = `
+                            <div class="evidence-item" data-author="fe" data-evidence-id="new-${Date.now()}">
+                                <div class="evidence-content">
+                                    <div class="evidence-title">${formData.title}</div>
+                                    <div class="evidence-date">📅 ${formattedDate}</div>
+                                    <p>${formData.description}</p>
+                                    ${formData.link ? `<a href="${formData.link}" class="evidence-link" target="_blank">🔗 ${formData.linkName}</a>` : ''}
+                                </div>
+                                <div class="evidence-actions">
+                                    <div class="evidence-author">
+                                        <img src="imagens/fe.png" alt="Fê" class="evidence-author-avatar">
+                                        <span class="evidence-author-name">Adicionado por Fê</span>
+                                    </div>
+                                    <div class="evidence-actions-buttons">
+                                        <button class="evidence-action copy" onclick="copyEvidenceFromModal(this)" title="Copiar evidência">
+                                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M10.3667 8.34337V0.943359L4.3667 0.943432V2.74228H5.5667V2.14342L9.1667 2.14337V7.14337H8.56889V8.34337H10.3667Z" fill="currentColor" fill-opacity="0.9"/>
+                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M7.6333 3.6449H1.6333V11.0449H7.6333V3.6449ZM2.8333 9.8449V4.8449H6.4333V9.8449H2.8333Z" fill="currentColor" fill-opacity="0.9"/>
+                                            </svg>
+                                            Copiar
+                                        </button>
+                                        <button class="evidence-action delete" onclick="deleteEvidenceFromModal(this)" title="Deletar evidência">
+                                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M4.19995 8.99973V4.59973H5.39995V8.99973H4.19995Z" fill="currentColor" fill-opacity="0.9"/>
+                                                <path d="M6.6001 8.99973V4.59973H7.8001V8.99973H6.6001Z" fill="currentColor" fill-opacity="0.9"/>
+                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M8.29692 2.19934H10.5999V3.39934H9.99988V9.60014C9.99988 10.5942 9.19399 11.4001 8.19988 11.4001H3.79988C2.80576 11.4001 1.99988 10.5942 1.99988 9.60014V3.39934H1.3999V2.19934H3.70274C3.75463 1.30713 4.49461 0.599609 5.39983 0.599609H6.59983C7.50505 0.599609 8.24503 1.30713 8.29692 2.19934ZM4.70696 2.19934H7.2927C7.24406 1.86024 6.95238 1.59961 6.59983 1.59961H5.39983C5.04728 1.59961 4.75560 1.86024 4.70696 2.19934ZM3.19988 3.39934H8.79988V9.60014C8.79988 9.93151 8.53125 10.2001 8.19988 10.2001H3.79988C3.46851 10.2001 3.19988 9.93151 3.19988 9.60014V3.39934Z" fill="currentColor" fill-opacity="0.9"/>
+                                            </svg>
+                                            Deletar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        evidenceGrid.innerHTML += newEvidenceHTML;
+                        
+                        // Reabrir modal de visualização
+                        if (currentModalGoal) {
+                            openEvidenceModal(currentModalGoal);
+                            currentModalGoal = '';
+                        }
+                    }, 200);
+                });
+            }
         });
+        
     </script>
     
-    <!-- Snackbar -->
-    <div id="snackbar" class="snackbar"></div>
+    <!-- Modal para adicionar evidência -->
+    <div id="evidenceModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Adicionar evidência</h2>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="evidenceForm">
+                    <div class="form-group">
+                        <label for="evidenceTitle">Título da Evidência:</label>
+                        <input type="text" id="evidenceTitle" name="title" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="evidenceDate">Data:</label>
+                        <input type="month" id="evidenceDate" name="date" required value="2025-08">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="evidenceDescription">Descrição:</label>
+                        <textarea id="evidenceDescription" name="description" rows="4" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="evidenceLink">Link (URL):</label>
+                        <input type="url" id="evidenceLink" name="link" placeholder="https://...">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="evidenceLinkName">Nome do Link:</label>
+                        <input type="text" id="evidenceLinkName" name="linkName" placeholder="Ver projeto, Ver documentação, etc.">
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn-cancel" onclick="closeModal()">Cancelar</button>
+                        <button type="submit" class="btn-save">Adicionar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     
     <!-- Modal de Visualização de Evidências -->
     <div id="viewEvidenceModal" class="evidence-modal">
