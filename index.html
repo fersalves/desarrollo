@@ -1796,6 +1796,106 @@
             'benchmarka-inesperado': 'Benchmarka lo inesperado'
         };
         
+        // Evidências estáticas para cada meta (fallback se localStorage falhar)
+        const STATIC_EVIDENCES = {
+            'empuja-hoy': {
+                title: 'Dashboard Pessoal - Blocker Resolvido',
+                date: 'Agosto 2025',
+                description: 'Blocker na integração Google Sheets resolvido no mesmo dia com solução offline alternativa, mantendo projeto no prazo',
+                link: '',
+                linkName: '',
+                user: 'fe'
+            },
+            'update-proactivo': {
+                title: 'Daily Updates Automáticos',
+                date: 'Agosto 2025',
+                description: 'Projeto React: daily updates no Slack sobre progresso, blockers e próximos passos sem solicitação da liderança',
+                link: '',
+                linkName: '',
+                user: 'fe'
+            },
+            'decide-baja-fidelidad': {
+                title: 'API Design - Wireframes Express',
+                date: 'Agosto 2025',
+                description: 'Wireframes e mockups de API entregues em 18h para validação de stakeholders antes do desenvolvimento',
+                link: '',
+                linkName: '',
+                user: 'fe'
+            },
+            'marca-pulso': {
+                title: 'Moderação Sprint Review',
+                date: 'Agosto 2025',
+                description: 'Sprint review perdeu foco: assumi moderação, trouxe agenda clara e direcionei 3 decisões pendentes',
+                link: '',
+                linkName: '',
+                user: 'fe'
+            },
+            'turnaround-express': {
+                title: 'Code Review Acelerado',
+                date: 'Agosto 2025',
+                description: 'Feedback técnico de 12 PRs respondido em menos de 8h, mantendo média de 4h por resposta sem bloquear time',
+                link: '',
+                linkName: '',
+                user: 'fe'
+            },
+            'feedback-senior': {
+                title: 'TypeScript Patterns Implementado',
+                date: 'Agosto 2025',
+                description: 'Feedback do TL sobre arquitetura TypeScript implementado em 24h com demonstração funcional completa',
+                link: '',
+                linkName: '',
+                user: 'fe'
+            },
+            'aprendizaje-visible': {
+                title: 'Documentação de Impacto',
+                date: 'Agosto 2025',
+                description: 'Review técnico: documentei como feedback sobre hooks customizados mudou estrutura do projeto (+30% performance)',
+                link: '',
+                linkName: '',
+                user: 'fe'
+            },
+            'plan-b-salvaje': {
+                title: 'PIX + QR Code Innovation',
+                date: 'Agosto 2025',
+                description: 'E-commerce checkout: além da solução Stripe tradicional, propus integração PIX + QR code (+23% conversão)',
+                link: '',
+                linkName: '',
+                user: 'fe'
+            },
+            'mira-afuera': {
+                title: 'UX Cross-Industry Inspiration',
+                date: 'Agosto 2025',
+                description: 'Dashboard UX: inspiração no Spotify (música) e Netflix (streaming) para criar navegação contextual inovadora',
+                link: '',
+                linkName: '',
+                user: 'fe'
+            },
+            'rompe-andes': {
+                title: 'Zustand vs Redux Architecture',
+                date: 'Agosto 2025',
+                description: 'Questionei Redux padrão da empresa, argumentei e implementei Zustand com 40% menos boilerplate',
+                link: '',
+                linkName: '',
+                user: 'fe'
+            },
+            'prototipa-ia': {
+                title: 'Cursor AI Development',
+                date: 'Agosto 2025',
+                description: 'Cursor AI: aceleração 3x no desenvolvimento deste dashboard, exploração de 5 layouts alternativos em 2h',
+                link: '',
+                linkName: '',
+                user: 'fe'
+            },
+            'benchmarka-inesperado': {
+                title: 'Figma Component System',
+                date: 'Agosto 2025',
+                description: 'Sistema de componentes Figma inspirado no Notion: hierarquia visual clara e reutilização 90% maior',
+                link: '',
+                linkName: '',
+                user: 'fe'
+            }
+        };
+        
         // Função para abrir modal de visualização de evidências de uma meta específica
         function openEvidenceModal(goalKey, event) {
             // Impedir que o clique se propague para o card (evitar flip)
@@ -1813,60 +1913,86 @@
             const evidenceGrid = document.getElementById('viewEvidenceModalGrid');
             evidenceGrid.innerHTML = '';
             
-            // Buscar evidências salvas no localStorage
-            const savedEvidences = JSON.parse(localStorage.getItem('dashboard-evidences') || '[]');
-            console.log(`🔍 Modal ${goalKey}: Total evidências no localStorage:`, savedEvidences.length);
-            console.log(`🔍 Todas as evidências:`, savedEvidences.map(e => ({ section: e.section, title: e.title })));
+            // Usar evidência estática diretamente (solução simples e confiável)
+            const staticEvidence = STATIC_EVIDENCES[goalKey];
             
-            const goalEvidences = savedEvidences.filter(evidence => evidence.section === goalKey);
-            console.log(`🎯 Evidências filtradas para ${goalKey}:`, goalEvidences.length);
-            console.log(`🎯 Evidências encontradas:`, goalEvidences.map(e => ({ section: e.section, title: e.title })));
-            
-            if (goalEvidences.length === 0) {
-                evidenceGrid.innerHTML = `
-                    <div style="text-align: center; color: #a1a1aa; padding: 2rem;">
-                        <p>Nenhuma evidência encontrada para esta meta.</p>
-                        <p>Adicione evidências na seção principal para vê-las aqui.</p>
-                    </div>
-                `;
-            } else {
-                goalEvidences.forEach(evidence => {
-                    const userInfo = USER_INFO[evidence.user] || { name: 'Desconhecido', avatar: 'imagens/fe.png' };
-                    
-                    const evidenceCard = `
-                        <div class="evidence-item" data-author="${evidence.user}" data-evidence-id="${evidence.id}">
-                            <div class="evidence-title">${evidence.title}</div>
-                            <div class="evidence-date">📅 ${evidence.formattedDate}</div>
-                            <p>${evidence.description}</p>
-                            ${evidence.link ? `<a href="${evidence.link}" class="evidence-link" target="_blank">🔗 ${evidence.linkName}</a>` : ''}
-                            <div class="evidence-actions">
-                                <div class="evidence-author">
-                                    <img src="${userInfo.avatar}" alt="${userInfo.name}" class="evidence-author-avatar">
-                                    <span class="evidence-author-name">Adicionado por ${userInfo.name}</span>
-                                </div>
-                                <div class="evidence-actions-buttons">
-                                    <button class="evidence-action copy" onclick="copyEvidenceFromModal(this)" title="Copiar evidência">
-                                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M10.3667 8.34337V0.943359L4.3667 0.943432V2.74228H5.5667V2.14342L9.1667 2.14337V7.14337H8.56889V8.34337H10.3667Z" fill="currentColor" fill-opacity="0.9"/>
-                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M7.6333 3.6449H1.6333V11.0449H7.6333V3.6449ZM2.8333 9.8449V4.8449H6.4333V9.8449H2.8333Z" fill="currentColor" fill-opacity="0.9"/>
-                                        </svg>
-                                        Copiar
-                                    </button>
-                                    <button class="evidence-action delete" onclick="deleteEvidenceFromModal(this)" title="Deletar evidência">
-                                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M4.19995 8.99973V4.59973H5.39995V8.99973H4.19995Z" fill="currentColor" fill-opacity="0.9"/>
-                                            <path d="M6.6001 8.99973V4.59973H7.8001V8.99973H6.6001Z" fill="currentColor" fill-opacity="0.9"/>
-                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M8.29692 2.19934H10.5999V3.39934H9.99988V9.60014C9.99988 10.5942 9.19399 11.4001 8.19988 11.4001H3.79988C2.80576 11.4001 1.99988 10.5942 1.99988 9.60014V3.39934H1.3999V2.19934H3.70274C3.75463 1.30713 4.49461 0.599609 5.39983 0.599609H6.59983C7.50505 0.599609 8.24503 1.30713 8.29692 2.19934ZM4.70696 2.19934H7.2927C7.24406 1.86024 6.95238 1.59961 6.59983 1.59961H5.39983C5.04728 1.59961 4.75560 1.86024 4.70696 2.19934ZM3.19988 3.39934H8.79988V9.60014C8.79988 9.93151 8.53125 10.2001 8.19988 10.2001H3.79988C3.46851 10.2001 3.19988 9.93151 3.19988 9.60014V3.39934Z" fill="currentColor" fill-opacity="0.9"/>
-                                        </svg>
-                                        Deletar
-                                    </button>
-                                </div>
+            if (staticEvidence) {
+                const userInfo = USER_INFO[staticEvidence.user] || { name: 'Desconhecido', avatar: 'imagens/fe.png' };
+                
+                const evidenceCard = `
+                    <div class="evidence-item" data-author="${staticEvidence.user}" data-evidence-id="static-${goalKey}">
+                        <div class="evidence-title">${staticEvidence.title}</div>
+                        <div class="evidence-date">📅 ${staticEvidence.date}</div>
+                        <p>${staticEvidence.description}</p>
+                        ${staticEvidence.link ? `<a href="${staticEvidence.link}" class="evidence-link" target="_blank">🔗 ${staticEvidence.linkName}</a>` : ''}
+                        <div class="evidence-actions">
+                            <div class="evidence-author">
+                                <img src="${userInfo.avatar}" alt="${userInfo.name}" class="evidence-author-avatar">
+                                <span class="evidence-author-name">Adicionado por ${userInfo.name}</span>
+                            </div>
+                            <div class="evidence-actions-buttons">
+                                <button class="evidence-action copy" onclick="copyEvidenceFromModal(this)" title="Copiar evidência">
+                                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M10.3667 8.34337V0.943359L4.3667 0.943432V2.74228H5.5667V2.14342L9.1667 2.14337V7.14337H8.56889V8.34337H10.3667Z" fill="currentColor" fill-opacity="0.9"/>
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M7.6333 3.6449H1.6333V11.0449H7.6333V3.6449ZM2.8333 9.8449V4.8449H6.4333V9.8449H2.8333Z" fill="currentColor" fill-opacity="0.9"/>
+                                    </svg>
+                                    Copiar
+                                </button>
+                                <button class="evidence-action delete" onclick="deleteEvidenceFromModal(this)" title="Deletar evidência">
+                                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M4.19995 8.99973V4.59973H5.39995V8.99973H4.19995Z" fill="currentColor" fill-opacity="0.9"/>
+                                        <path d="M6.6001 8.99973V4.59973H7.8001V8.99973H6.6001Z" fill="currentColor" fill-opacity="0.9"/>
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M8.29692 2.19934H10.5999V3.39934H9.99988V9.60014C9.99988 10.5942 9.19399 11.4001 8.19988 11.4001H3.79988C2.80576 11.4001 1.99988 10.5942 1.99988 9.60014V3.39934H1.3999V2.19934H3.70274C3.75463 1.30713 4.49461 0.599609 5.39983 0.599609H6.59983C7.50505 0.599609 8.24503 1.30713 8.29692 2.19934ZM4.70696 2.19934H7.2927C7.24406 1.86024 6.95238 1.59961 6.59983 1.59961H5.39983C5.04728 1.59961 4.75560 1.86024 4.70696 2.19934ZM3.19988 3.39934H8.79988V9.60014C8.79988 9.93151 8.53125 10.2001 8.19988 10.2001H3.79988C3.46851 10.2001 3.19988 9.93151 3.19988 9.60014V3.39934Z" fill="currentColor" fill-opacity="0.9"/>
+                                    </svg>
+                                    Deletar
+                                </button>
                             </div>
                         </div>
-                    `;
-                    evidenceGrid.innerHTML += evidenceCard;
-                });
+                    </div>
+                `;
+                evidenceGrid.innerHTML += evidenceCard;
             }
+            
+            // Buscar evidências adicionais do localStorage (criadas pelo usuário)
+            const savedEvidences = JSON.parse(localStorage.getItem('dashboard-evidences') || '[]');
+            const userEvidences = savedEvidences.filter(evidence => evidence.section === goalKey);
+            
+            userEvidences.forEach(evidence => {
+                const userInfo = USER_INFO[evidence.user] || { name: 'Desconhecido', avatar: 'imagens/fe.png' };
+                
+                const evidenceCard = `
+                    <div class="evidence-item" data-author="${evidence.user}" data-evidence-id="${evidence.id}">
+                        <div class="evidence-title">${evidence.title}</div>
+                        <div class="evidence-date">📅 ${evidence.formattedDate}</div>
+                        <p>${evidence.description}</p>
+                        ${evidence.link ? `<a href="${evidence.link}" class="evidence-link" target="_blank">🔗 ${evidence.linkName}</a>` : ''}
+                        <div class="evidence-actions">
+                            <div class="evidence-author">
+                                <img src="${userInfo.avatar}" alt="${userInfo.name}" class="evidence-author-avatar">
+                                <span class="evidence-author-name">Adicionado por ${userInfo.name}</span>
+                            </div>
+                            <div class="evidence-actions-buttons">
+                                <button class="evidence-action copy" onclick="copyEvidenceFromModal(this)" title="Copiar evidência">
+                                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M10.3667 8.34337V0.943359L4.3667 0.943432V2.74228H5.5667V2.14342L9.1667 2.14337V7.14337H8.56889V8.34337H10.3667Z" fill="currentColor" fill-opacity="0.9"/>
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M7.6333 3.6449H1.6333V11.0449H7.6333V3.6449ZM2.8333 9.8449V4.8449H6.4333V9.8449H2.8333Z" fill="currentColor" fill-opacity="0.9"/>
+                                    </svg>
+                                    Copiar
+                                </button>
+                                <button class="evidence-action delete" onclick="deleteEvidenceFromModal(this)" title="Deletar evidência">
+                                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M4.19995 8.99973V4.59973H5.39995V8.99973H4.19995Z" fill="currentColor" fill-opacity="0.9"/>
+                                        <path d="M6.6001 8.99973V4.59973H7.8001V8.99973H6.6001Z" fill="currentColor" fill-opacity="0.9"/>
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M8.29692 2.19934H10.5999V3.39934H9.99988V9.60014C9.99988 10.5942 9.19399 11.4001 8.19988 11.4001H3.79988C2.80576 11.4001 1.99988 10.5942 1.99988 9.60014V3.39934H1.3999V2.19934H3.70274C3.75463 1.30713 4.49461 0.599609 5.39983 0.599609H6.59983C7.50505 0.599609 8.24503 1.30713 8.29692 2.19934ZM4.70696 2.19934H7.2927C7.24406 1.86024 6.95238 1.59961 6.59983 1.59961H5.39983C5.04728 1.59961 4.75560 1.86024 4.70696 2.19934ZM3.19988 3.39934H8.79988V9.60014C8.79988 9.93151 8.53125 10.2001 8.19988 10.2001H3.79988C3.46851 10.2001 3.19988 9.93151 3.19988 9.60014V3.39934Z" fill="currentColor" fill-opacity="0.9"/>
+                                    </svg>
+                                    Deletar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                evidenceGrid.innerHTML += evidenceCard;
+            });
             
             // Adicionar botão de adicionar evidência no final
             const addButton = `
@@ -2466,7 +2592,7 @@
             migrateExistingEvidences();
             
             // TEMPORÁRIO: Forçar re-migração para debug
-            forceMigration();
+            // forceMigration();
             
             // Verificar evidências existentes
             const existing = localStorage.getItem('dashboard-evidences');
