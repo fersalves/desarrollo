@@ -849,11 +849,24 @@
             -webkit-appearance: none;
             -moz-appearance: none;
             appearance: none;
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='white'%3e%3cpath d='M4 6l4 4 4-4H4z'/%3e%3c/svg%3e");
-            background-repeat: no-repeat;
-            background-position: right 0.75rem center;
-            background-size: 12px;
             padding-right: 2.5rem;
+        }
+        
+        .select-wrapper {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+        
+        .select-wrapper::after {
+            content: '▼';
+            position: absolute;
+            right: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            pointer-events: none;
+            font-size: 12px;
         }
         
         .form-actions {
@@ -2545,10 +2558,12 @@
                         </div>
                         <div class="form-group">
                             <label for="evidenceUser">Adicionado por:</label>
-                            <select id="evidenceUser" name="user" required>
-                                <option value="fe">Fê</option>
-                                <option value="santi">Santi</option>
-                            </select>
+                            <div class="select-wrapper">
+                                <select id="evidenceUser" name="user" required>
+                                    <option value="fe">Fê</option>
+                                    <option value="santi">Santi</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                     
