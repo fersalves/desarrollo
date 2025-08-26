@@ -2460,6 +2460,9 @@
             // Migrar evidências existentes para localStorage
             migrateExistingEvidences();
             
+            // TEMPORÁRIO: Forçar re-migração para debug
+            forceMigration();
+            
             // Verificar evidências existentes
             const existing = localStorage.getItem('dashboard-evidences');
             console.log('🗂️ Evidências existentes no localStorage:', existing);
