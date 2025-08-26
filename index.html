@@ -1906,6 +1906,19 @@
             const existingEvidences = JSON.parse(localStorage.getItem('dashboard-evidences') || '[]');
             if (existingEvidences.length > 0) {
                 console.log('📋 Evidências já existem no localStorage, pulando migração');
+                console.log('🔍 Evidências existentes por seção:');
+                
+                // Debug: mostrar evidências por seção
+                const sectionCounts = {};
+                existingEvidences.forEach(evidence => {
+                    sectionCounts[evidence.section] = (sectionCounts[evidence.section] || 0) + 1;
+                });
+                
+                Object.keys(GOAL_EVIDENCE_MAP).forEach(section => {
+                    const count = sectionCounts[section] || 0;
+                    console.log(`  - ${section} (${GOAL_EVIDENCE_MAP[section]}): ${count} evidência(s)`);
+                });
+                
                 return;
             }
             
@@ -2072,6 +2085,14 @@
             } catch (error) {
                 console.error('❌ Erro ao salvar evidências migradas:', error);
             }
+        }
+        
+        // Função para forçar re-migração (debug)
+        function forceMigration() {
+            console.log('🔄 Forçando re-migração de evidências...');
+            localStorage.removeItem('dashboard-evidences');
+            migrateExistingEvidences();
+            console.log('✅ Re-migração concluída!');
         }
         
         // Variável global para armazenar a meta atual do modal
