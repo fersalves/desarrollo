@@ -872,6 +872,112 @@
             pointer-events: none;
         }
         
+        /* Custom Calendar Styles */
+        .custom-calendar-wrapper {
+            position: relative;
+        }
+        
+        .custom-calendar {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid #e5e5e5;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            padding: 16px;
+            margin-top: 4px;
+        }
+        
+        .custom-calendar.show {
+            display: block;
+        }
+        
+        .calendar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+        
+        .calendar-nav {
+            background: none;
+            border: none;
+            font-size: 18px;
+            color: #666;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 6px;
+            transition: background-color 0.2s;
+        }
+        
+        .calendar-nav:hover {
+            background: #f5f5f5;
+        }
+        
+        .calendar-month-year {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .calendar-weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+            margin-bottom: 8px;
+        }
+        
+        .weekday {
+            text-align: center;
+            font-size: 12px;
+            font-weight: 500;
+            color: #999;
+            padding: 8px 4px;
+        }
+        
+        .calendar-days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+        }
+        
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #333;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.2s;
+            position: relative;
+        }
+        
+        .calendar-day:hover {
+            background: #f0f0f0;
+        }
+        
+        .calendar-day.other-month {
+            color: #ccc;
+        }
+        
+        .calendar-day.selected {
+            background: #4285f4;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .calendar-day.today {
+            background: #e3f2fd;
+            color: #1976d2;
+            font-weight: 600;
+        }
+        
         .form-actions {
             display: flex;
             gap: 1rem;
@@ -2164,7 +2270,135 @@
             if (event.target === viewEvidenceModal) {
                 closeViewEvidenceModal();
             }
+            
+            // Fechar calendário ao clicar fora
+            const calendar = document.getElementById('customCalendar');
+            const calendarWrapper = document.querySelector('.custom-calendar-wrapper');
+            if (calendar && !calendarWrapper.contains(event.target)) {
+                calendar.classList.remove('show');
+            }
         });
+        
+        // Variáveis globais do calendário
+        let currentCalendarDate = new Date();
+        let selectedDate = null;
+        
+        // Função para alternar calendário
+        function toggleCalendar() {
+            const calendar = document.getElementById('customCalendar');
+            calendar.classList.toggle('show');
+            if (calendar.classList.contains('show')) {
+                generateCalendar();
+            }
+        }
+        
+        // Função para mudar mês
+        function changeMonth(direction) {
+            currentCalendarDate.setMonth(currentCalendarDate.getMonth() + direction);
+            generateCalendar();
+        }
+        
+        // Função para gerar calendário
+        function generateCalendar() {
+            const calendar = document.getElementById('calendarDays');
+            const monthYear = document.querySelector('.calendar-month-year');
+            
+            const year = currentCalendarDate.getFullYear();
+            const month = currentCalendarDate.getMonth();
+            
+            // Nomes dos meses
+            const monthNames = [
+                'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+                'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+            ];
+            
+            monthYear.textContent = `${monthNames[month]} ${year}`;
+            
+            // Primeiro dia do mês e último dia
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            const daysInMonth = lastDay.getDate();
+            
+            // Primeiro dia da semana (0 = domingo, 1 = segunda, etc.)
+            let startDay = firstDay.getDay();
+            startDay = startDay === 0 ? 6 : startDay - 1; // Ajustar para segunda = 0
+            
+            // Limpar calendário
+            calendar.innerHTML = '';
+            
+            // Dias do mês anterior
+            const prevMonth = new Date(year, month - 1, 0);
+            const daysInPrevMonth = prevMonth.getDate();
+            
+            for (let i = startDay - 1; i >= 0; i--) {
+                const day = daysInPrevMonth - i;
+                const dayElement = createDayElement(day, 'other-month');
+                calendar.appendChild(dayElement);
+            }
+            
+            // Dias do mês atual
+            const today = new Date();
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayElement = createDayElement(day);
+                
+                // Marcar hoje
+                if (year === today.getFullYear() && month === today.getMonth() && day === today.getDate()) {
+                    dayElement.classList.add('today');
+                }
+                
+                // Marcar selecionado
+                if (selectedDate && year === selectedDate.getFullYear() && 
+                    month === selectedDate.getMonth() && day === selectedDate.getDate()) {
+                    dayElement.classList.add('selected');
+                }
+                
+                calendar.appendChild(dayElement);
+            }
+            
+            // Dias do próximo mês
+            const totalCells = calendar.children.length;
+            const remainingCells = 42 - totalCells; // 6 semanas * 7 dias
+            
+            for (let day = 1; day <= remainingCells; day++) {
+                const dayElement = createDayElement(day, 'other-month');
+                calendar.appendChild(dayElement);
+            }
+        }
+        
+        // Função para criar elemento do dia
+        function createDayElement(day, className = '') {
+            const dayElement = document.createElement('div');
+            dayElement.className = `calendar-day ${className}`;
+            dayElement.textContent = day;
+            
+            if (!className.includes('other-month')) {
+                dayElement.addEventListener('click', function() {
+                    selectDate(day);
+                });
+            }
+            
+            return dayElement;
+        }
+        
+        // Função para selecionar data
+        function selectDate(day) {
+            selectedDate = new Date(currentCalendarDate.getFullYear(), currentCalendarDate.getMonth(), day);
+            
+            // Atualizar input
+            const monthNames = [
+                'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+                'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+            ];
+            
+            const input = document.getElementById('evidenceDate');
+            input.value = `${monthNames[selectedDate.getMonth()]} ${selectedDate.getFullYear()}`;
+            
+            // Fechar calendário
+            document.getElementById('customCalendar').classList.remove('show');
+            
+            // Regenerar para mostrar seleção
+            generateCalendar();
+        }
     </script>
 </head>
 <body>
@@ -2579,7 +2813,28 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label for="evidenceDate">Data:</label>
-                            <input type="month" id="evidenceDate" name="date" required value="2025-08">
+                            <div class="custom-calendar-wrapper">
+                                <input type="text" id="evidenceDate" name="date" required value="Agosto 2025" readonly onclick="toggleCalendar()">
+                                <div id="customCalendar" class="custom-calendar">
+                                    <div class="calendar-header">
+                                        <button type="button" class="calendar-nav" onclick="changeMonth(-1)">‹</button>
+                                        <span class="calendar-month-year">Agosto 2025</span>
+                                        <button type="button" class="calendar-nav" onclick="changeMonth(1)">›</button>
+                                    </div>
+                                    <div class="calendar-weekdays">
+                                        <div class="weekday">SEG</div>
+                                        <div class="weekday">TER</div>
+                                        <div class="weekday">QUA</div>
+                                        <div class="weekday">QUI</div>
+                                        <div class="weekday">SEX</div>
+                                        <div class="weekday">SAB</div>
+                                        <div class="weekday">DOM</div>
+                                    </div>
+                                    <div class="calendar-days" id="calendarDays">
+                                        <!-- Days will be generated by JavaScript -->
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="evidenceUser">Adicionado por:</label>
