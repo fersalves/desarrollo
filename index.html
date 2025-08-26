@@ -1860,6 +1860,26 @@
             }
         }
         
+        // Atualizar todos os links de evidências para usar o modal
+        document.addEventListener('DOMContentLoaded', function() {
+            // Aguardar um pouco para garantir que tudo foi renderizado
+            setTimeout(() => {
+                const goalKeys = [
+                    'update-proactivo', 'decide-baja-fidelidad', 'marca-pulso', 
+                    'turnaround-express', 'feedback-senior', 'aprendizaje-visible',
+                    'plan-b-salvaje', 'mira-afuera', 'rompe-andes', 
+                    'prototipa-ia', 'benchmarka-inesperado'
+                ];
+                
+                const cardLinks = document.querySelectorAll('.card-link[onclick*="showSection"]');
+                cardLinks.forEach((link, index) => {
+                    if (index < goalKeys.length) {
+                        link.setAttribute('onclick', `openEvidenceModal('${goalKeys[index]}')`);
+                    }
+                });
+            }, 100);
+        });
+        
         // Função interna para deletar evidência (após autenticação)
         function _deleteEvidence(button) {
             const evidenceItem = button.closest('.evidence-item');
