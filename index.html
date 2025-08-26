@@ -1270,7 +1270,27 @@
             background: linear-gradient(90deg, #007aa3, #4a1f5c);
         }
         
+        /* Form row layout for two-column fields */
+        .form-row {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+            margin-bottom: 0;
+        }
+        
         @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .form-row .form-group {
+                margin-bottom: 1.5rem;
+            }
             .container { padding: 1rem; }
             .grid { grid-template-columns: 1fr; }
             .nav { flex-wrap: wrap; }
@@ -2499,34 +2519,36 @@
                     <div class="form-group">
                         <label for="evidenceTitle">Título da Evidência:</label>
                         <input type="text" id="evidenceTitle" name="title" required>
-                </div>
-                
-                    <div class="form-group">
-                        <label for="evidenceDate">Data:</label>
-                        <input type="month" id="evidenceDate" name="date" required value="2025-08">
-                </div>
-                
-                    <div class="form-group">
-                        <label for="evidenceDescription">Descrição:</label>
-                        <textarea id="evidenceDescription" name="description" rows="4" required></textarea>
-                </div>
-                
-                    <div class="form-group">
-                        <label for="evidenceLink">Link (URL):</label>
-                        <input type="url" id="evidenceLink" name="link" placeholder="https://...">
-                </div>
-                
-                                        <div class="form-group">
-                        <label for="evidenceLinkName">Nome do Link:</label>
-                        <input type="text" id="evidenceLinkName" name="linkName" placeholder="Ver projeto, Ver documentação, etc.">
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="evidenceDate">Data:</label>
+                            <input type="month" id="evidenceDate" name="date" required value="2025-08">
+                        </div>
+                        <div class="form-group">
+                            <label for="evidenceUser">Adicionado por:</label>
+                            <select id="evidenceUser" name="user" required>
+                                <option value="fe">Fê</option>
+                                <option value="santi">Santi</option>
+                            </select>
+                        </div>
                     </div>
                     
                     <div class="form-group">
-                        <label for="evidenceUser">Adicionado por:</label>
-                        <select id="evidenceUser" name="user" required>
-                            <option value="fe">Fê</option>
-                            <option value="santi">Santi</option>
-                        </select>
+                        <label for="evidenceDescription">Descrição:</label>
+                        <textarea id="evidenceDescription" name="description" rows="4" required></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="evidenceLink">Link (URL):</label>
+                            <input type="url" id="evidenceLink" name="link" placeholder="https://...">
+                        </div>
+                        <div class="form-group">
+                            <label for="evidenceLinkName">Nome do Link:</label>
+                            <input type="text" id="evidenceLinkName" name="linkName" placeholder="Ver projeto, Ver documentação, etc.">
+                        </div>
                     </div>
                     
                     <div class="form-actions">
