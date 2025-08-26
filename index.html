@@ -1868,6 +1868,182 @@
             });
         }
         
+        // Função para migrar evidências existentes para localStorage
+        function migrateExistingEvidences() {
+            console.log('🔄 Iniciando migração de evidências existentes...');
+            
+            // Verificar se já existem evidências no localStorage
+            const existingEvidences = JSON.parse(localStorage.getItem('dashboard-evidences') || '[]');
+            if (existingEvidences.length > 0) {
+                console.log('📋 Evidências já existem no localStorage, pulando migração');
+                return;
+            }
+            
+            // Mapeamento das seções para suas chaves
+            const sectionMapping = {
+                'empuja-hoy': 'empuja-hoy',
+                'update-proactivo': 'update-proactivo', 
+                'decide-baja-fidelidad': 'decide-baja-fidelidad',
+                'marca-pulso': 'marca-pulso',
+                'turnaround-express': 'turnaround-express',
+                'feedback-senior': 'feedback-senior',
+                'aprendizaje-visible': 'aprendizaje-visible',
+                'plan-b-salvaje': 'plan-b-salvaje',
+                'mira-afuera': 'mira-afuera',
+                'rompe-andes': 'rompe-andes',
+                'prototipa-ia': 'prototipa-ia',
+                'benchmarka-inesperado': 'benchmarka-inesperado'
+            };
+            
+            // Evidências existentes com seus dados
+            const existingEvidenceData = [
+                {
+                    section: 'empuja-hoy',
+                    title: 'Dashboard Pessoal - Blocker Resolvido',
+                    date: '2025-08',
+                    description: 'Blocker na integração Google Sheets resolvido no mesmo dia com solução offline alternativa, mantendo projeto no prazo',
+                    link: '',
+                    linkName: '',
+                    user: 'fe'
+                },
+                {
+                    section: 'update-proactivo',
+                    title: 'Daily Updates Automáticos',
+                    date: '2025-08',
+                    description: 'Projeto React: daily updates no Slack sobre progresso, blockers e próximos passos sem solicitação da liderança',
+                    link: '',
+                    linkName: '',
+                    user: 'fe'
+                },
+                {
+                    section: 'decide-baja-fidelidad',
+                    title: 'API Design - Wireframes Express',
+                    date: '2025-08',
+                    description: 'Wireframes e mockups de API entregues em 18h para validação de stakeholders antes do desenvolvimento',
+                    link: '',
+                    linkName: '',
+                    user: 'fe'
+                },
+                {
+                    section: 'marca-pulso',
+                    title: 'Moderação Sprint Review',
+                    date: '2025-08',
+                    description: 'Sprint review perdeu foco: assumi moderação, trouxe agenda clara e direcionei 3 decisões pendentes',
+                    link: '',
+                    linkName: '',
+                    user: 'fe'
+                },
+                {
+                    section: 'turnaround-express',
+                    title: 'Code Review Acelerado',
+                    date: '2025-08',
+                    description: 'Feedback técnico de 12 PRs respondido em menos de 8h, mantendo média de 4h por resposta sem bloquear time',
+                    link: '',
+                    linkName: '',
+                    user: 'fe'
+                },
+                {
+                    section: 'feedback-senior',
+                    title: 'TypeScript Patterns Implementado',
+                    date: '2025-08',
+                    description: 'Feedback do TL sobre arquitetura TypeScript implementado em 24h com demonstração funcional completa',
+                    link: '',
+                    linkName: '',
+                    user: 'fe'
+                },
+                {
+                    section: 'aprendizaje-visible',
+                    title: 'Documentação de Impacto',
+                    date: '2025-08',
+                    description: 'Review técnico: documentei como feedback sobre hooks customizados mudou estrutura do projeto (+30% performance)',
+                    link: '',
+                    linkName: '',
+                    user: 'fe'
+                },
+                {
+                    section: 'plan-b-salvaje',
+                    title: 'PIX + QR Code Innovation',
+                    date: '2025-08',
+                    description: 'E-commerce checkout: além da solução Stripe tradicional, propus integração PIX + QR code (+23% conversão)',
+                    link: '',
+                    linkName: '',
+                    user: 'fe'
+                },
+                {
+                    section: 'mira-afuera',
+                    title: 'UX Cross-Industry Inspiration',
+                    date: '2025-08',
+                    description: 'Dashboard UX: inspiração no Spotify (música) e Netflix (streaming) para criar navegação contextual inovadora',
+                    link: '',
+                    linkName: '',
+                    user: 'fe'
+                },
+                {
+                    section: 'rompe-andes',
+                    title: 'Zustand vs Redux Architecture',
+                    date: '2025-08',
+                    description: 'Questionei Redux padrão da empresa, argumentei e implementei Zustand com 40% menos boilerplate',
+                    link: '',
+                    linkName: '',
+                    user: 'fe'
+                },
+                {
+                    section: 'prototipa-ia',
+                    title: 'Cursor AI Development',
+                    date: '2025-08',
+                    description: 'Cursor AI: aceleração 3x no desenvolvimento deste dashboard, exploração de 5 layouts alternativos em 2h',
+                    link: '',
+                    linkName: '',
+                    user: 'fe'
+                },
+                {
+                    section: 'benchmarka-inesperado',
+                    title: 'Figma Component System',
+                    date: '2025-08',
+                    description: 'Sistema de componentes Figma inspirado no Notion: hierarquia visual clara e reutilização 90% maior',
+                    link: '',
+                    linkName: '',
+                    user: 'fe'
+                }
+            ];
+            
+            // Processar e salvar cada evidência
+            const migratedEvidences = [];
+            existingEvidenceData.forEach((evidence, index) => {
+                const dateObj = new Date(evidence.date + '-01');
+                const monthNames = [
+                    'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+                    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+                ];
+                
+                const processedEvidence = {
+                    ...evidence,
+                    formattedDate: `${monthNames[dateObj.getMonth()]} ${dateObj.getFullYear()}`,
+                    id: Date.now() + index + Math.random(),
+                    timestamp: new Date().toISOString()
+                };
+                
+                migratedEvidences.push(processedEvidence);
+                console.log(`✅ Evidência migrada: ${evidence.title} → ${evidence.section}`);
+            });
+            
+            // Salvar no localStorage
+            try {
+                localStorage.setItem('dashboard-evidences', JSON.stringify(migratedEvidences));
+                console.log(`🎉 Migração concluída! ${migratedEvidences.length} evidências salvas no localStorage`);
+                console.log('📊 Evidências por seção:');
+                
+                // Log por seção
+                Object.keys(sectionMapping).forEach(section => {
+                    const count = migratedEvidences.filter(e => e.section === section).length;
+                    console.log(`  - ${GOAL_EVIDENCE_MAP[section]}: ${count} evidência(s)`);
+                });
+                
+            } catch (error) {
+                console.error('❌ Erro ao salvar evidências migradas:', error);
+            }
+        }
+        
         // Fechar modal de visualização ao clicar fora dele
         window.addEventListener('click', function(event) {
             const viewModal = document.getElementById('viewEvidenceModal');
@@ -2158,6 +2334,9 @@
             
             // Testar localStorage
             testLocalStorage();
+            
+            // Migrar evidências existentes para localStorage
+            migrateExistingEvidences();
             
             // Verificar evidências existentes
             const existing = localStorage.getItem('dashboard-evidences');
