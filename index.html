@@ -378,6 +378,9 @@
                 max-height: 90vh;
                 overflow-y: auto;
                 box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+                position: relative;
+                display: flex;
+                flex-direction: column;
             }
             
             .evidence-modal-header {
@@ -408,12 +411,67 @@
             
             .evidence-modal-body {
                 padding: 2rem;
+                flex: 1;
+                overflow-y: auto;
             }
             
             .evidence-modal-grid {
                 display: grid;
                 grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
                 gap: 1.5rem;
+                padding-bottom: 80px; /* Espaço para o footer fixo */
+            }
+            
+            /* Footer fixo do modal */
+            .evidence-modal-footer {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: #1e1e2e;
+                border-top: 1px solid #333;
+                padding: 1.5rem 2rem;
+            }
+            
+            /* CTA de adicionar evidência no footer */
+            .evidence-modal-add-cta {
+                background: #1e1e2e;
+                border: 2px dashed #444;
+                border-radius: 8px;
+                padding: 1rem;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 0.75rem;
+                width: 100%;
+            }
+            
+            .evidence-modal-add-cta:hover {
+                background: #2a2a3e;
+                border-color: #00d4ff;
+                transform: translateY(-2px);
+            }
+            
+            .evidence-modal-add-cta .add-icon {
+                font-size: 1.5rem;
+                color: #666;
+                transition: color 0.3s ease;
+            }
+            
+            .evidence-modal-add-cta:hover .add-icon {
+                color: #00d4ff;
+            }
+            
+            .evidence-modal-add-cta .add-title {
+                color: #a1a1aa;
+                font-weight: 500;
+                transition: color 0.3s ease;
+            }
+            
+            .evidence-modal-add-cta:hover .add-title {
+                color: white;
             }
             
             /* Link Ver Evidências nos cards */
@@ -1994,18 +2052,11 @@
                 evidenceGrid.innerHTML += evidenceCard;
             });
             
-            // Adicionar botão de adicionar evidência no final
-            const addButton = `
-                <div class="evidence-item-add" onclick="addNewEvidenceFromModal('${goalKey}')">
-                    <div class="add-content">
-                        <div class="add-icon">+</div>
-                        <div class="add-text">
-                            <div class="add-title">Adicionar evidência</div>
-                        </div>
-                    </div>
-                </div>
-            `;
-            evidenceGrid.innerHTML += addButton;
+            // Configurar botão de adicionar evidência no footer
+            const addCTA = document.getElementById('viewEvidenceModalAddCTA');
+            addCTA.onclick = function() {
+                addNewEvidenceFromModal(goalKey);
+            };
             
             // Mostrar modal de visualização
             document.getElementById('viewEvidenceModal').style.display = 'block';
@@ -2620,6 +2671,12 @@
             <div class="evidence-modal-body">
                 <div id="viewEvidenceModalGrid" class="evidence-modal-grid">
                     <!-- Evidências serão inseridas aqui -->
+                </div>
+            </div>
+            <div class="evidence-modal-footer">
+                <div id="viewEvidenceModalAddCTA" class="evidence-modal-add-cta">
+                    <div class="add-icon">+</div>
+                    <div class="add-title">Adicionar evidência</div>
                 </div>
             </div>
         </div>
