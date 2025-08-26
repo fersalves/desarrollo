@@ -1623,12 +1623,20 @@
                 document.body.style.overflow = 'hidden';
                 
                 // Limpar formulário se não estiver preenchido (copia)
-                if (!document.getElementById('evidenceTitle').value) {
-                    document.getElementById('evidenceForm').reset();
-                    document.getElementById('evidenceDate').value = '2025-08';
+                const titleField = document.getElementById('evidenceTitle');
+                if (titleField && !titleField.value) {
+                    const form = document.getElementById('evidenceForm');
+                    if (form) {
+                        form.reset();
+                        const dateField = document.getElementById('evidenceDate');
+                        if (dateField) {
+                            dateField.value = '2025-08';
+                        }
+                    }
                 }
                 
                 console.log('Modal de adicionar evidência aberto para meta:', currentModalGoal);
+                console.log('Formulário encontrado:', !!document.getElementById('evidenceForm'));
             }
         }
         
@@ -2304,7 +2312,7 @@
         });
         
     </script>
-    
+
     <!-- Modal para adicionar evidência -->
     <div id="evidenceModal" class="modal">
         <div class="modal-content">
