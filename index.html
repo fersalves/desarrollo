@@ -247,20 +247,37 @@
         }
         
         .evidence-title {
-            font-weight: bold;
+            font-weight: 500;
             color: #00d4ff;
-            margin-bottom: 0.5rem;
+            margin: 0 0 0.75rem 0;
+            font-size: 1.125rem;
+            line-height: 1.4;
         }
         
         .evidence-date {
-            font-size: 0.8rem;
+            font-size: 0.875rem;
             color: #a1a1aa;
-            margin-bottom: 0.5rem;
+            margin: 0 0 1rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .evidence-description {
+            color: #e5e5e5;
+            margin: 0 0 1rem 0;
+            line-height: 1.6;
+            font-size: 0.95rem;
         }
         
         .evidence-link {
             color: #00d4ff;
             text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
         }
         
         .evidence-link:hover {
@@ -272,6 +289,34 @@
             flex: 1;
             display: flex;
             flex-direction: column;
+        }
+        
+        /* Evidence Footer */
+        .evidence-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+            border-top: 1px solid #333;
+            margin-top: auto;
+        }
+        
+        .evidence-author {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .evidence-author-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .evidence-author-name {
+            color: #a1a1aa;
+            font-size: 0.875rem;
         }
         
         /* Evidence Actions */
@@ -293,15 +338,35 @@
         .evidence-action {
             background: #333;
             border: none;
-            border-radius: 4px;
-            padding: 0.5rem;
+            border-radius: 6px;
+            padding: 0.5rem 0.75rem;
             cursor: pointer;
             color: #a1a1aa;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
+            font-size: 0.8rem;
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            transition: all 0.2s ease;
+        }
+        
+        .evidence-action:hover:not(:disabled) {
+            background: #444;
+            color: white;
+        }
+        
+        .evidence-action:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .evidence-action.copy:hover {
+            background: #0ea5e9;
+            color: white;
+        }
+        
+        .evidence-action.delete:hover:not(:disabled) {
+            background: #dc2626;
+            color: white;
         }
         
         .evidence-action svg {
@@ -1763,10 +1828,6 @@
         
         // Função para criar HTML de evidência
         function createEvidenceHTML(evidence, evidenceId, isStatic = false) {
-            const deleteButton = isStatic ? 
-                '<button class="evidence-delete" onclick="alert(\'Evidências estáticas não podem ser deletadas\')" title="Não é possível deletar evidências estáticas">🚫</button>' :
-                `<button class="evidence-delete" onclick="deleteEvidenceFromModal(this)" title="Deletar evidência">🗑️</button>`;
-                
             const linkHtml = evidence.link ? 
                 `<a href="${evidence.link}" target="_blank" class="evidence-link">🔗 ${evidence.linkName || 'Ver link'}</a>` : '';
                 
@@ -1774,13 +1835,32 @@
                 <div class="evidence-item" data-evidence-id="${evidenceId}">
                     <div class="evidence-content">
                         <h4 class="evidence-title">${evidence.title}</h4>
-                        <div class="evidence-date">${evidence.date}</div>
-                        <p>${evidence.description}</p>
+                        <div class="evidence-date">📅 ${evidence.date}</div>
+                        <p class="evidence-description">${evidence.description}</p>
                         ${linkHtml}
                     </div>
-                    <div class="evidence-actions">
-                        <button class="evidence-copy" onclick="copyEvidenceFromModal(this)" title="Copiar evidência">📋</button>
-                        ${deleteButton}
+                    <div class="evidence-footer">
+                        <div class="evidence-author">
+                            <img src="imagens/fe.png" alt="Fê" class="evidence-author-avatar" onerror="this.style.display='none'">
+                            <span class="evidence-author-name">Adicionado por Fê</span>
+                        </div>
+                        <div class="evidence-actions-buttons">
+                            <button class="evidence-action copy" onclick="copyEvidenceFromModal(this)" title="Copiar evidência">
+                                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M10.3667 8.34337V0.943359L4.3667 0.943432V2.74228H5.5667V2.14342L9.1667 2.14337V7.14337H8.56889V8.34337H10.3667Z" fill="currentColor" fill-opacity="0.9"/>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M7.6333 3.6449H1.6333V11.0449H7.6333V3.6449ZM2.8333 9.8449V4.8449H6.4333V9.8449H2.8333Z" fill="currentColor" fill-opacity="0.9"/>
+                                </svg>
+                                Copiar
+                            </button>
+                            <button class="evidence-action delete" onclick="deleteEvidenceFromModal(this)" title="Deletar evidência" ${isStatic ? 'disabled' : ''}>
+                                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M4.19995 8.99973V4.59973H5.39995V8.99973H4.19995Z" fill="currentColor" fill-opacity="0.9"/>
+                                    <path d="M6.6001 8.99973V4.59973H7.8001V8.99973H6.6001Z" fill="currentColor" fill-opacity="0.9"/>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M8.29692 2.19934H10.5999V3.39934H9.99988V9.60014C9.99988 10.5942 9.19399 11.4001 8.19988 11.4001H3.79988C2.80576 11.4001 1.99988 10.5942 1.99988 9.60014V3.39934H1.3999V2.19934H3.70274C3.75463 1.30713 4.49461 0.599609 5.39983 0.599609H6.59983C7.50505 0.599609 8.24503 1.30713 8.29692 2.19934ZM4.70696 2.19934H7.2927C7.24406 1.86024 6.95238 1.59961 6.59983 1.59961H5.39983C5.04728 1.59961 4.75560 1.86024 4.70696 2.19934ZM3.19988 3.39934H8.79988V9.60014C8.79988 9.93151 8.53125 10.2001 8.19988 10.2001H3.79988C3.46851 10.2001 3.19988 9.93151 3.19988 9.60014V3.39934Z" fill="currentColor" fill-opacity="0.9"/>
+                                </svg>
+                                Deletar
+                            </button>
+                        </div>
                     </div>
                 </div>
             `;
