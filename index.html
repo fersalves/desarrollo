@@ -369,13 +369,13 @@
 
         /* Animações dos ícones dos títulos */
         .section-title {
-            cursor: pointer;
             transition: all 0.3s ease;
         }
 
         .fire-icon {
             display: inline-block;
             transition: all 0.3s ease;
+            cursor: pointer;
         }
 
         .light-icon {
@@ -390,9 +390,9 @@
         }
 
         .section-title:hover .light-icon {
-            animation: lightGlow 1s ease-in-out infinite alternate;
-            filter: brightness(1.5) saturate(1.3);
-            text-shadow: 0 0 15px #ffd700, 0 0 25px #ffd700, 0 0 35px #ffd700;
+            animation: lightGlow 2.5s ease-in-out infinite alternate;
+            filter: brightness(1.1) saturate(1.05);
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
         }
 
         @keyframes fireFlicker {
@@ -421,18 +421,18 @@
         @keyframes lightGlow {
             0% {
                 transform: scale(1);
-                filter: brightness(1.5) saturate(1.3);
-                text-shadow: 0 0 15px #ffd700, 0 0 25px #ffd700, 0 0 35px #ffd700;
+                filter: brightness(1.1) saturate(1.05);
+                text-shadow: 0 0 3px rgba(255, 215, 0, 0.2);
             }
             50% {
-                transform: scale(1.1);
-                filter: brightness(1.8) saturate(1.6);
-                text-shadow: 0 0 20px #ffed4e, 0 0 35px #ffed4e, 0 0 50px #ffed4e;
+                transform: scale(1.02);
+                filter: brightness(1.15) saturate(1.08);
+                text-shadow: 0 0 6px rgba(255, 215, 0, 0.4);
             }
             100% {
-                transform: scale(1.05);
-                filter: brightness(1.6) saturate(1.4);
-                text-shadow: 0 0 18px #ffd700, 0 0 30px #ffd700, 0 0 40px #ffd700;
+                transform: scale(1.01);
+                filter: brightness(1.12) saturate(1.06);
+                text-shadow: 0 0 4px rgba(255, 215, 0, 0.3);
             }
         }
             
