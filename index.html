@@ -720,7 +720,7 @@
                                     </div>
                                     <p style="text-align: right; margin-top: 0.5rem;">75%</p>
                                     <div class="card-divider">
-                                        <a class="card-link" onclick="openEvidenceModal('empuja-hoy')">
+                                        <a class="card-link" onclick="openEvidenceModal('empuja-hoy', event)">
                                             Ver evidências
                                             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M4.89779 1.85254L4.10229 2.64803L7.45455 6.00029L4.10229 9.35254L4.89779 10.148L9.04554 6.00029L4.89779 1.85254Z" fill="currentColor" fill-opacity="0.9"/>
@@ -1797,7 +1797,12 @@
         };
         
         // Função para abrir modal de visualização de evidências de uma meta específica
-        function openEvidenceModal(goalKey) {
+        function openEvidenceModal(goalKey, event) {
+            // Impedir que o clique se propague para o card (evitar flip)
+            if (event) {
+                event.stopPropagation();
+                event.preventDefault();
+            }
             const goalName = GOAL_EVIDENCE_MAP[goalKey];
             if (!goalName) return;
             
@@ -1850,6 +1855,17 @@
         function closeViewEvidenceModal() {
             document.getElementById('viewEvidenceModal').style.display = 'none';
             document.body.style.overflow = 'auto';
+            
+            // Resetar todos os cards para posição inicial (não flipados)
+            resetAllCardsToFront();
+        }
+        
+        // Função para resetar todos os cards para a posição frontal
+        function resetAllCardsToFront() {
+            const allCards = document.querySelectorAll('.flip-card');
+            allCards.forEach(card => {
+                card.classList.remove('flipped');
+            });
         }
         
         // Fechar modal de visualização ao clicar fora dele
@@ -1874,7 +1890,7 @@
                 const cardLinks = document.querySelectorAll('.card-link[onclick*="showSection"]');
                 cardLinks.forEach((link, index) => {
                     if (index < goalKeys.length) {
-                        link.setAttribute('onclick', `openEvidenceModal('${goalKeys[index]}')`);
+                        link.setAttribute('onclick', `openEvidenceModal('${goalKeys[index]}', event)`);
                     }
                 });
             }, 100);
