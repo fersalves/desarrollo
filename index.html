@@ -1242,7 +1242,56 @@
             }
         }
         
-        // Dados das evidências
+        // Função para carregar evidências salvas do localStorage
+        function loadSavedEvidences() {
+            const saved = localStorage.getItem('dashboard-evidences');
+            return saved ? JSON.parse(saved) : {};
+        }
+        
+        // Função para salvar evidências no localStorage
+        function saveEvidences(evidences) {
+            localStorage.setItem('dashboard-evidences', JSON.stringify(evidences));
+            console.log('Evidências salvas no localStorage');
+        }
+        
+        // Função para criar HTML de evidência
+        function createEvidenceHTML(evidence, evidenceId, isStatic) {
+            return `
+                <div class="evidence-item" data-author="fe" data-evidence-id="${evidenceId}" data-is-static="${isStatic}">
+                    <div class="evidence-content">
+                        <div class="evidence-title">${evidence.title}</div>
+                        <div class="evidence-date">📅 ${evidence.date}</div>
+                        <p>${evidence.description}</p>
+                        ${evidence.link ? `<a href="${evidence.link}" class="evidence-link" target="_blank">🔗 ${evidence.linkName || 'Ver mais'}</a>` : ''}
+                    </div>
+                    <div class="evidence-actions">
+                        <div class="evidence-author">
+                            <img src="imagens/fe.png" alt="Fê" class="evidence-author-avatar">
+                            <span class="evidence-author-name">Adicionado por Fê</span>
+                        </div>
+                        <div class="evidence-actions-buttons">
+                            <button class="evidence-action copy" onclick="copyEvidenceFromModal(this)" title="Copiar evidência">
+                                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M10.3667 8.34337V0.943359L4.3667 0.943432V2.74228H5.5667V2.14342L9.1667 2.14337V7.14337H8.56889V8.34337H10.3667Z" fill="currentColor" fill-opacity="0.9"/>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M7.6333 3.6449H1.6333V11.0449H7.6333V3.6449ZM2.8333 9.8449V4.8449H6.4333V9.8449H2.8333Z" fill="currentColor" fill-opacity="0.9"/>
+                                </svg>
+                                Copiar
+                            </button>
+                            <button class="evidence-action delete" onclick="deleteEvidenceFromModal(this)" title="Deletar evidência" ${isStatic ? 'style="display: none;"' : ''}>
+                                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M4.19995 8.99973V4.59973H5.39995V8.99973H4.19995Z" fill="currentColor" fill-opacity="0.9"/>
+                                    <path d="M6.6001 8.99973V4.59973H7.8001V8.99973H6.6001Z" fill="currentColor" fill-opacity="0.9"/>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M8.29692 2.19934H10.5999V3.39934H9.99988V9.60014C9.99988 10.5942 9.19399 11.4001 8.19988 11.4001H3.79988C2.80576 11.4001 1.99988 10.5942 1.99988 9.60014V3.39934H1.3999V2.19934H3.70274C3.75463 1.30713 4.49461 0.599609 5.39983 0.599609H6.59983C7.50505 0.599609 8.24503 1.30713 8.29692 2.19934ZM4.70696 2.19934H7.2927C7.24406 1.86024 6.95238 1.59961 6.59983 1.59961H5.39983C5.04728 1.59961 4.75560 1.86024 4.70696 2.19934ZM3.19988 3.39934H8.79988V9.60014C8.79988 9.93151 8.53125 10.2001 8.19988 10.2001H3.79988C3.46851 10.2001 3.19988 9.93151 3.19988 9.60014V3.39934Z" fill="currentColor" fill-opacity="0.9"/>
+                                </svg>
+                                Deletar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Dados das evidências estáticas (padrão)
         const STATIC_EVIDENCES = {
             'empuja-hoy': {
                 title: 'Dashboard Pessoal - Blocker Resolvido',
@@ -1353,6 +1402,9 @@
             
             console.log('openEvidenceModal chamada:', goalKey);
             
+            // Salvar contexto da meta atual
+            currentModalGoal = goalKey;
+            
             // Atualizar título do modal
             const goalName = GOAL_EVIDENCE_MAP[goalKey];
             const modalTitle = document.getElementById('viewEvidenceModalTitle');
@@ -1361,48 +1413,33 @@
             if (modalTitle) modalTitle.textContent = 'Evidências';
             if (modalEyebrow) modalEyebrow.textContent = goalName || goalKey;
             
-            // Adicionar evidência ao modal
+            // Adicionar evidências ao modal (estáticas + salvas)
             const evidenceGrid = document.getElementById('viewEvidenceModalGrid');
             if (evidenceGrid) {
                 evidenceGrid.innerHTML = '';
                 
-                const evidence = STATIC_EVIDENCES[goalKey];
-                if (evidence) {
-                    const evidenceHTML = `
-                        <div class="evidence-item" data-author="fe" data-evidence-id="${goalKey}-evidence-1">
-                            <div class="evidence-content">
-                                <div class="evidence-title">${evidence.title}</div>
-                                <div class="evidence-date">📅 ${evidence.date}</div>
-                                <p>${evidence.description}</p>
-                                ${evidence.link ? `<a href="${evidence.link}" class="evidence-link" target="_blank">🔗 ${evidence.linkName || 'Ver mais'}</a>` : ''}
-                            </div>
-                            <div class="evidence-actions">
-                                <div class="evidence-author">
-                                    <img src="imagens/fe.png" alt="Fê" class="evidence-author-avatar">
-                                    <span class="evidence-author-name">Adicionado por Fê</span>
-                                </div>
-                                <div class="evidence-actions-buttons">
-                                    <button class="evidence-action copy" onclick="copyEvidenceFromModal(this)" title="Copiar evidência">
-                                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M10.3667 8.34337V0.943359L4.3667 0.943432V2.74228H5.5667V2.14342L9.1667 2.14337V7.14337H8.56889V8.34337H10.3667Z" fill="currentColor" fill-opacity="0.9"/>
-                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M7.6333 3.6449H1.6333V11.0449H7.6333V3.6449ZM2.8333 9.8449V4.8449H6.4333V9.8449H2.8333Z" fill="currentColor" fill-opacity="0.9"/>
-                                        </svg>
-                                        Copiar
-                                    </button>
-                                    <button class="evidence-action delete" onclick="deleteEvidenceFromModal(this)" title="Deletar evidência">
-                                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M4.19995 8.99973V4.59973H5.39995V8.99973H4.19995Z" fill="currentColor" fill-opacity="0.9"/>
-                                            <path d="M6.6001 8.99973V4.59973H7.8001V8.99973H6.6001Z" fill="currentColor" fill-opacity="0.9"/>
-                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M8.29692 2.19934H10.5999V3.39934H9.99988V9.60014C9.99988 10.5942 9.19399 11.4001 8.19988 11.4001H3.79988C2.80576 11.4001 1.99988 10.5942 1.99988 9.60014V3.39934H1.3999V2.19934H3.70274C3.75463 1.30713 4.49461 0.599609 5.39983 0.599609H6.59983C7.50505 0.599609 8.24503 1.30713 8.29692 2.19934ZM4.70696 2.19934H7.2927C7.24406 1.86024 6.95238 1.59961 6.59983 1.59961H5.39983C5.04728 1.59961 4.75560 1.86024 4.70696 2.19934ZM3.19988 3.39934H8.79988V9.60014C8.79988 9.93151 8.53125 10.2001 8.19988 10.2001H3.79988C3.46851 10.2001 3.19988 9.93151 3.19988 9.60014V3.39934Z" fill="currentColor" fill-opacity="0.9"/>
-                                        </svg>
-                                        Deletar
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    evidenceGrid.innerHTML = evidenceHTML;
-                } else {
+                // Carregar evidências salvas
+                const savedEvidences = loadSavedEvidences();
+                const goalEvidences = savedEvidences[goalKey] || [];
+                
+                // Adicionar evidência estática se existir
+                const staticEvidence = STATIC_EVIDENCES[goalKey];
+                let hasEvidences = false;
+                
+                if (staticEvidence) {
+                    const evidenceHTML = createEvidenceHTML(staticEvidence, `${goalKey}-static`, true);
+                    evidenceGrid.innerHTML += evidenceHTML;
+                    hasEvidences = true;
+                }
+                
+                // Adicionar evidências salvas
+                goalEvidences.forEach((evidence, index) => {
+                    const evidenceHTML = createEvidenceHTML(evidence, `${goalKey}-saved-${index}`, false);
+                    evidenceGrid.innerHTML += evidenceHTML;
+                    hasEvidences = true;
+                });
+                
+                if (!hasEvidences) {
                     evidenceGrid.innerHTML = '<p style="color: #a1a1aa;">Nenhuma evidência cadastrada ainda.</p>';
                 }
             }
@@ -1411,6 +1448,9 @@
             const addCTA = document.getElementById('viewEvidenceModalAddCTA');
             if (addCTA) {
                 addCTA.onclick = function() {
+                    // Salvar qual meta está sendo editada
+                    currentModalGoal = goalKey;
+                    
                     // Fechar modal de visualização
                     closeViewEvidenceModal();
                     
@@ -1451,6 +1491,9 @@
             const link = linkElement ? linkElement.href : '';
             const linkName = linkElement ? linkElement.textContent.replace('🔗 ', '') : '';
             
+            // Salvar contexto da meta atual (precisa ser definido antes de abrir o modal)
+            // currentModalGoal já deve estar definido quando este modal foi aberto
+            
             // Fechar modal de visualização
             closeViewEvidenceModal();
             
@@ -1472,8 +1515,31 @@
         function deleteEvidenceFromModal(button) {
             const evidenceItem = button.closest('.evidence-item');
             const title = evidenceItem.querySelector('.evidence-title').textContent;
+            const isStatic = evidenceItem.getAttribute('data-is-static') === 'true';
+            
+            if (isStatic) {
+                alert('Evidências padrão não podem ser deletadas.');
+                return;
+            }
             
             if (confirm(`Tem certeza que deseja deletar a evidência "${title}"?`)) {
+                // Encontrar qual meta e qual evidência deletar
+                const evidenceId = evidenceItem.getAttribute('data-evidence-id');
+                const [goalKey, type, index] = evidenceId.split('-');
+                
+                if (type === 'saved') {
+                    // Carregar evidências salvas
+                    const savedEvidences = loadSavedEvidences();
+                    const goalEvidences = savedEvidences[goalKey] || [];
+                    
+                    // Remover evidência do array
+                    goalEvidences.splice(parseInt(index), 1);
+                    
+                    // Atualizar localStorage
+                    savedEvidences[goalKey] = goalEvidences;
+                    saveEvidences(savedEvidences);
+                }
+                
                 evidenceItem.remove();
                 console.log('Evidência deletada:', title);
                 
@@ -1516,6 +1582,9 @@
                 console.log('Modal de adicionar evidência fechado');
             }
         }
+        
+        // Variável global para rastrear meta atual
+        var currentModalGoal = '';
         
         console.log('showSection definida no HEAD');
     </script>
@@ -2260,7 +2329,9 @@
             const evidenceForm = document.getElementById('evidenceForm');
             if (evidenceForm) {
                 evidenceForm.addEventListener('submit', function(e) {
+                    console.log('Form submit interceptado');
                     e.preventDefault();
+                    e.stopPropagation();
                     
                     // Coletar dados do formulário
                     const formData = {
@@ -2281,49 +2352,37 @@
                     ];
                     const formattedDate = `${monthNames[dateObj.getMonth()]} ${dateObj.getFullYear()}`;
                     
+                    // Preparar evidência para salvar
+                    const newEvidence = {
+                        title: formData.title,
+                        date: formattedDate,
+                        description: formData.description,
+                        link: formData.link,
+                        linkName: formData.linkName
+                    };
+                    
+                    // Salvar no localStorage
+                    if (currentModalGoal) {
+                        console.log('Salvando evidência para meta:', currentModalGoal);
+                        const savedEvidences = loadSavedEvidences();
+                        console.log('Evidências existentes:', savedEvidences);
+                        
+                        if (!savedEvidences[currentModalGoal]) {
+                            savedEvidences[currentModalGoal] = [];
+                        }
+                        savedEvidences[currentModalGoal].push(newEvidence);
+                        saveEvidences(savedEvidences);
+                        console.log('Evidência salva permanentemente para:', currentModalGoal);
+                        console.log('Nova evidência:', newEvidence);
+                    } else {
+                        console.error('currentModalGoal não definido! Não foi possível salvar evidência.');
+                    }
+                    
                     // Fechar modal de adicionar
                     closeModal();
                     
-                    // Aguardar um pouco e reabrir modal de visualização com nova evidência
+                    // Reabrir modal de visualização atualizado
                     setTimeout(() => {
-                        // Adicionar nova evidência temporariamente ao modal de visualização
-                        const evidenceGrid = document.getElementById('viewEvidenceModalGrid');
-                        const newEvidenceHTML = `
-                            <div class="evidence-item" data-author="fe" data-evidence-id="new-${Date.now()}">
-                                <div class="evidence-content">
-                                    <div class="evidence-title">${formData.title}</div>
-                                    <div class="evidence-date">📅 ${formattedDate}</div>
-                                    <p>${formData.description}</p>
-                                    ${formData.link ? `<a href="${formData.link}" class="evidence-link" target="_blank">🔗 ${formData.linkName}</a>` : ''}
-                                </div>
-                                <div class="evidence-actions">
-                                    <div class="evidence-author">
-                                        <img src="imagens/fe.png" alt="Fê" class="evidence-author-avatar">
-                                        <span class="evidence-author-name">Adicionado por Fê</span>
-                                    </div>
-                                    <div class="evidence-actions-buttons">
-                                        <button class="evidence-action copy" onclick="copyEvidenceFromModal(this)" title="Copiar evidência">
-                                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M10.3667 8.34337V0.943359L4.3667 0.943432V2.74228H5.5667V2.14342L9.1667 2.14337V7.14337H8.56889V8.34337H10.3667Z" fill="currentColor" fill-opacity="0.9"/>
-                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M7.6333 3.6449H1.6333V11.0449H7.6333V3.6449ZM2.8333 9.8449V4.8449H6.4333V9.8449H2.8333Z" fill="currentColor" fill-opacity="0.9"/>
-                                            </svg>
-                                            Copiar
-                                        </button>
-                                        <button class="evidence-action delete" onclick="deleteEvidenceFromModal(this)" title="Deletar evidência">
-                                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M4.19995 8.99973V4.59973H5.39995V8.99973H4.19995Z" fill="currentColor" fill-opacity="0.9"/>
-                                                <path d="M6.6001 8.99973V4.59973H7.8001V8.99973H6.6001Z" fill="currentColor" fill-opacity="0.9"/>
-                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M8.29692 2.19934H10.5999V3.39934H9.99988V9.60014C9.99988 10.5942 9.19399 11.4001 8.19988 11.4001H3.79988C2.80576 11.4001 1.99988 10.5942 1.99988 9.60014V3.39934H1.3999V2.19934H3.70274C3.75463 1.30713 4.49461 0.599609 5.39983 0.599609H6.59983C7.50505 0.599609 8.24503 1.30713 8.29692 2.19934ZM4.70696 2.19934H7.2927C7.24406 1.86024 6.95238 1.59961 6.59983 1.59961H5.39983C5.04728 1.59961 4.75560 1.86024 4.70696 2.19934ZM3.19988 3.39934H8.79988V9.60014C8.79988 9.93151 8.53125 10.2001 8.19988 10.2001H3.79988C3.46851 10.2001 3.19988 9.93151 3.19988 9.60014V3.39934Z" fill="currentColor" fill-opacity="0.9"/>
-                                            </svg>
-                                            Deletar
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                        evidenceGrid.innerHTML += newEvidenceHTML;
-                        
-                        // Reabrir modal de visualização
                         if (currentModalGoal) {
                             openEvidenceModal(currentModalGoal);
                             currentModalGoal = '';
