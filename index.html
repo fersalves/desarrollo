@@ -355,24 +355,25 @@
                 background-color: #f44336;
             }
             
-            /* CTA Ver Evidências nos cards */
-            .card-cta {
+            /* Link Ver Evidências nos cards */
+            .card-divider {
                 margin-top: 1rem;
-                padding: 0.5rem 1rem;
-                background: linear-gradient(90deg, #00d4ff, #7c3aed);
-                color: white;
-                border: none;
-                border-radius: 6px;
+                padding-top: 1rem;
+                border-top: 1px solid #333;
+            }
+            
+            .card-link {
+                color: #00d4ff;
+                text-decoration: none;
                 font-size: 0.85rem;
                 font-weight: 500;
                 cursor: pointer;
-                transition: all 0.3s ease;
-                text-align: center;
-                width: 100%;
+                transition: color 0.3s ease;
+                display: inline-block;
             }
             
-            .card-cta:hover {
-                background: linear-gradient(90deg, #0099cc, #5b2c87);
+            .card-link:hover {
+                color: #7c3aed;
             }
         
         .evidence-author-name {
@@ -636,7 +637,9 @@
                                         <div class="progress-fill" data-width="75%"></div>
                                     </div>
                                     <p style="text-align: right; margin-top: 0.5rem;">75%</p>
-                                    <button class="card-cta" onclick="showSection('evidences')">Ver evidências</button>
+                                    <div class="card-divider">
+                                        <a class="card-link" onclick="showSection('evidences')">Ver evidências ></a>
+                                    </div>
                                 </div>
                             </div>
                             <div class="flip-card-back">
@@ -657,7 +660,9 @@
                                         <div class="progress-fill" data-width="85%"></div>
                                     </div>
                                     <p style="text-align: right; margin-top: 0.5rem;">85%</p>
-                                    <button class="card-cta" onclick="showSection('evidences')">Ver evidências</button>
+                                    <div class="card-divider">
+                                        <a class="card-link" onclick="showSection('evidences')">Ver evidências ></a>
+                                    </div>
                                 </div>
                             </div>
                             <div class="flip-card-back">
@@ -678,7 +683,9 @@
                                         <div class="progress-fill" data-width="60%"></div>
                                     </div>
                                     <p style="text-align: right; margin-top: 0.5rem;">60%</p>
-                                    <button class="card-cta" onclick="showSection('evidences')">Ver evidências</button>
+                                    <div class="card-divider">
+                                        <a class="card-link" onclick="showSection('evidences')">Ver evidências ></a>
+                                    </div>
                                 </div>
                             </div>
                             <div class="flip-card-back">
@@ -699,7 +706,9 @@
                                         <div class="progress-fill" data-width="70%"></div>
                                     </div>
                                     <p style="text-align: right; margin-top: 0.5rem;">70%</p>
-                                    <button class="card-cta" onclick="showSection('evidences')">Ver evidências</button>
+                                    <div class="card-divider">
+                                        <a class="card-link" onclick="showSection('evidences')">Ver evidências ></a>
+                                    </div>
                                 </div>
                             </div>
                             <div class="flip-card-back">
@@ -720,7 +729,9 @@
                                         <div class="progress-fill" data-width="80%"></div>
                                     </div>
                                     <p style="text-align: right; margin-top: 0.5rem;">80%</p>
-                                    <button class="card-cta" onclick="showSection('evidences')">Ver evidências</button>
+                                    <div class="card-divider">
+                                        <a class="card-link" onclick="showSection('evidences')">Ver evidências ></a>
+                                    </div>
                                 </div>
                             </div>
                             <div class="flip-card-back">
@@ -741,7 +752,9 @@
                                         <div class="progress-fill" data-width="90%"></div>
                                     </div>
                                     <p style="text-align: right; margin-top: 0.5rem;">90%</p>
-                                    <button class="card-cta" onclick="showSection('evidences')">Ver evidências</button>
+                                    <div class="card-divider">
+                                        <a class="card-link" onclick="showSection('evidences')">Ver evidências ></a>
+                                    </div>
                                 </div>
                             </div>
                             <div class="flip-card-back">
@@ -762,7 +775,9 @@
                                         <div class="progress-fill" data-width="65%"></div>
                                     </div>
                                     <p style="text-align: right; margin-top: 0.5rem;">65%</p>
-                                    <button class="card-cta" onclick="showSection('evidences')">Ver evidências</button>
+                                    <div class="card-divider">
+                                        <a class="card-link" onclick="showSection('evidences')">Ver evidências ></a>
+                                    </div>
                                 </div>
                             </div>
                             <div class="flip-card-back">
@@ -791,7 +806,9 @@
                                         <div class="progress-fill" data-width="45%"></div>
                                     </div>
                                     <p style="text-align: right; margin-top: 0.5rem;">45%</p>
-                                    <button class="card-cta" onclick="showSection('evidences')">Ver evidências</button>
+                                    <div class="card-divider">
+                                        <a class="card-link" onclick="showSection('evidences')">Ver evidências ></a>
+                                    </div>
                                 </div>
                             </div>
                             <div class="flip-card-back">
@@ -812,7 +829,9 @@
                                         <div class="progress-fill" data-width="70%"></div>
                                     </div>
                                     <p style="text-align: right; margin-top: 0.5rem;">70%</p>
-                                    <button class="card-cta" onclick="showSection('evidences')">Ver evidências</button>
+                                    <div class="card-divider">
+                                        <a class="card-link" onclick="showSection('evidences')">Ver evidências ></a>
+                                    </div>
                                 </div>
                             </div>
                             <div class="flip-card-back">
@@ -833,7 +852,9 @@
                                         <div class="progress-fill" data-width="80%"></div>
                                     </div>
                                     <p style="text-align: right; margin-top: 0.5rem;">80%</p>
-                                    <button class="card-cta" onclick="showSection('evidences')">Ver evidências</button>
+                                    <div class="card-divider">
+                                        <a class="card-link" onclick="showSection('evidences')">Ver evidências ></a>
+                                    </div>
                                 </div>
                             </div>
                             <div class="flip-card-back">
@@ -854,7 +875,9 @@
                                         <div class="progress-fill" data-width="85%"></div>
                                     </div>
                                     <p style="text-align: right; margin-top: 0.5rem;">85%</p>
-                                    <button class="card-cta" onclick="showSection('evidences')">Ver evidências</button>
+                                    <div class="card-divider">
+                                        <a class="card-link" onclick="showSection('evidences')">Ver evidências ></a>
+                                    </div>
                                 </div>
                             </div>
                             <div class="flip-card-back">
@@ -875,7 +898,9 @@
                                         <div class="progress-fill" data-width="55%"></div>
                                     </div>
                                     <p style="text-align: right; margin-top: 0.5rem;">55%</p>
-                                    <button class="card-cta" onclick="showSection('evidences')">Ver evidências</button>
+                                    <div class="card-divider">
+                                        <a class="card-link" onclick="showSection('evidences')">Ver evidências ></a>
+                                    </div>
                                 </div>
                             </div>
                             <div class="flip-card-back">
