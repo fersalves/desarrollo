@@ -1650,10 +1650,19 @@
             }
         }
         
-        // Funções para carregar evidências do GitHub
+        // Funções para carregar evidências (prioriza localStorage sobre GitHub vazio)
         async function loadSavedEvidences() {
             try {
-                console.log('Carregando evidências do GitHub...');
+                // Primeiro tentar localStorage
+                const localData = localStorage.getItem('dashboardEvidences');
+                if (localData) {
+                    const localEvidences = JSON.parse(localData);
+                    console.log('Evidências carregadas do localStorage:', localEvidences);
+                    return localEvidences;
+                }
+                
+                // Se localStorage vazio, tentar GitHub
+                console.log('localStorage vazio, tentando carregar do GitHub...');
                 const response = await fetch('./evidences.json');
                 if (response.ok) {
                     const data = await response.json();
@@ -1664,15 +1673,8 @@
                     return {};
                 }
             } catch (error) {
-                console.error('Erro ao carregar evidências do GitHub:', error);
-                // Fallback para localStorage temporariamente
-                try {
-                    const saved = localStorage.getItem('dashboardEvidences');
-                    return saved ? JSON.parse(saved) : {};
-                } catch (localError) {
-                    console.error('Erro no fallback localStorage:', localError);
-                    return {};
-                }
+                console.error('Erro ao carregar evidências:', error);
+                return {};
             }
         }
         
