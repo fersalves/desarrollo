@@ -1815,7 +1815,12 @@
             
             // Buscar evidências salvas no localStorage
             const savedEvidences = JSON.parse(localStorage.getItem('dashboard-evidences') || '[]');
+            console.log(`🔍 Modal ${goalKey}: Total evidências no localStorage:`, savedEvidences.length);
+            console.log(`🔍 Todas as evidências:`, savedEvidences.map(e => ({ section: e.section, title: e.title })));
+            
             const goalEvidences = savedEvidences.filter(evidence => evidence.section === goalKey);
+            console.log(`🎯 Evidências filtradas para ${goalKey}:`, goalEvidences.length);
+            console.log(`🎯 Evidências encontradas:`, goalEvidences.map(e => ({ section: e.section, title: e.title })));
             
             if (goalEvidences.length === 0) {
                 evidenceGrid.innerHTML = `
@@ -2461,7 +2466,7 @@
             migrateExistingEvidences();
             
             // TEMPORÁRIO: Forçar re-migração para debug
-            // forceMigration();
+            forceMigration();
             
             // Verificar evidências existentes
             const existing = localStorage.getItem('dashboard-evidences');
