@@ -1829,7 +1829,7 @@
                     const userInfo = USER_INFO[evidence.user] || { name: 'Desconhecido', avatar: 'imagens/fe.png' };
                     
                     const evidenceCard = `
-                        <div class="evidence-item">
+                        <div class="evidence-item" data-author="${evidence.user}" data-evidence-id="${evidence.id}">
                             <div class="evidence-title">${evidence.title}</div>
                             <div class="evidence-date">📅 ${evidence.formattedDate}</div>
                             <p>${evidence.description}</p>
@@ -1839,12 +1839,42 @@
                                     <img src="${userInfo.avatar}" alt="${userInfo.name}" class="evidence-author-avatar">
                                     <span class="evidence-author-name">Adicionado por ${userInfo.name}</span>
                                 </div>
+                                <div class="evidence-actions-buttons">
+                                    <button class="evidence-action copy" onclick="copyEvidenceFromModal(this)" title="Copiar evidência">
+                                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M10.3667 8.34337V0.943359L4.3667 0.943432V2.74228H5.5667V2.14342L9.1667 2.14337V7.14337H8.56889V8.34337H10.3667Z" fill="currentColor" fill-opacity="0.9"/>
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M7.6333 3.6449H1.6333V11.0449H7.6333V3.6449ZM2.8333 9.8449V4.8449H6.4333V9.8449H2.8333Z" fill="currentColor" fill-opacity="0.9"/>
+                                        </svg>
+                                        Copiar
+                                    </button>
+                                    <button class="evidence-action delete" onclick="deleteEvidenceFromModal(this)" title="Deletar evidência">
+                                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M4.19995 8.99973V4.59973H5.39995V8.99973H4.19995Z" fill="currentColor" fill-opacity="0.9"/>
+                                            <path d="M6.6001 8.99973V4.59973H7.8001V8.99973H6.6001Z" fill="currentColor" fill-opacity="0.9"/>
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M8.29692 2.19934H10.5999V3.39934H9.99988V9.60014C9.99988 10.5942 9.19399 11.4001 8.19988 11.4001H3.79988C2.80576 11.4001 1.99988 10.5942 1.99988 9.60014V3.39934H1.3999V2.19934H3.70274C3.75463 1.30713 4.49461 0.599609 5.39983 0.599609H6.59983C7.50505 0.599609 8.24503 1.30713 8.29692 2.19934ZM4.70696 2.19934H7.2927C7.24406 1.86024 6.95238 1.59961 6.59983 1.59961H5.39983C5.04728 1.59961 4.75560 1.86024 4.70696 2.19934ZM3.19988 3.39934H8.79988V9.60014C8.79988 9.93151 8.53125 10.2001 8.19988 10.2001H3.79988C3.46851 10.2001 3.19988 9.93151 3.19988 9.60014V3.39934Z" fill="currentColor" fill-opacity="0.9"/>
+                                        </svg>
+                                        Deletar
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     `;
                     evidenceGrid.innerHTML += evidenceCard;
                 });
             }
+            
+            // Adicionar botão de adicionar evidência no final
+            const addButton = `
+                <div class="evidence-item-add" onclick="addNewEvidenceFromModal('${goalKey}')">
+                    <div class="add-content">
+                        <div class="add-icon">+</div>
+                        <div class="add-text">
+                            <div class="add-title">Adicionar evidência</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            evidenceGrid.innerHTML += addButton;
             
             // Mostrar modal de visualização
             document.getElementById('viewEvidenceModal').style.display = 'block';
@@ -2043,6 +2073,77 @@
                 console.error('❌ Erro ao salvar evidências migradas:', error);
             }
         }
+        
+        // Variável global para armazenar a meta atual do modal
+        let currentModalGoal = '';
+        
+        // Função para adicionar nova evidência a partir do modal
+        function addNewEvidenceFromModal(goalKey) {
+            currentModalGoal = goalKey;
+            currentSection = goalKey;
+            currentUser = 'fe'; // Usuário padrão
+            openModal();
+        }
+        
+        // Função para copiar evidência a partir do modal
+        function copyEvidenceFromModal(button) {
+            const evidenceItem = button.closest('.evidence-item');
+            const title = evidenceItem.querySelector('.evidence-title').textContent;
+            const description = evidenceItem.querySelector('p').textContent;
+            const linkElement = evidenceItem.querySelector('.evidence-link');
+            const link = linkElement ? linkElement.href : '';
+            const linkName = linkElement ? linkElement.textContent.replace('🔗 ', '') : '';
+            
+            // Preencher formulário com dados copiados
+            document.getElementById('evidenceTitle').value = title;
+            document.getElementById('evidenceDate').value = '2025-08';
+            document.getElementById('evidenceDescription').value = description;
+            document.getElementById('evidenceLink').value = link;
+            document.getElementById('evidenceLinkName').value = linkName;
+            
+            // Abrir modal de criação
+            currentUser = 'fe';
+            openModal();
+        }
+        
+        // Função para deletar evidência a partir do modal
+        function deleteEvidenceFromModal(button) {
+            const evidenceItem = button.closest('.evidence-item');
+            const title = evidenceItem.querySelector('.evidence-title').textContent;
+            const evidenceId = evidenceItem.getAttribute('data-evidence-id');
+            
+            if (confirm(`Tem certeza que deseja deletar a evidência "${title}"?`)) {
+                // Remover do localStorage
+                if (evidenceId) {
+                    deleteEvidenceFromStorage(parseFloat(evidenceId));
+                }
+                
+                // Remover do DOM
+                evidenceItem.remove();
+                
+                // Atualizar contagem
+                updateEvidenceCount();
+                
+                // Mostrar feedback
+                showSnackbar(`Evidência "${title}" deletada com sucesso!`);
+                
+                console.log(`🗑️ Evidência deletada do modal: ${title}`);
+            }
+        }
+        
+        // Sobrescrever a função closeModal para reabrir o modal de visualização se necessário
+        const originalCloseModal = closeModal;
+        closeModal = function() {
+            originalCloseModal();
+            
+            // Se veio do modal de visualização, reabrir o modal de visualização
+            if (currentModalGoal) {
+                setTimeout(() => {
+                    openEvidenceModal(currentModalGoal);
+                    currentModalGoal = '';
+                }, 100);
+            }
+        };
         
         // Fechar modal de visualização ao clicar fora dele
         window.addEventListener('click', function(event) {
