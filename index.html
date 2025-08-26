@@ -887,9 +887,19 @@
             border: 1px solid #e5e5e5;
             border-radius: 12px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-            z-index: 1000;
+            z-index: 2000;
             padding: 16px;
             margin-top: 4px;
+            min-height: 320px;
+            max-height: 400px;
+            overflow: visible;
+        }
+        
+        .custom-calendar.show-above {
+            top: auto;
+            bottom: 100%;
+            margin-top: 0;
+            margin-bottom: 4px;
         }
         
         .custom-calendar.show {
@@ -2281,13 +2291,29 @@
         
         // Variáveis globais do calendário
         let currentCalendarDate = new Date();
-        let selectedDate = null;
+        let selectedDate = new Date(2025, 7, 15); // 15 de Agosto 2025 (mês 7 = agosto)
         
         // Função para alternar calendário
         function toggleCalendar() {
             const calendar = document.getElementById('customCalendar');
+            const wrapper = document.querySelector('.custom-calendar-wrapper');
+            
             calendar.classList.toggle('show');
+            
             if (calendar.classList.contains('show')) {
+                // Verificar se há espaço suficiente abaixo
+                const rect = wrapper.getBoundingClientRect();
+                const spaceBelow = window.innerHeight - rect.bottom;
+                const spaceAbove = rect.top;
+                const calendarHeight = 350; // Altura aproximada do calendário
+                
+                // Se não há espaço suficiente abaixo, mostrar acima
+                if (spaceBelow < calendarHeight && spaceAbove > calendarHeight) {
+                    calendar.classList.add('show-above');
+                } else {
+                    calendar.classList.remove('show-above');
+                }
+                
                 generateCalendar();
             }
         }
@@ -2391,7 +2417,8 @@
             ];
             
             const input = document.getElementById('evidenceDate');
-            input.value = `${monthNames[selectedDate.getMonth()]} ${selectedDate.getFullYear()}`;
+            const dayFormatted = day.toString().padStart(2, '0');
+            input.value = `${dayFormatted} de ${monthNames[selectedDate.getMonth()]} ${selectedDate.getFullYear()}`;
             
             // Fechar calendário
             document.getElementById('customCalendar').classList.remove('show');
@@ -2814,7 +2841,7 @@
                         <div class="form-group">
                             <label for="evidenceDate">Data:</label>
                             <div class="custom-calendar-wrapper">
-                                <input type="text" id="evidenceDate" name="date" required value="Agosto 2025" readonly onclick="toggleCalendar()">
+                                <input type="text" id="evidenceDate" name="date" required value="15 de Agosto 2025" readonly onclick="toggleCalendar()">
                                 <div id="customCalendar" class="custom-calendar">
                                     <div class="calendar-header">
                                         <button type="button" class="calendar-nav" onclick="changeMonth(-1)">‹</button>
