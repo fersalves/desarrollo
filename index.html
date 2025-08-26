@@ -1796,16 +1796,16 @@
             'benchmarka-inesperado': 'Benchmarka lo inesperado'
         };
         
-        // Função para abrir modal de evidências de uma meta específica
+        // Função para abrir modal de visualização de evidências de uma meta específica
         function openEvidenceModal(goalKey) {
             const goalName = GOAL_EVIDENCE_MAP[goalKey];
             if (!goalName) return;
             
             // Atualizar título do modal
-            document.getElementById('evidenceModalTitle').textContent = `Evidências: ${goalName}`;
+            document.getElementById('viewEvidenceModalTitle').textContent = `Evidências: ${goalName}`;
             
             // Buscar evidências da meta específica
-            const evidenceGrid = document.getElementById('evidenceModalGrid');
+            const evidenceGrid = document.getElementById('viewEvidenceModalGrid');
             evidenceGrid.innerHTML = '';
             
             // Buscar evidências salvas no localStorage
@@ -1841,24 +1841,24 @@
                 });
             }
             
-            // Mostrar modal
-            document.getElementById('evidenceModal').style.display = 'block';
+            // Mostrar modal de visualização
+            document.getElementById('viewEvidenceModal').style.display = 'block';
             document.body.style.overflow = 'hidden';
         }
         
-        // Função para fechar modal de evidências
-        function closeEvidenceModal() {
-            document.getElementById('evidenceModal').style.display = 'none';
+        // Função para fechar modal de visualização de evidências
+        function closeViewEvidenceModal() {
+            document.getElementById('viewEvidenceModal').style.display = 'none';
             document.body.style.overflow = 'auto';
         }
         
-        // Fechar modal ao clicar fora dele
-        window.onclick = function(event) {
-            const modal = document.getElementById('evidenceModal');
-            if (event.target === modal) {
-                closeEvidenceModal();
+        // Fechar modal de visualização ao clicar fora dele
+        window.addEventListener('click', function(event) {
+            const viewModal = document.getElementById('viewEvidenceModal');
+            if (event.target === viewModal) {
+                closeViewEvidenceModal();
             }
-        }
+        });
         
         // Atualizar todos os links de evidências para usar o modal
         document.addEventListener('DOMContentLoaded', function() {
@@ -2159,15 +2159,15 @@
     <!-- Snackbar -->
     <div id="snackbar" class="snackbar"></div>
     
-    <!-- Modal de Evidências -->
-    <div id="evidenceModal" class="evidence-modal">
+    <!-- Modal de Visualização de Evidências -->
+    <div id="viewEvidenceModal" class="evidence-modal">
         <div class="evidence-modal-content">
             <div class="evidence-modal-header">
-                <h2 id="evidenceModalTitle">Evidências</h2>
-                <span class="evidence-modal-close" onclick="closeEvidenceModal()">&times;</span>
+                <h2 id="viewEvidenceModalTitle">Evidências</h2>
+                <span class="evidence-modal-close" onclick="closeViewEvidenceModal()">&times;</span>
             </div>
             <div class="evidence-modal-body">
-                <div id="evidenceModalGrid" class="evidence-modal-grid">
+                <div id="viewEvidenceModalGrid" class="evidence-modal-grid">
                     <!-- Evidências serão inseridas aqui -->
                 </div>
             </div>
