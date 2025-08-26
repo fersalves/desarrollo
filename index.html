@@ -1472,25 +1472,29 @@
                 let hasEvidences = false;
                 
                 if (staticEvidence) {
+                    console.log('Criando HTML para evidência estática:', staticEvidence);
                     const evidenceHTML = createEvidenceHTML(staticEvidence, `${goalKey}-static`, true);
                     evidenceGrid.innerHTML += evidenceHTML;
                     hasEvidences = true;
-                    console.log('Evidência estática adicionada');
+                    console.log('Evidência estática adicionada ao DOM');
                 }
                 
                 // Adicionar evidências salvas
                 goalEvidences.forEach((evidence, index) => {
+                    console.log(`Criando HTML para evidência salva ${index}:`, evidence);
                     const evidenceHTML = createEvidenceHTML(evidence, `${goalKey}-saved-${index}`, false);
                     evidenceGrid.innerHTML += evidenceHTML;
                     hasEvidences = true;
-                    console.log('Evidência salva adicionada:', evidence.title);
+                    console.log('Evidência salva adicionada ao DOM:', evidence.title);
                 });
                 
                 if (!hasEvidences) {
                     evidenceGrid.innerHTML = '<p style="color: #a1a1aa;">Nenhuma evidência cadastrada ainda.</p>';
+                    console.log('Nenhuma evidência encontrada - mensagem padrão exibida');
                 }
                 
                 console.log('Total de evidências no modal:', hasEvidences ? (staticEvidence ? 1 : 0) + goalEvidences.length : 0);
+                console.log('innerHTML final do evidenceGrid:', evidenceGrid.innerHTML.length, 'caracteres');
             }
             
             // Configurar CTA de adicionar evidência no footer
@@ -1605,6 +1609,12 @@
             card.classList.toggle('flipped');
         }
         
+        // Função para fechar modal de evidências
+        function closeViewEvidenceModal() {
+            document.getElementById('viewEvidenceModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
         // Função para abrir modal de adicionar evidência
         function openModal() {
             const modal = document.getElementById('evidenceModal');
@@ -1683,6 +1693,101 @@
                 setTimeout(() => {
                     snackbar.className = 'snackbar';
                 }, 3000);
+            }
+        }
+        
+        // Função para criar HTML de evidência
+        function createEvidenceHTML(evidence, evidenceId, isStatic = false) {
+            const deleteButton = isStatic ? 
+                '<button class="evidence-delete" onclick="alert(\'Evidências estáticas não podem ser deletadas\')" title="Não é possível deletar evidências estáticas">🚫</button>' :
+                `<button class="evidence-delete" onclick="deleteEvidenceFromModal(this)" title="Deletar evidência">🗑️</button>`;
+                
+            const linkHtml = evidence.link ? 
+                `<a href="${evidence.link}" target="_blank" class="evidence-link">🔗 ${evidence.linkName || 'Ver link'}</a>` : '';
+                
+            return `
+                <div class="evidence-item" data-evidence-id="${evidenceId}">
+                    <div class="evidence-content">
+                        <h4 class="evidence-title">${evidence.title}</h4>
+                        <div class="evidence-date">${evidence.date}</div>
+                        <p>${evidence.description}</p>
+                        ${linkHtml}
+                    </div>
+                    <div class="evidence-actions">
+                        <button class="evidence-copy" onclick="copyEvidenceFromModal(this)" title="Copiar evidência">📋</button>
+                        ${deleteButton}
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Função para copiar evidência do modal
+        function copyEvidenceFromModal(button) {
+            const evidenceItem = button.closest('.evidence-item');
+            const title = evidenceItem.querySelector('.evidence-title').textContent;
+            const description = evidenceItem.querySelector('p').textContent;
+            const linkElement = evidenceItem.querySelector('.evidence-link');
+            const link = linkElement ? linkElement.href : '';
+            const linkName = linkElement ? linkElement.textContent.replace('🔗 ', '') : '';
+            
+            // Fechar modal de visualização
+            closeViewEvidenceModal();
+            
+            // Abrir modal de criação com dados preenchidos
+            setTimeout(() => {
+                openModal();
+                document.getElementById('evidenceTitle').value = title;
+                document.getElementById('evidenceDescription').value = description;
+                if (link) {
+                    document.getElementById('evidenceLink').value = link;
+                    document.getElementById('evidenceLinkName').value = linkName;
+                }
+            }, 100);
+        }
+        
+        // Função para deletar evidência do modal
+        async function deleteEvidenceFromModal(button) {
+            const evidenceItem = button.closest('.evidence-item');
+            const evidenceId = evidenceItem.getAttribute('data-evidence-id');
+            const title = evidenceItem.querySelector('.evidence-title').textContent;
+            
+            // Verificar se é evidência estática (não pode ser deletada)
+            if (evidenceId.includes('-static')) {
+                alert('Evidências estáticas não podem ser deletadas');
+                return;
+            }
+            
+            if (confirm(`Tem certeza que deseja deletar a evidência "${title}"?`)) {
+                try {
+                    // Carregar evidências atuais
+                    const savedEvidences = await loadSavedEvidences();
+                    
+                    // Extrair meta e índice do ID
+                    const parts = evidenceId.split('-saved-');
+                    const goalKey = parts[0];
+                    const evidenceIndex = parseInt(parts[1]);
+                    
+                    // Remover evidência do array
+                    if (savedEvidences[goalKey] && savedEvidences[goalKey][evidenceIndex]) {
+                        savedEvidences[goalKey].splice(evidenceIndex, 1);
+                        saveEvidences(savedEvidences);
+                        
+                        // Remover do DOM
+                        evidenceItem.remove();
+                        console.log('Evidência deletada:', title);
+                        
+                        // Verificar se não há mais evidências e mostrar mensagem
+                        const evidenceGrid = document.getElementById('viewEvidenceModalGrid');
+                        if (evidenceGrid && evidenceGrid.children.length === 0) {
+                            evidenceGrid.innerHTML = '<p style="color: #a1a1aa;">Nenhuma evidência cadastrada ainda.</p>';
+                        }
+                        
+                        showSnackbar('Evidência deletada com sucesso');
+                    }
+                } catch (error) {
+                    console.error('Erro ao deletar evidência:', error);
+                    showSnackbar('Erro ao deletar evidência', 'error');
+                }
             }
         }
         
@@ -2420,8 +2525,11 @@
                     setTimeout(() => {
                         if (currentModalGoal) {
                             const goalToReopen = currentModalGoal;
-                            currentModalGoal = '';
                             openEvidenceModal(goalToReopen);
+                            // Só zerar depois que o modal reabrir
+                            setTimeout(() => {
+                                currentModalGoal = '';
+                            }, 100);
                         }
                     }, 200);
                 });
