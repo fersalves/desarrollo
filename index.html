@@ -338,34 +338,103 @@
                 background: linear-gradient(90deg, #00d4ff, #7c3aed);
             }
             
-            /* Snackbar */
-            .snackbar {
-                visibility: hidden;
-                min-width: 250px;
-                margin-left: -125px;
-                background-color: #4caf50;
-                color: white;
-                text-align: center;
-                border-radius: 8px;
-                padding: 16px;
-                position: fixed;
-                z-index: 1001;
-                left: 50%;
-                bottom: 30px;
-                font-size: 16px;
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-                transform: translateY(100px);
-                transition: all 0.3s ease;
+                    /* Snackbar */
+        .snackbar {
+            visibility: hidden;
+            min-width: 250px;
+            margin-left: -125px;
+            background-color: #4caf50;
+            color: white;
+            text-align: center;
+            border-radius: 8px;
+            padding: 16px;
+            position: fixed;
+            z-index: 1001;
+            left: 50%;
+            bottom: 30px;
+            font-size: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transform: translateY(100px);
+            transition: all 0.3s ease;
+        }
+
+        .snackbar.show {
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .snackbar.error {
+            background-color: #f44336;
+        }
+
+        /* Animações dos ícones dos títulos */
+        .section-title {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .fire-icon {
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .light-icon {
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .section-title:hover .fire-icon {
+            animation: fireFlicker 0.6s ease-in-out infinite alternate;
+            filter: brightness(1.3) saturate(1.5);
+            text-shadow: 0 0 10px #ff6b35, 0 0 20px #ff6b35, 0 0 30px #ff6b35;
+        }
+
+        .section-title:hover .light-icon {
+            animation: lightGlow 1s ease-in-out infinite alternate;
+            filter: brightness(1.5) saturate(1.3);
+            text-shadow: 0 0 15px #ffd700, 0 0 25px #ffd700, 0 0 35px #ffd700;
+        }
+
+        @keyframes fireFlicker {
+            0% {
+                transform: scale(1) rotate(-1deg);
+                filter: brightness(1.3) saturate(1.5) hue-rotate(0deg);
             }
-            
-            .snackbar.show {
-                visibility: visible;
-                transform: translateY(0);
+            25% {
+                transform: scale(1.05) rotate(1deg);
+                filter: brightness(1.4) saturate(1.6) hue-rotate(5deg);
             }
-            
-            .snackbar.error {
-                background-color: #f44336;
+            50% {
+                transform: scale(1.02) rotate(-0.5deg);
+                filter: brightness(1.2) saturate(1.4) hue-rotate(-3deg);
             }
+            75% {
+                transform: scale(1.08) rotate(0.8deg);
+                filter: brightness(1.5) saturate(1.7) hue-rotate(8deg);
+            }
+            100% {
+                transform: scale(1.03) rotate(-0.3deg);
+                filter: brightness(1.3) saturate(1.5) hue-rotate(2deg);
+            }
+        }
+
+        @keyframes lightGlow {
+            0% {
+                transform: scale(1);
+                filter: brightness(1.5) saturate(1.3);
+                text-shadow: 0 0 15px #ffd700, 0 0 25px #ffd700, 0 0 35px #ffd700;
+            }
+            50% {
+                transform: scale(1.1);
+                filter: brightness(1.8) saturate(1.6);
+                text-shadow: 0 0 20px #ffed4e, 0 0 35px #ffed4e, 0 0 50px #ffed4e;
+            }
+            100% {
+                transform: scale(1.05);
+                filter: brightness(1.6) saturate(1.4);
+                text-shadow: 0 0 18px #ffd700, 0 0 30px #ffd700, 0 0 40px #ffd700;
+            }
+        }
             
             /* Modal de Evidências */
             .evidence-modal {
@@ -782,8 +851,8 @@
         <div id="goals" class="section">
             <!-- Urgência & Ritmo -->
             <div style="margin-bottom: 5rem;">
-                <h3 style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; font-size: 48px; font-weight: 300;">
-                    🔥 <span style="background: linear-gradient(90deg, #00d4ff, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Urgencia & Ritmo</span>
+                <h3 class="section-title" style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; font-size: 48px; font-weight: 300;">
+                    <span class="fire-icon">🔥</span> <span style="background: linear-gradient(90deg, #00d4ff, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Urgencia & Ritmo</span>
                 </h3>
                 <div class="grid" id="urgencyGoals">
                     <div class="flip-card" onclick="flipCard(this)">
@@ -986,8 +1055,8 @@
             
             <!-- Disrupción & Profundidad -->
             <div style="margin-bottom: 2rem;">
-                <h3 style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; font-size: 48px; font-weight: 300;">
-                    💡 <span style="background: linear-gradient(90deg, #00d4ff, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Disrupción & Profundidad</span>
+                <h3 class="section-title" style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; font-size: 48px; font-weight: 300;">
+                    <span class="light-icon">💡</span> <span style="background: linear-gradient(90deg, #00d4ff, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Disrupción & Profundidad</span>
                 </h3>
                 <div class="grid" id="disruptionGoals">
                     <div class="flip-card" onclick="flipCard(this)">
@@ -1139,8 +1208,8 @@
         <div id="evidences" class="section">
             <!-- Urgência & Ritmo -->
             <div style="margin-bottom: 5rem;">
-                <h3 style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; font-size: 48px; font-weight: 300;">
-                    🔥 <span style="background: linear-gradient(90deg, #00d4ff, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Urgencia & Ritmo</span>
+                <h3 class="section-title" style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; font-size: 48px; font-weight: 300;">
+                    <span class="fire-icon">🔥</span> <span style="background: linear-gradient(90deg, #00d4ff, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Urgencia & Ritmo</span>
                 </h3>
                 
                 <h3 style="color: white; margin: 2rem 0 0;">Empuja hoy, no mañana</h3>
@@ -1311,8 +1380,8 @@
             
             <!-- Disrupción & Profundidad -->
             <div>
-                <h3 style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; font-size: 48px; font-weight: 300;">
-                    💡 <span style="background: linear-gradient(90deg, #00d4ff, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Disrupción & Profundidad</span>
+                <h3 class="section-title" style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; font-size: 48px; font-weight: 300;">
+                    <span class="light-icon">💡</span> <span style="background: linear-gradient(90deg, #00d4ff, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Disrupción & Profundidad</span>
                 </h3>
                 
                 <h3 style="color: white; margin: 2rem 0 0;">Trae siempre un plan B salvaje</h3>
