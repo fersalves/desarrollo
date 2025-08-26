@@ -25,7 +25,7 @@
         
         .header {
             background: #1a1a2e;
-            padding: 1rem 2rem;
+            padding: 1rem 0;
             border-bottom: 1px solid #333;
             position: fixed;
             top: 0;
@@ -39,6 +39,9 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
         }
         
         .container {
@@ -1961,7 +1964,7 @@
 </head>
 <body>
     <header class="header">
-        <h1>🚀 Desarrollo Fê</h1>
+        <h1>🚀 Dashboard de desenvolvimento pessoal da Fê</h1>
     </header>
 
     <div class="container">
@@ -2367,67 +2370,67 @@
             <div class="modal-header">
                 <h2>Adicionar evidência</h2>
                 <span class="close" onclick="closeModal()">&times;</span>
-            </div>
+                </div>
             <div class="modal-body">
                 <form id="evidenceForm">
                     <div class="form-group">
                         <label for="evidenceTitle">Título da Evidência:</label>
                         <input type="text" id="evidenceTitle" name="title" required>
-                    </div>
-                    
+                </div>
+                
                     <div class="form-group">
                         <label for="evidenceDate">Data:</label>
                         <input type="month" id="evidenceDate" name="date" required value="2025-08">
-                    </div>
-                    
+                </div>
+                
                     <div class="form-group">
                         <label for="evidenceDescription">Descrição:</label>
                         <textarea id="evidenceDescription" name="description" rows="4" required></textarea>
-                    </div>
-                    
+                </div>
+                
                     <div class="form-group">
                         <label for="evidenceLink">Link (URL):</label>
                         <input type="url" id="evidenceLink" name="link" placeholder="https://...">
-                    </div>
-                    
+                </div>
+                
                     <div class="form-group">
                         <label for="evidenceLinkName">Nome do Link:</label>
                         <input type="text" id="evidenceLinkName" name="linkName" placeholder="Ver projeto, Ver documentação, etc.">
-                    </div>
-                    
+                </div>
+                
                     <div class="form-actions">
                         <button type="button" class="btn-cancel" onclick="closeModal()">Cancelar</button>
                         <button type="button" class="btn-save" onclick="handleFormSubmit()">Adicionar</button>
-                    </div>
+                </div>
                 </form>
-            </div>
-        </div>
-    </div>
-    
+                        </div>
+                    </div>
+                </div>
+                
     <!-- Modal de Visualização de Evidências -->
     <div id="viewEvidenceModal" class="evidence-modal">
         <div class="evidence-modal-content">
             <div class="evidence-modal-header">
-                <div>
+            <div>
                     <div id="viewEvidenceModalEyebrow" class="evidence-modal-eyebrow">Meta</div>
                     <h2 id="viewEvidenceModalTitle">Evidências</h2>
                 </div>
                 <span class="evidence-modal-close" onclick="closeViewEvidenceModal()">&times;</span>
-            </div>
+                        </div>
             <div class="evidence-modal-body">
                 <div id="viewEvidenceModalGrid" class="evidence-modal-grid">
                     <!-- Evidências serão inseridas aqui -->
+                    </div>
                 </div>
-            </div>
             <div class="evidence-modal-footer">
                 <div id="viewEvidenceModalAddCTA" class="evidence-modal-add-cta">
-                    <div class="add-icon">+</div>
-                    <div class="add-title">Adicionar evidência</div>
+                        <div class="add-icon">+</div>
+                            <div class="add-title">Adicionar evidência</div>
+                        </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    
+                
     <!-- Snackbar para feedback -->
     <div id="snackbar" class="snackbar"></div>
     
