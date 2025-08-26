@@ -234,6 +234,9 @@
             padding: 1rem;
             border-radius: 6px;
             margin-bottom: 1rem;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
         }
         
         .evidence-title {
@@ -257,13 +260,23 @@
             text-decoration: underline;
         }
         
+        /* Evidence Content */
+        .evidence-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
         /* Evidence Actions */
         .evidence-actions {
             display: flex;
             gap: 0.5rem;
-            margin-top: 1rem;
+            margin-top: auto;
+            padding-top: 1rem;
+            border-top: 1px solid #333;
             justify-content: space-between;
             align-items: center;
+            flex-shrink: 0;
         }
         
         .evidence-actions-buttons {
@@ -392,7 +405,7 @@
             }
             
             .evidence-modal-header h2 {
-                color: #00d4ff;
+                color: white;
                 margin: 0;
                 font-size: 1.5rem;
             }
@@ -1989,10 +2002,12 @@
                 
                 const evidenceCard = `
                     <div class="evidence-item" data-author="${staticEvidence.user}" data-evidence-id="static-${goalKey}">
-                        <div class="evidence-title">${staticEvidence.title}</div>
-                        <div class="evidence-date">📅 ${staticEvidence.date}</div>
-                        <p>${staticEvidence.description}</p>
-                        ${staticEvidence.link ? `<a href="${staticEvidence.link}" class="evidence-link" target="_blank">🔗 ${staticEvidence.linkName}</a>` : ''}
+                        <div class="evidence-content">
+                            <div class="evidence-title">${staticEvidence.title}</div>
+                            <div class="evidence-date">📅 ${staticEvidence.date}</div>
+                            <p>${staticEvidence.description}</p>
+                            ${staticEvidence.link ? `<a href="${staticEvidence.link}" class="evidence-link" target="_blank">🔗 ${staticEvidence.linkName}</a>` : ''}
+                        </div>
                         <div class="evidence-actions">
                             <div class="evidence-author">
                                 <img src="${userInfo.avatar}" alt="${userInfo.name}" class="evidence-author-avatar">
@@ -2030,10 +2045,12 @@
                 
                 const evidenceCard = `
                     <div class="evidence-item" data-author="${evidence.user}" data-evidence-id="${evidence.id}">
-                        <div class="evidence-title">${evidence.title}</div>
-                        <div class="evidence-date">📅 ${evidence.formattedDate}</div>
-                        <p>${evidence.description}</p>
-                        ${evidence.link ? `<a href="${evidence.link}" class="evidence-link" target="_blank">🔗 ${evidence.linkName}</a>` : ''}
+                        <div class="evidence-content">
+                            <div class="evidence-title">${evidence.title}</div>
+                            <div class="evidence-date">📅 ${evidence.formattedDate}</div>
+                            <p>${evidence.description}</p>
+                            ${evidence.link ? `<a href="${evidence.link}" class="evidence-link" target="_blank">🔗 ${evidence.linkName}</a>` : ''}
+                        </div>
                         <div class="evidence-actions">
                             <div class="evidence-author">
                                 <img src="${userInfo.avatar}" alt="${userInfo.name}" class="evidence-author-avatar">
