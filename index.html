@@ -1203,9 +1203,27 @@
         }
         
         .form-group input:focus,
-        .form-group textarea:focus {
+        .form-group textarea:focus,
+        .form-group select:focus {
             outline: none;
             border-color: #00d4ff;
+        }
+        
+        .form-group select {
+            background: #333;
+            color: white;
+            border: 1px solid #555;
+            border-radius: 4px;
+            padding: 0.75rem;
+            font-size: 1rem;
+            width: 100%;
+            box-sizing: border-box;
+            cursor: pointer;
+        }
+        
+        .form-group select option {
+            background: #333;
+            color: white;
         }
         
         .form-group textarea {
@@ -1830,6 +1848,11 @@
         function createEvidenceHTML(evidence, evidenceId, isStatic = false) {
             const linkHtml = evidence.link ? 
                 `<a href="${evidence.link}" target="_blank" class="evidence-link">🔗 ${evidence.linkName || 'Ver link'}</a>` : '';
+            
+            // Determinar usuário e avatar
+            const user = evidence.user || 'fe';
+            const userName = user === 'fe' ? 'Fê' : 'Santi';
+            const avatarSrc = user === 'fe' ? 'imagens/fe.png' : 'imagens/santi.png';
                 
             return `
                 <div class="evidence-item" data-evidence-id="${evidenceId}">
@@ -1841,8 +1864,8 @@
                     </div>
                     <div class="evidence-footer">
                         <div class="evidence-author">
-                            <img src="imagens/fe.png" alt="Fê" class="evidence-author-avatar" onerror="this.style.display='none'">
-                            <span class="evidence-author-name">Adicionado por Fê</span>
+                            <img src="${avatarSrc}" alt="${userName}" class="evidence-author-avatar" onerror="this.style.display='none'">
+                            <span class="evidence-author-name">Adicionado por ${userName}</span>
                         </div>
                         <div class="evidence-actions-buttons">
                             <button class="evidence-action copy" onclick="copyEvidenceFromModal(this)" title="Copiar evidência">
@@ -1875,6 +1898,10 @@
             const link = linkElement ? linkElement.href : '';
             const linkName = linkElement ? linkElement.textContent.replace('🔗 ', '') : '';
             
+            // Determinar usuário baseado no nome exibido
+            const authorName = evidenceItem.querySelector('.evidence-author-name').textContent;
+            const user = authorName.includes('Santi') ? 'santi' : 'fe';
+            
             // Fechar modal de visualização
             closeViewEvidenceModal();
             
@@ -1883,6 +1910,7 @@
                 openModal();
                 document.getElementById('evidenceTitle').value = title;
                 document.getElementById('evidenceDescription').value = description;
+                document.getElementById('evidenceUser').value = user;
                 if (link) {
                     document.getElementById('evidenceLink').value = link;
                     document.getElementById('evidenceLinkName').value = linkName;
@@ -1947,7 +1975,8 @@
                     date: document.getElementById('evidenceDate').value,
                     description: document.getElementById('evidenceDescription').value,
                     link: document.getElementById('evidenceLink').value,
-                    linkName: document.getElementById('evidenceLinkName').value
+                    linkName: document.getElementById('evidenceLinkName').value,
+                    user: document.getElementById('evidenceUser').value
                 };
                 
                 console.log('Dados coletados:', formData);
@@ -1972,7 +2001,8 @@
                     date: formattedDate,
                     description: formData.description,
                     link: formData.link,
-                    linkName: formData.linkName
+                    linkName: formData.linkName,
+                    user: formData.user
                 };
                 
                 console.log('Nova evidência preparada:', newEvidence);
@@ -2486,11 +2516,19 @@
                         <input type="url" id="evidenceLink" name="link" placeholder="https://...">
                 </div>
                 
-                    <div class="form-group">
+                                        <div class="form-group">
                         <label for="evidenceLinkName">Nome do Link:</label>
                         <input type="text" id="evidenceLinkName" name="linkName" placeholder="Ver projeto, Ver documentação, etc.">
-                </div>
-                
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="evidenceUser">Adicionado por:</label>
+                        <select id="evidenceUser" name="user" required>
+                            <option value="fe">Fê</option>
+                            <option value="santi">Santi</option>
+                        </select>
+                    </div>
+                    
                     <div class="form-actions">
                         <button type="button" class="btn-cancel" onclick="closeModal()">Cancelar</button>
                         <button type="button" class="btn-save" onclick="handleFormSubmit()">Adicionar</button>
