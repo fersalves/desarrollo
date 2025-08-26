@@ -849,10 +849,10 @@
             -webkit-appearance: none;
             -moz-appearance: none;
             appearance: none;
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='white'%3e%3cpath d='M4 6l4 4 4-4H4z'/%3e%3c/svg%3e");
             background-repeat: no-repeat;
             background-position: right 0.75rem center;
-            background-size: 1rem;
+            background-size: 12px;
             padding-right: 2.5rem;
         }
         
@@ -2529,8 +2529,13 @@
             <div class="modal-body">
                 <form id="evidenceForm">
                     <div class="form-group">
-                        <label for="evidenceTitle">Título da Evidência:</label>
+                        <label for="evidenceTitle">Título:</label>
                         <input type="text" id="evidenceTitle" name="title" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="evidenceDescription">Descrição:</label>
+                        <textarea id="evidenceDescription" name="description" rows="4" required></textarea>
                     </div>
                     
                     <div class="form-row">
@@ -2545,11 +2550,6 @@
                                 <option value="santi">Santi</option>
                             </select>
                         </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="evidenceDescription">Descrição:</label>
-                        <textarea id="evidenceDescription" name="description" rows="4" required></textarea>
                     </div>
                     
                     <div class="form-row">
