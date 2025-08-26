@@ -1422,6 +1422,9 @@
                 const savedEvidences = loadSavedEvidences();
                 const goalEvidences = savedEvidences[goalKey] || [];
                 
+                console.log('Carregando evidências para:', goalKey);
+                console.log('Evidências salvas encontradas:', goalEvidences);
+                
                 // Adicionar evidência estática se existir
                 const staticEvidence = STATIC_EVIDENCES[goalKey];
                 let hasEvidences = false;
@@ -1430,6 +1433,7 @@
                     const evidenceHTML = createEvidenceHTML(staticEvidence, `${goalKey}-static`, true);
                     evidenceGrid.innerHTML += evidenceHTML;
                     hasEvidences = true;
+                    console.log('Evidência estática adicionada');
                 }
                 
                 // Adicionar evidências salvas
@@ -1437,11 +1441,14 @@
                     const evidenceHTML = createEvidenceHTML(evidence, `${goalKey}-saved-${index}`, false);
                     evidenceGrid.innerHTML += evidenceHTML;
                     hasEvidences = true;
+                    console.log('Evidência salva adicionada:', evidence.title);
                 });
                 
                 if (!hasEvidences) {
                     evidenceGrid.innerHTML = '<p style="color: #a1a1aa;">Nenhuma evidência cadastrada ainda.</p>';
                 }
+                
+                console.log('Total de evidências no modal:', hasEvidences ? (staticEvidence ? 1 : 0) + goalEvidences.length : 0);
             }
             
             // Configurar CTA de adicionar evidência no footer
@@ -2243,13 +2250,7 @@
             modal.style.display = 'none';
             document.body.style.overflow = 'auto';
             
-            // Se veio do modal de visualização, reabrir o modal de visualização
-            if (currentModalGoal) {
-                setTimeout(() => {
-                    openEvidenceModal(currentModalGoal);
-                    currentModalGoal = '';
-                }, 100);
-            }
+            // Não zerar currentModalGoal aqui - deixar para quem chama decidir
         }
         
         // Função para animar barras de progresso
@@ -2383,8 +2384,9 @@
                     // Reabrir modal de visualização atualizado
                     setTimeout(() => {
                         if (currentModalGoal) {
-                            openEvidenceModal(currentModalGoal);
+                            const goalToReopen = currentModalGoal;
                             currentModalGoal = '';
+                            openEvidenceModal(goalToReopen);
                         }
                     }, 200);
                 });
