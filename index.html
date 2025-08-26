@@ -1975,10 +1975,14 @@
             if (confirm(`Tem certeza que deseja deletar a evidência "${title}"?`)) {
                 try {
                     // Verificar se é evidência estática ou salva
+                    console.log('Deletando evidência com ID:', evidenceId);
                     if (evidenceId.includes('-static')) {
                         // Evidência estática - remover do objeto STATIC_EVIDENCES
                         const goalKey = evidenceId.replace('-static', '');
+                        console.log('Removendo evidência estática para goalKey:', goalKey);
+                        console.log('STATIC_EVIDENCES antes:', Object.keys(STATIC_EVIDENCES));
                         delete STATIC_EVIDENCES[goalKey];
+                        console.log('STATIC_EVIDENCES depois:', Object.keys(STATIC_EVIDENCES));
                         console.log('Evidência estática removida:', goalKey);
                     } else {
                         // Evidência salva - remover do localStorage
@@ -2145,6 +2149,21 @@
             setTimeout(() => {
                 updateEvidenceCounter();
             }, 1000);
+        });
+        
+        // Fechar modais ao clicar fora
+        window.addEventListener('click', function(event) {
+            // Modal de adicionar evidência
+            const evidenceModal = document.getElementById('evidenceModal');
+            if (event.target === evidenceModal) {
+                closeModal();
+            }
+            
+            // Modal de visualizar evidências
+            const viewEvidenceModal = document.getElementById('viewEvidenceModal');
+            if (event.target === viewEvidenceModal) {
+                closeViewEvidenceModal();
+            }
         });
     </script>
 </head>
