@@ -1885,6 +1885,9 @@
                     // Mostrar snackbar de sucesso
                     showSnackbar('Evidência criada com sucesso!');
                     
+                    // Atualizar contador na home
+                    updateEvidenceCounter();
+                    
                     // Fechar modal de adicionar
                     closeModal();
                     
@@ -1911,10 +1914,49 @@
             }
         }
         
+        // Função para contar total de evidências
+        async function updateEvidenceCounter() {
+            try {
+                // Contar evidências estáticas
+                const staticCount = Object.keys(STATIC_EVIDENCES).length;
+                
+                // Contar evidências salvas
+                const savedEvidences = await loadSavedEvidences();
+                let savedCount = 0;
+                
+                for (const goalKey in savedEvidences) {
+                    if (savedEvidences[goalKey] && Array.isArray(savedEvidences[goalKey])) {
+                        savedCount += savedEvidences[goalKey].length;
+                    }
+                }
+                
+                const totalCount = staticCount + savedCount;
+                console.log(`Total de evidências: ${totalCount} (${staticCount} estáticas + ${savedCount} salvas)`);
+                
+                // Atualizar o card de evidências na home (é o segundo card)
+                const evidenceCards = document.querySelectorAll('.card .kpi');
+                if (evidenceCards.length >= 2) {
+                    evidenceCards[1].textContent = totalCount; // Segundo card é "Evidências"
+                }
+                
+                return totalCount;
+            } catch (error) {
+                console.error('Erro ao contar evidências:', error);
+                return 12; // fallback para valor original
+            }
+        }
+        
         // Variável global para rastrear meta atual
         var currentModalGoal = '';
         
         console.log('showSection definida no HEAD');
+        
+        // Atualizar contador quando página carregar
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                updateEvidenceCounter();
+            }, 1000);
+        });
     </script>
 </head>
 <body>
