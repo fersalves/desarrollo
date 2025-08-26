@@ -2462,7 +2462,9 @@
             
             // Configurar formulário de evidência
             const evidenceForm = document.getElementById('evidenceForm');
+            console.log('Procurando formulário evidenceForm:', evidenceForm);
             if (evidenceForm) {
+                console.log('Formulário encontrado! Registrando event listener...');
                 evidenceForm.addEventListener('submit', async function(e) {
                     console.log('Form submit interceptado');
                     e.preventDefault();
@@ -2533,6 +2535,8 @@
                         }
                     }, 200);
                 });
+            } else {
+                console.error('Formulário evidenceForm não encontrado! Verificar HTML.');
             }
         });
         
@@ -2574,7 +2578,8 @@
                     
                     <div class="form-actions">
                         <button type="button" class="btn-cancel" onclick="closeModal()">Cancelar</button>
-                        <button type="submit" class="btn-save">Adicionar</button>
+                        <button type="button" class="btn-save" onclick="console.log('Testando snackbar...'); showSnackbar('Teste do snackbar!');" style="margin-right: 10px;">Testar Snackbar</button>
+                        <button type="submit" class="btn-save" onclick="console.log('Botão Adicionar clicado!')">Adicionar</button>
                     </div>
                 </form>
             </div>
