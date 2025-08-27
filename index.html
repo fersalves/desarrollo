@@ -1718,6 +1718,7 @@
             
             // Salvar contexto da meta atual
             currentModalGoal = goalKey;
+            console.log('currentModalGoal definido como:', currentModalGoal);
             
             // Atualizar título do modal
             const goalName = GOAL_EVIDENCE_MAP[goalKey];
@@ -1818,7 +1819,9 @@
             const linkName = linkElement ? linkElement.textContent.replace('🔗 ', '') : '';
             
             // Verificar se currentModalGoal está definido
+            console.log('copyEvidenceFromModal - currentModalGoal atual:', currentModalGoal);
             if (!currentModalGoal) {
+                console.error('currentModalGoal está vazio durante a cópia!');
                 showSnackbar('Erro: Meta não identificada para cópia', 'error');
                 return;
             }
@@ -2210,10 +2213,7 @@
                         if (currentModalGoal) {
                             const goalToReopen = currentModalGoal;
                             openEvidenceModal(goalToReopen);
-                            // Só zerar depois que o modal reabrir
-                            setTimeout(() => {
-                                currentModalGoal = '';
-                            }, 100);
+                            // Não zerar currentModalGoal aqui para permitir operações subsequentes
                         }
                     }, 200);
                     
@@ -2295,18 +2295,26 @@
             }, 1000);
         });
         
+        // Função para limpar contexto da meta
+        function clearModalContext() {
+            currentModalGoal = '';
+            console.log('Contexto da meta limpo');
+        }
+        
         // Fechar modais ao clicar fora
         window.addEventListener('click', function(event) {
             // Modal de adicionar evidência
             const evidenceModal = document.getElementById('evidenceModal');
             if (event.target === evidenceModal) {
                 closeModal();
+                clearModalContext();
             }
             
             // Modal de visualizar evidências
             const viewEvidenceModal = document.getElementById('viewEvidenceModal');
             if (event.target === viewEvidenceModal) {
                 closeViewEvidenceModal();
+                clearModalContext();
             }
             
             // Fechar calendário ao clicar fora
