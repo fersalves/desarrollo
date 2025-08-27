@@ -941,7 +941,8 @@
         .custom-calendar {
             display: none;
             position: absolute;
-            top: 100%;
+            top: auto;
+            bottom: 100%;
             left: 0;
             right: 0;
             background: white;
@@ -950,17 +951,10 @@
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
             z-index: 2000;
             padding: 16px;
-            margin-top: 4px;
+            margin-bottom: 4px;
             min-height: 320px;
             max-height: 400px;
             overflow: visible;
-        }
-        
-        .custom-calendar.show-above {
-            top: auto;
-            bottom: 100%;
-            margin-top: 0;
-            margin-bottom: 4px;
         }
         
         .custom-calendar.show {
@@ -2457,24 +2451,10 @@
         // Função para alternar calendário
         function toggleCalendar() {
             const calendar = document.getElementById('customCalendar');
-            const wrapper = document.querySelector('.custom-calendar-wrapper');
             
             calendar.classList.toggle('show');
             
             if (calendar.classList.contains('show')) {
-                // Verificar se há espaço suficiente abaixo
-                const rect = wrapper.getBoundingClientRect();
-                const spaceBelow = window.innerHeight - rect.bottom;
-                const spaceAbove = rect.top;
-                const calendarHeight = 350; // Altura aproximada do calendário
-                
-                // Se não há espaço suficiente abaixo, mostrar acima
-                if (spaceBelow < calendarHeight && spaceAbove > calendarHeight) {
-                    calendar.classList.add('show-above');
-                } else {
-                    calendar.classList.remove('show-above');
-                }
-                
                 generateCalendar();
             }
         }
