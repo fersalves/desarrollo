@@ -1471,7 +1471,7 @@
         .snackbar {
             visibility: hidden;
             min-width: 300px;
-            max-width: 90vw;
+            max-width: 500px;
             background-color: #22c55e;
             color: white;
             text-align: center;
@@ -1481,16 +1481,14 @@
             z-index: 10000;
             bottom: 30px;
             left: 50%;
-            transform: translateX(-50%);
+            transform: translateX(-50%) translateY(100px);
             font-size: 16px;
             font-weight: 500;
             box-shadow: 0 4px 20px rgba(34, 197, 94, 0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: block;
             white-space: nowrap;
             opacity: 0;
-            transition: all 0.3s ease-in-out;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
         
         .snackbar.show {
@@ -2142,18 +2140,20 @@
                 console.log('Dados coletados:', formData);
                 
                 // Validar campos obrigatórios
-                if (!formData.title || !formData.date || !formData.description) {
+                if (!formData.title || !formData.description) {
                     showSnackbar('Por favor, preencha todos os campos obrigatórios', 'error');
                     return;
                 }
                 
                 // Formatar a data para exibição
-                const dateObj = new Date(formData.date + '-01');
-                const monthNames = [
-                    'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-                    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
-                ];
-                const formattedDate = `${monthNames[dateObj.getMonth()]} ${dateObj.getFullYear()}`;
+                let formattedDate;
+                if (!formData.date || formData.date.trim() === '') {
+                    // Se não há data, usar data de hoje
+                    formattedDate = formatDate(new Date());
+                } else {
+                    // Usar a data fornecida (já vem formatada do calendário)
+                    formattedDate = formData.date;
+                }
                 
                 // Preparar evidência para salvar
                 const newEvidence = {
