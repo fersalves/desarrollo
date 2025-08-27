@@ -1268,20 +1268,27 @@
         }
         
         .evidence-link {
-            color: #00d4ff;
+            color: #333;
             text-decoration: none;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             margin-bottom: 1rem;
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
+            background: white;
+            padding: 0.5rem 0.75rem;
+            border-radius: 20px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        
+        .evidence-link:hover {
+            text-decoration: none;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
         
         .evidence-link-icon {
-            width: 28px;
-            height: 28px;
-            background: white;
-            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1289,17 +1296,13 @@
         }
         
         .evidence-link-icon img {
-            width: 16px;
-            height: 16px;
+            width: 14px;
+            height: 14px;
             filter: none;
         }
         
         .evidence-link-icon span {
-            font-size: 14px;
-        }
-        
-        .evidence-link:hover {
-            text-decoration: underline;
+            font-size: 12px;
         }
         
         .evidence-actions {
