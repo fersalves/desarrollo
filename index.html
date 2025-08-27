@@ -1272,7 +1272,30 @@
             text-decoration: none;
             font-size: 0.9rem;
             margin-bottom: 1rem;
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .evidence-link-icon {
+            width: 28px;
+            height: 28px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .evidence-link-icon img {
+            width: 16px;
+            height: 16px;
+            filter: none;
+        }
+        
+        .evidence-link-icon span {
+            font-size: 14px;
         }
         
         .evidence-link:hover {
@@ -2573,17 +2596,17 @@
         // Função para gerar ícone baseado no nome do link
         function getLinkIcon(linkName) {
             const iconMap = {
-                'Ver no Figma': '<img src="./imagens/figma.svg" alt="Figma" style="width: 12px; height: 12px; margin-right: 4px;">',
-                'Ver no Slack': '<img src="./imagens/slack.svg" alt="Slack" style="width: 12px; height: 12px; margin-right: 4px;">',
-                'Ver nota do Gemini': '<img src="./imagens/gemini.svg" alt="Gemini" style="width: 12px; height: 12px; margin-right: 4px;">',
-                'Ver GPT': '<img src="./imagens/gpt.svg" alt="GPT" style="width: 12px; height: 12px; margin-right: 4px;">',
-                'Ver Google Sheets': '<img src="./imagens/google-sheets.svg" alt="Google Sheets" style="width: 12px; height: 12px; margin-right: 4px;">',
-                'Ver Google Docs': '<img src="./imagens/google-docs.svg" alt="Google Docs" style="width: 12px; height: 12px; margin-right: 4px;">',
-                'Ver site': '<img src="./imagens/github.svg" alt="GitHub" style="width: 12px; height: 12px; margin-right: 4px;">',
-                'Ver captura de pantalla': '<span style="margin-right: 4px;">📸</span>'
+                'Ver no Figma': '<div class="evidence-link-icon"><img src="./imagens/figma.svg" alt="Figma"></div>',
+                'Ver no Slack': '<div class="evidence-link-icon"><img src="./imagens/slack.svg" alt="Slack"></div>',
+                'Ver nota do Gemini': '<div class="evidence-link-icon"><img src="./imagens/gemini.svg" alt="Gemini"></div>',
+                'Ver GPT': '<div class="evidence-link-icon"><img src="./imagens/gpt.svg" alt="GPT"></div>',
+                'Ver Google Sheets': '<div class="evidence-link-icon"><img src="./imagens/google-sheets.svg" alt="Google Sheets"></div>',
+                'Ver Google Docs': '<div class="evidence-link-icon"><img src="./imagens/google-docs.svg" alt="Google Docs"></div>',
+                'Ver site': '<div class="evidence-link-icon"><img src="./imagens/github.svg" alt="GitHub"></div>',
+                'Ver captura de pantalla': '<div class="evidence-link-icon"><span>📸</span></div>'
             };
             
-            return iconMap[linkName] || '🔗 ';
+            return iconMap[linkName] || '<div class="evidence-link-icon"><span>🔗</span></div>';
         }
     </script>
 </head>
