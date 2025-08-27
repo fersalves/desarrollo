@@ -872,6 +872,63 @@
             pointer-events: none;
         }
         
+        /* Dropdown com ícones customizado */
+        .icon-select-wrapper {
+            position: relative;
+        }
+        
+        .icon-select {
+            appearance: none;
+            background: #2a2a3e !important;
+            padding-left: 2.5rem !important;
+            background-image: none;
+        }
+        
+        .icon-select-wrapper::before {
+            content: '';
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            z-index: 1;
+            transition: background-image 0.2s ease;
+        }
+        
+        /* Ícones específicos */
+        .icon-select-wrapper[data-selected="figma"]::before {
+            background-image: url('./imagens/figma.svg');
+        }
+        
+        .icon-select-wrapper[data-selected="slack"]::before {
+            background-image: url('./imagens/slack.svg');
+        }
+        
+        .icon-select-wrapper[data-selected="gemini"]::before {
+            background-image: url('./imagens/gemini.svg');
+        }
+        
+        .icon-select-wrapper[data-selected="gpt"]::before {
+            background-image: url('./imagens/gpt.svg');
+        }
+        
+        .icon-select-wrapper[data-selected="google-sheets"]::before {
+            background-image: url('./imagens/google-sheets.svg');
+        }
+        
+        .icon-select-wrapper[data-selected="google-docs"]::before {
+            background-image: url('./imagens/google-docs.svg');
+        }
+        
+        .icon-select-wrapper[data-selected="screenshot"]::before {
+            content: '📸';
+            font-size: 14px;
+            background-image: none;
+        }
+        
         /* Custom Calendar Styles */
         .custom-calendar-wrapper {
             position: relative;
@@ -1843,7 +1900,16 @@
                 document.getElementById('evidenceDescription').value = description;
                 if (link) {
                     document.getElementById('evidenceLink').value = link;
-                    document.getElementById('evidenceLinkName').value = linkName;
+                    const linkNameSelect = document.getElementById('evidenceLinkName');
+                    
+                    // Tentar encontrar a opção correspondente no dropdown
+                    for (let option of linkNameSelect.options) {
+                        if (option.value === linkName) {
+                            linkNameSelect.value = linkName;
+                            updateLinkIcon(linkNameSelect);
+                            break;
+                        }
+                    }
                 }
                 
                 console.log('Evidência copiada para meta:', currentModalGoal);
@@ -2462,6 +2528,19 @@
             // Regenerar para mostrar seleção
             generateCalendar();
         }
+        
+        // Função para atualizar ícone do dropdown de link
+        function updateLinkIcon(select) {
+            const wrapper = document.getElementById('linkNameWrapper');
+            const selectedOption = select.options[select.selectedIndex];
+            const iconName = selectedOption.getAttribute('data-icon');
+            
+            if (iconName && wrapper) {
+                wrapper.setAttribute('data-selected', iconName);
+            } else if (wrapper) {
+                wrapper.removeAttribute('data-selected');
+            }
+        }
     </script>
 </head>
 <body>
@@ -2915,10 +2994,21 @@
                             <label for="evidenceLink">Link (URL):</label>
                             <input type="url" id="evidenceLink" name="link" placeholder="https://...">
                 </div>
-                        <div class="form-group">
+                                                <div class="form-group">
                             <label for="evidenceLinkName">Nome do Link:</label>
-                            <input type="text" id="evidenceLinkName" name="linkName" placeholder="Ver projeto, Ver documentação, etc.">
-                    </div>
+                            <div class="select-wrapper icon-select-wrapper" id="linkNameWrapper">
+                                <select id="evidenceLinkName" name="linkName" class="icon-select" onchange="updateLinkIcon(this)">
+                                    <option value="">Selecione o tipo</option>
+                                    <option value="Ver no Figma" data-icon="figma">Ver no Figma</option>
+                                    <option value="Ver no Slack" data-icon="slack">Ver no Slack</option>
+                                    <option value="Ver nota do Gemini" data-icon="gemini">Ver nota do Gemini</option>
+                                    <option value="Ver GPT" data-icon="gpt">Ver GPT</option>
+                                    <option value="Ver Google Sheets" data-icon="google-sheets">Ver Google Sheets</option>
+                                    <option value="Ver Google Docs" data-icon="google-docs">Ver Google Docs</option>
+                                    <option value="Ver captura de pantalla" data-icon="screenshot">Ver captura de pantalla</option>
+                                </select>
+                            </div>
+                        </div>
                 </div>
                 
                     <div class="form-actions">
