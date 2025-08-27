@@ -1470,8 +1470,8 @@
         /* Snackbar Styles */
         .snackbar {
             visibility: hidden;
-            min-width: 300px;
-            max-width: 500px;
+            min-width: 320px;
+            max-width: 520px;
             background-color: #22c55e;
             color: white;
             text-align: center;
@@ -1480,7 +1480,7 @@
             position: fixed;
             z-index: 10000;
             bottom: 30px;
-            left: 50%;
+            left: 50vw;
             transform: translateX(-50%) translateY(100px);
             font-size: 16px;
             font-weight: 500;
@@ -1495,6 +1495,11 @@
             visibility: visible;
             opacity: 1;
             transform: translateX(-50%) translateY(0);
+        }
+        
+        .snackbar.error {
+            background-color: #ef4444;
+            box-shadow: 0 4px 20px rgba(239, 68, 68, 0.3);
         }
     </style>
     
@@ -1799,6 +1804,7 @@
                 modal.style.display = 'none';
                 document.body.style.overflow = 'auto';
                 console.log('Modal de evidências fechado');
+                // Não zerar currentModalGoal aqui para permitir cópias e operações subsequentes
             }
         }
         
@@ -1811,14 +1817,22 @@
             const link = linkElement ? linkElement.href : '';
             const linkName = linkElement ? linkElement.textContent.replace('🔗 ', '') : '';
             
-            // Salvar contexto da meta atual (precisa ser definido antes de abrir o modal)
-            // currentModalGoal já deve estar definido quando este modal foi aberto
+            // Verificar se currentModalGoal está definido
+            if (!currentModalGoal) {
+                showSnackbar('Erro: Meta não identificada para cópia', 'error');
+                return;
+            }
+            
+            // Salvar o contexto da meta antes de fechar o modal
+            const savedGoal = currentModalGoal;
             
             // Fechar modal de visualização
             closeViewEvidenceModal();
             
             // Abrir modal de criação com dados preenchidos
             setTimeout(() => {
+                // Restaurar o contexto da meta
+                currentModalGoal = savedGoal;
                 openModal();
                 
                 // Preencher formulário com dados da evidência copiada
@@ -1828,6 +1842,8 @@
                     document.getElementById('evidenceLink').value = link;
                     document.getElementById('evidenceLinkName').value = linkName;
                 }
+                
+                console.log('Evidência copiada para meta:', currentModalGoal);
             }, 100);
         }
         
@@ -1986,11 +2002,11 @@
             const snackbar = document.getElementById('snackbar');
             if (snackbar) {
                 snackbar.innerHTML = message; // Removido o emoji
-                snackbar.className = 'snackbar show';
+                snackbar.className = `snackbar show ${type === 'error' ? 'error' : ''}`;
                 
                 // Remover a classe show após 2.7s para dar tempo da animação de saída
                 setTimeout(() => {
-                    snackbar.classList.remove('show');
+                    snackbar.classList.remove('show', 'error');
                 }, 2700);
             }
         }
