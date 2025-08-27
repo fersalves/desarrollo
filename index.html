@@ -943,10 +943,10 @@
         
         .weekday {
             text-align: center;
-            font-size: 12px;
+            font-size: 10px;
             font-weight: 500;
             color: #999;
-            padding: 8px 4px;
+            padding: 6px 4px;
         }
         
         .calendar-days {
@@ -2291,7 +2291,7 @@
         
         // Variáveis globais do calendário
         let currentCalendarDate = new Date();
-        let selectedDate = new Date(2025, 7, 15); // 15 de Agosto 2025 (mês 7 = agosto)
+        let selectedDate = null; // Nenhuma data selecionada inicialmente
         
         // Função para alternar calendário
         function toggleCalendar() {
@@ -2841,7 +2841,7 @@
                         <div class="form-group">
                             <label for="evidenceDate">Data:</label>
                             <div class="custom-calendar-wrapper">
-                                <input type="text" id="evidenceDate" name="date" required value="15 de Agosto 2025" readonly onclick="toggleCalendar()">
+                                <input type="text" id="evidenceDate" name="date" required placeholder="Selecione uma data" readonly onclick="toggleCalendar()">
                                 <div id="customCalendar" class="custom-calendar">
                                     <div class="calendar-header">
                                         <button type="button" class="calendar-nav" onclick="changeMonth(-1)">‹</button>
