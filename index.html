@@ -1260,6 +1260,10 @@
             margin-bottom: 0.75rem;
         }
         
+        .calendar-icon {
+            margin-right: 8px;
+        }
+        
         .evidence-item p {
             color: #e0e0e0;
             line-height: 1.5;
@@ -2149,7 +2153,7 @@
                 <div class="evidence-item" data-evidence-id="${evidenceId}">
                     <div class="evidence-content">
                         <h4 class="evidence-title">${evidence.title}</h4>
-                        <div class="evidence-date">📅 ${evidence.date}</div>
+                        <div class="evidence-date"><span class="calendar-icon">📅</span>${evidence.date}</div>
                         <p class="evidence-description">${evidence.description}</p>
                         ${linkHtml}
                     </div>
