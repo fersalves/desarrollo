@@ -1045,6 +1045,27 @@
             font-weight: 600;
         }
         
+        /* Estilo para links de evidência com ícones */
+        .evidence-link {
+            color: #00d4ff;
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-top: 0.75rem;
+            display: inline-flex;
+            align-items: center;
+            transition: color 0.3s ease;
+        }
+        
+        .evidence-link:hover {
+            color: #33e1ff;
+            text-decoration: underline;
+        }
+        
+        .evidence-link img {
+            flex-shrink: 0;
+            vertical-align: middle;
+        }
+        
         .form-actions {
             display: flex;
             gap: 1rem;
@@ -2082,8 +2103,11 @@
         
         // Função para criar HTML de evidência
         function createEvidenceHTML(evidence, evidenceId, isStatic = false) {
-            const linkHtml = evidence.link ? 
-                `<a href="${evidence.link}" target="_blank" class="evidence-link">🔗 ${evidence.linkName || 'Ver link'}</a>` : '';
+            let linkHtml = '';
+            if (evidence.link) {
+                const linkIcon = getLinkIcon(evidence.linkName);
+                linkHtml = `<a href="${evidence.link}" target="_blank" class="evidence-link">${linkIcon}${evidence.linkName || 'Ver link'}</a>`;
+            }
             
             // Determinar usuário e avatar
             const user = evidence.user || 'fe';
@@ -2541,6 +2565,21 @@
                 wrapper.removeAttribute('data-selected');
             }
         }
+        
+        // Função para gerar ícone baseado no nome do link
+        function getLinkIcon(linkName) {
+            const iconMap = {
+                'Ver no Figma': '<img src="./imagens/figma.svg" alt="Figma" style="width: 12px; height: 12px; margin-right: 4px;">',
+                'Ver no Slack': '<img src="./imagens/slack.svg" alt="Slack" style="width: 12px; height: 12px; margin-right: 4px;">',
+                'Ver nota do Gemini': '<img src="./imagens/gemini.svg" alt="Gemini" style="width: 12px; height: 12px; margin-right: 4px;">',
+                'Ver GPT': '<img src="./imagens/gpt.svg" alt="GPT" style="width: 12px; height: 12px; margin-right: 4px;">',
+                'Ver Google Sheets': '<img src="./imagens/google-sheets.svg" alt="Google Sheets" style="width: 12px; height: 12px; margin-right: 4px;">',
+                'Ver Google Docs': '<img src="./imagens/google-docs.svg" alt="Google Docs" style="width: 12px; height: 12px; margin-right: 4px;">',
+                'Ver captura de pantalla': '<span style="margin-right: 4px;">📸</span>'
+            };
+            
+            return iconMap[linkName] || '🔗 ';
+        }
     </script>
 </head>
 <body>
@@ -2991,10 +3030,6 @@
                 
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="evidenceLink">Link (URL):</label>
-                            <input type="url" id="evidenceLink" name="link" placeholder="https://...">
-                </div>
-                                                <div class="form-group">
                             <label for="evidenceLinkName">Nome do Link:</label>
                             <div class="select-wrapper icon-select-wrapper" id="linkNameWrapper">
                                 <select id="evidenceLinkName" name="linkName" class="icon-select" onchange="updateLinkIcon(this)">
@@ -3009,7 +3044,11 @@
                                 </select>
                             </div>
                         </div>
-                </div>
+                        <div class="form-group">
+                            <label for="evidenceLink">Link (URL):</label>
+                            <input type="url" id="evidenceLink" name="link" placeholder="https://...">
+                        </div>
+                    </div>
                 
                     <div class="form-actions">
                         <button type="button" class="btn-cancel" onclick="closeModal()">Cancelar</button>
