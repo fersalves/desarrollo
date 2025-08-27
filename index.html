@@ -1470,7 +1470,8 @@
         /* Snackbar Styles */
         .snackbar {
             visibility: hidden;
-            min-width: 250px;
+            min-width: 300px;
+            max-width: 90vw;
             background-color: #22c55e;
             color: white;
             text-align: center;
@@ -1487,26 +1488,15 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            white-space: nowrap;
+            opacity: 0;
+            transition: all 0.3s ease-in-out;
         }
         
         .snackbar.show {
             visibility: visible;
-            animation: fadeInOut 3s ease-in-out;
-        }
-        
-        @keyframes fadeInOut {
-            0% { 
-                opacity: 0; 
-                transform: translateX(-50%) translateY(20px);
-            }
-            10%, 90% { 
-                opacity: 1; 
-                transform: translateX(-50%) translateY(0);
-            }
-            100% { 
-                opacity: 0; 
-                transform: translateX(-50%) translateY(-20px);
-            }
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
         }
     </style>
     
@@ -2000,9 +1990,10 @@
                 snackbar.innerHTML = message; // Removido o emoji
                 snackbar.className = 'snackbar show';
                 
+                // Remover a classe show após 2.7s para dar tempo da animação de saída
                 setTimeout(() => {
-                    snackbar.className = 'snackbar';
-                }, 3000);
+                    snackbar.classList.remove('show');
+                }, 2700);
             }
         }
         
