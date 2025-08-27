@@ -1907,10 +1907,9 @@
                     const form = document.getElementById('evidenceForm');
                     if (form) {
                         form.reset();
-                        const dateField = document.getElementById('evidenceDate');
-                        if (dateField) {
-                            dateField.value = '2025-08';
-                        }
+                        // Sempre definir data de hoje
+                        selectedDate = new Date();
+                        initializeTodayDate();
                     }
                 }
                 
@@ -2260,10 +2259,33 @@
         
         console.log('showSection definida no HEAD');
         
+        // Função para formatar data
+        function formatDate(date) {
+            const monthNames = [
+                'janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho',
+                'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'
+            ];
+            
+            const day = date.getDate().toString().padStart(2, '0');
+            const month = monthNames[date.getMonth()];
+            const year = date.getFullYear();
+            
+            return `${day} de ${month} ${year}`;
+        }
+        
+        // Função para inicializar data de hoje no input
+        function initializeTodayDate() {
+            const input = document.getElementById('evidenceDate');
+            if (input) {
+                input.value = formatDate(selectedDate);
+            }
+        }
+        
         // Atualizar contador quando página carregar
         window.addEventListener('load', function() {
             setTimeout(() => {
                 updateEvidenceCounter();
+                initializeTodayDate(); // Definir data de hoje no input
             }, 1000);
         });
         
@@ -2291,7 +2313,7 @@
         
         // Variáveis globais do calendário
         let currentCalendarDate = new Date();
-        let selectedDate = null; // Nenhuma data selecionada inicialmente
+        let selectedDate = new Date(); // Data de hoje como padrão
         
         // Função para alternar calendário
         function toggleCalendar() {
@@ -2332,7 +2354,7 @@
             const year = currentCalendarDate.getFullYear();
             const month = currentCalendarDate.getMonth();
             
-            // Nomes dos meses
+            // Nomes dos meses (primeira letra maiúscula para o header)
             const monthNames = [
                 'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
                 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
@@ -2412,8 +2434,8 @@
             
             // Atualizar input
             const monthNames = [
-                'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-                'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+                'janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho',
+                'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'
             ];
             
             const input = document.getElementById('evidenceDate');
@@ -2841,7 +2863,7 @@
                         <div class="form-group">
                             <label for="evidenceDate">Data:</label>
                             <div class="custom-calendar-wrapper">
-                                <input type="text" id="evidenceDate" name="date" required placeholder="DD/MMM/YYYY" readonly onclick="toggleCalendar()">
+                                <input type="text" id="evidenceDate" name="date" required readonly onclick="toggleCalendar()">
                                 <div id="customCalendar" class="custom-calendar">
                                     <div class="calendar-header">
                                         <button type="button" class="calendar-nav" onclick="changeMonth(-1)">‹</button>
