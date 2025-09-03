@@ -2136,14 +2136,16 @@
             }
         }
         
-        function saveEvidences(evidences) {
+        function saveEvidences(evidences, syncToGitHub = true) {
             try {
-                // Salvar temporariamente no localStorage como fallback
+                // Salvar no localStorage
                 localStorage.setItem('dashboardEvidences', JSON.stringify(evidences));
                 console.log('Evidências salvas no localStorage:', evidences);
                 
-                // Atualizar arquivo evidences.json no GitHub
-                updateEvidencesInGitHub(evidences);
+                // Opcional: Atualizar arquivo evidences.json no GitHub
+                if (syncToGitHub) {
+                    updateEvidencesInGitHub(evidences);
+                }
                 
             } catch (error) {
                 console.error('Erro ao salvar evidências:', error);
@@ -2480,27 +2482,33 @@
                     if (!savedEvidences[currentModalGoal]) {
                         savedEvidences[currentModalGoal] = [];
                     }
+                    // ATUALIZAÇÃO OTIMISTA: Mostrar INSTANTANEAMENTE, sincronizar depois!
+                    
+                    // 1. Adicionar ao localStorage IMEDIATAMENTE
                     savedEvidences[currentModalGoal].push(newEvidence);
-                    saveEvidences(savedEvidences);
-                    console.log('Evidência salva permanentemente para:', currentModalGoal);
+                    localStorage.setItem('dashboardEvidences', JSON.stringify(savedEvidences));
                     
-                    // Mostrar snackbar de sucesso
-                    showSnackbar('Evidência criada com sucesso!');
-                    
-                    // Atualizar contador na home
-                    updateEvidenceCounter();
-                    
-                    // Fechar modal de adicionar
+                    // 2. Mostrar na tela INSTANTANEAMENTE
+                    const goalToReopen = currentModalGoal;
                     closeModal();
                     
-                    // Reabrir modal de visualização atualizado
-                    setTimeout(() => {
-                        if (currentModalGoal) {
-                            const goalToReopen = currentModalGoal;
-                            openEvidenceModal(goalToReopen);
-                            // Não zerar currentModalGoal aqui para permitir operações subsequentes
-                        }
-                    }, 200);
+                    // 3. Reabrir modal IMEDIATAMENTE (sem delay)
+                    openEvidenceModal(goalToReopen);
+                    showSnackbar('Evidência adicionada! Sincronizando...');
+                    
+                    // 4. Atualizar contador
+                    updateEvidenceCounter();
+                    
+                    // 5. Sincronizar com GitHub em BACKGROUND (não bloqueia a UI)
+                    updateEvidencesInGitHub(savedEvidences).then(() => {
+                        console.log('Sincronização com GitHub completa');
+                        showSnackbar('✅ Evidência sincronizada com GitHub!');
+                    }).catch((error) => {
+                        console.error('Erro na sincronização:', error);
+                        showSnackbar('Evidência salva (erro na sincronização)', 'error');
+                    });
+                    
+                    console.log('Evidência salva permanentemente para:', currentModalGoal);
                     
                 } else {
                     console.error('currentModalGoal não definido! Não foi possível salvar evidência.');
