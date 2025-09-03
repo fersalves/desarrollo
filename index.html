@@ -2054,28 +2054,48 @@
         // Funções para carregar evidências (prioriza localStorage sobre GitHub vazio)
         async function loadSavedEvidences() {
             try {
-                // Primeiro tentar carregar do GitHub para sincronização
-                console.log('Carregando evidências do GitHub...');
+                // PRIORIZAR localStorage para não perder evidências do usuário
+                let localData = localStorage.getItem('dashboardEvidences');
+                
+                // Se não encontrar na chave nova, verificar chave antiga
+                if (!localData || localData === '{}') {
+                    const oldData = localStorage.getItem('dashboard-evidences');
+                    if (oldData) {
+                        console.log('Recuperando evidências da chave antiga...');
+                        const oldEvidences = JSON.parse(oldData);
+                        
+                        // Converter formato antigo (array) para novo (por meta)
+                        const evidencesByGoal = {};
+                        if (Array.isArray(oldEvidences)) {
+                            oldEvidences.forEach(evidence => {
+                                const goalKey = evidence.section;
+                                if (!evidencesByGoal[goalKey]) {
+                                    evidencesByGoal[goalKey] = [];
+                                }
+                                evidencesByGoal[goalKey].push(evidence);
+                            });
+                            
+                            // Salvar no formato novo
+                            localStorage.setItem('dashboardEvidences', JSON.stringify(evidencesByGoal));
+                            console.log('Evidências migradas automaticamente:', evidencesByGoal);
+                            return evidencesByGoal;
+                        }
+                    }
+                }
+                
+                if (localData && localData !== '{}') {
+                    const localEvidences = JSON.parse(localData);
+                    console.log('Evidências carregadas do localStorage:', localEvidences);
+                    return localEvidences;
+                }
+                
+                // Se localStorage vazio, tentar GitHub
+                console.log('localStorage vazio, tentando carregar do GitHub...');
                 const response = await fetch('./evidences.json');
                 if (response.ok) {
                     const data = await response.json();
                     console.log('Evidências carregadas do GitHub:', data.evidences);
-                    
-                    // Salvar no localStorage para cache
-                    if (data.evidences) {
-                        localStorage.setItem('dashboardEvidences', JSON.stringify(data.evidences));
-                    }
-                    
                     return data.evidences || {};
-                }
-                
-                // Se GitHub falhar, usar localStorage como fallback
-                console.log('GitHub indisponível, usando localStorage como fallback...');
-                const localData = localStorage.getItem('dashboardEvidences');
-                if (localData) {
-                    const localEvidences = JSON.parse(localData);
-                    console.log('Evidências carregadas do localStorage:', localEvidences);
-                    return localEvidences;
                 }
                 
                 console.log('Nenhuma evidência encontrada, usando dados vazios');
