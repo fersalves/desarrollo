@@ -465,6 +465,15 @@
             filter: brightness(1.1) saturate(1.05);
             text-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
         }
+        
+        .section-subtitle {
+            color: #a1a1aa;
+            font-size: 20px;
+            font-weight: 400;
+            margin-top: 0;
+            margin-bottom: 2rem;
+            font-style: italic;
+        }
 
         @keyframes fireFlicker {
             0% {
@@ -1804,13 +1813,13 @@
             'decide-baja-fidelidad': 'Decide en baja fidelidad',
             'marca-pulso': 'Marca el pulso',
             'turnaround-express': 'Turnaround express',
-            'feedback-senior': 'Feedback senior, acción rápida',
+            'feedback-senior': 'Marca un ritmo de trabajo ágil y con exigencia',
             'aprendizaje-visible': 'Aprendizaje visible',
-            'plan-b-salvaje': 'Trae siempre un plan B salvaje',
-            'mira-afuera': 'Mira afuera',
+            'plan-b-salvaje': 'Feedback senior',
+            'mira-afuera': 'Mira afuera, benchmarka lo inesperado',
             'rompe-andes': 'Rompe Andes con intención',
             'prototipa-ia': 'Prototipa con IA',
-            'benchmarka-inesperado': 'Benchmarka lo inesperado'
+            'benchmarka-inesperado': 'Valida conceptos y genera mejores ideas más rápido con IA'
         };
         
         // Função para abrir modal de evidências
@@ -2366,10 +2375,10 @@
                 const totalCount = staticCount + savedCount;
                 console.log(`Total de evidências: ${totalCount} (${staticCount} estáticas + ${savedCount} salvas)`);
                 
-                // Atualizar o card de evidências na home (é o segundo card)
-                const evidenceCards = document.querySelectorAll('.card .kpi');
-                if (evidenceCards.length >= 2) {
-                    evidenceCards[1].textContent = totalCount; // Segundo card é "Evidências"
+                // Atualizar o card de evidências na home
+                const evidenceCountElement = document.getElementById('evidenceCount');
+                if (evidenceCountElement) {
+                    evidenceCountElement.textContent = totalCount;
                 }
                 
                 return totalCount;
@@ -2406,12 +2415,15 @@
             }
         }
         
+        // Atualizar contador quando DOM estiver pronto
+        document.addEventListener('DOMContentLoaded', function() {
+            updateEvidenceCounter();
+        });
+        
         // Atualizar contador quando página carregar
         window.addEventListener('load', function() {
-            setTimeout(() => {
-                updateEvidenceCounter();
-                initializeTodayDate(); // Definir data de hoje no input
-            }, 1000);
+            updateEvidenceCounter();
+            initializeTodayDate(); // Definir data de hoje no input
         });
         
         // Função para limpar contexto da meta
@@ -2619,12 +2631,12 @@
                 </div>
                 <div class="card">
                     <h3>🏆 Evidências</h3>
-                    <div class="kpi">12</div>
+                    <div class="kpi" id="evidenceCount">0</div>
                     <p>Comprovações de resultados</p>
                 </div>
                 <div class="card">
                     <h3>📊 Performance Geral</h3>
-                    <div class="kpi">72%</div>
+                    <div class="kpi">70%</div>
                     <p>Média de progresso das metas</p>
                 </div>
             </div>
@@ -2635,9 +2647,10 @@
         <div id="goals" class="section">
             <!-- Urgência & Ritmo -->
             <div style="margin-bottom: 5rem;">
-                <h3 class="section-title" style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; font-size: 48px; font-weight: 300;">
+                <h3 class="section-title" style="margin-bottom: 0; display: flex; align-items: center; gap: 0.5rem; font-size: 48px; font-weight: 300;">
                     <span class="fire-icon">🔥</span> <span style="background: linear-gradient(90deg, #00d4ff, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Urgencia & Ritmo</span>
                 </h3>
+                <p class="section-subtitle">Subir el nivel de autonomía y velocidad en la toma de decisión</p>
                 <div class="grid" id="urgencyGoals">
                     <div class="flip-card" onclick="flipCard(this)">
                         <div class="flip-card-inner">
@@ -2647,9 +2660,9 @@
                                 </div>
                                 <div class="card-bottom">
                                     <div class="progress-bar" style="margin-top: 2rem;">
-                                        <div class="progress-fill" data-width="75%"></div>
+                                        <div class="progress-fill" data-width="80%"></div>
                                     </div>
-                                    <p style="text-align: right; margin-top: 0.5rem;">75%</p>
+                                    <p style="text-align: right; margin-top: 0.5rem;">80%</p>
                                     <div class="card-divider">
                                         <a class="card-link" onclick="openEvidenceModal('empuja-hoy', event)">
                                             Ver evidências
@@ -2662,7 +2675,7 @@
                             </div>
                             <div class="flip-card-back">
                                 <h3>Empuja hoy, no mañana</h3>
-                                <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem; flex: 1;">Ante un blocker, define un próximo paso en el mismo día (no dejes que duerma).</p>
+                                <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem; flex: 1;">Buscar acuerdos, resoluciones e información con urgencia.</p>
                             </div>
                         </div>
                     </div>
@@ -2675,9 +2688,9 @@
                                 </div>
                                 <div class="card-bottom">
                                     <div class="progress-bar" style="margin-top: 2rem;">
-                                        <div class="progress-fill" data-width="85%"></div>
+                                        <div class="progress-fill" data-width="90%"></div>
                                     </div>
-                                    <p style="text-align: right; margin-top: 0.5rem;">85%</p>
+                                    <p style="text-align: right; margin-top: 0.5rem;">90%</p>
                                     <div class="card-divider">
                                         <a class="card-link" onclick="openEvidenceModal('aprendizaje-visible', event)">
                                             Ver evidências
@@ -2690,7 +2703,7 @@
                             </div>
                             <div class="flip-card-back">
                                 <h3>Update proactivo</h3>
-                                <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem; flex: 1;">Da visibilidad sin que te la pidan (avance, bloqueo, decisión). Comunicación asíncrona.</p>
+                                <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem; flex: 1;">Dar visibilidad de avances y blockers continuamente y sin que te pregunte.</p>
                             </div>
                         </div>
                     </div>
@@ -2703,9 +2716,9 @@
                                 </div>
                                 <div class="card-bottom">
                                     <div class="progress-bar" style="margin-top: 2rem;">
-                                        <div class="progress-fill" data-width="60%"></div>
+                                        <div class="progress-fill" data-width="50%"></div>
                                     </div>
-                                    <p style="text-align: right; margin-top: 0.5rem;">60%</p>
+                                    <p style="text-align: right; margin-top: 0.5rem;">50%</p>
                                     <div class="card-divider">
                                         <a class="card-link" onclick="openEvidenceModal('decide-baja-fidelidad', event)">
                                             Ver evidências
@@ -2718,7 +2731,7 @@
                             </div>
                             <div class="flip-card-back">
                                 <h3>Decide en baja fidelidad</h3>
-                                <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem; flex: 1;">Muestra versiones rápidas (wireframe, sketch) en menos de 24h.</p>
+                                <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem; flex: 1;">Generar acuerdos, cuestionar, incomodar para buscar la mejor propuesta posible.</p>
                             </div>
                         </div>
                     </div>
@@ -2731,9 +2744,9 @@
                                 </div>
                                 <div class="card-bottom">
                                     <div class="progress-bar" style="margin-top: 2rem;">
-                                        <div class="progress-fill" data-width="70%"></div>
+                                        <div class="progress-fill" data-width="40%"></div>
                                     </div>
-                                    <p style="text-align: right; margin-top: 0.5rem;">70%</p>
+                                    <p style="text-align: right; margin-top: 0.5rem;">40%</p>
                                     <div class="card-divider">
                                         <a class="card-link" onclick="openEvidenceModal('marca-pulso', event)">
                                             Ver evidências
@@ -2746,7 +2759,7 @@
                             </div>
                             <div class="flip-card-back">
                                 <h3>Marca el pulso</h3>
-                                <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem; flex: 1;">Si el equipo se detiene, sé quien trae agenda clara, pregunta incómoda o propuesta de resolución.</p>
+                                <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem; flex: 1;">Empujar a tu dupla para subir la exigencia mutuamente.</p>
                             </div>
                         </div>
                     </div>
@@ -2759,9 +2772,9 @@
                                 </div>
                                 <div class="card-bottom">
                                     <div class="progress-bar" style="margin-top: 2rem;">
-                                        <div class="progress-fill" data-width="80%"></div>
+                                        <div class="progress-fill" data-width="70%"></div>
                                     </div>
-                                    <p style="text-align: right; margin-top: 0.5rem;">80%</p>
+                                    <p style="text-align: right; margin-top: 0.5rem;">70%</p>
                                     <div class="card-divider">
                                         <a class="card-link" onclick="openEvidenceModal('turnaround-express', event)">
                                             Ver evidências
@@ -2774,7 +2787,7 @@
                             </div>
                             <div class="flip-card-back">
                                 <h3>Turnaround express</h3>
-                                <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem; flex: 1;">Ningún pedido o feedback queda sin respuesta más de 24h.</p>
+                                <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem; flex: 1;">Presionar a pares, stakeholders cuando estén siento blockers. Perseguir la información que hace falta.</p>
                             </div>
                         </div>
                     </div>
@@ -2783,13 +2796,13 @@
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
                                 <div class="card-content">
-                                    <h3>Feedback senior, acción rápida</h3>
+                                    <h3>Marca un ritmo de trabajo ágil y con exigencia</h3>
                                 </div>
                                 <div class="card-bottom">
                                     <div class="progress-bar" style="margin-top: 2rem;">
-                                        <div class="progress-fill" data-width="90%"></div>
+                                        <div class="progress-fill" data-width="100%"></div>
                                     </div>
-                                    <p style="text-align: right; margin-top: 0.5rem;">90%</p>
+                                    <p style="text-align: right; margin-top: 0.5rem;">100%</p>
                                     <div class="card-divider">
                                         <a class="card-link" onclick="openEvidenceModal('feedback-senior', event)">
                                             Ver evidências
@@ -2801,8 +2814,8 @@
                                 </div>
                             </div>
                             <div class="flip-card-back">
-                                <h3>Feedback senior, acción rápida</h3>
-                                <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem; flex: 1;">Integra feedback de TL, PL o manager en hasta 48h y muestra la versión iterada.</p>
+                                <h3>Marca un ritmo de trabajo ágil y con exigencia</h3>
+                                <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem; flex: 1;">Mantener una comunicación constante para pedir información, feedback y lo que necesites velocidad.</p>
                             </div>
                         </div>
                     </div>
@@ -2815,9 +2828,9 @@
                                 </div>
                                 <div class="card-bottom">
                                     <div class="progress-bar" style="margin-top: 2rem;">
-                                        <div class="progress-fill" data-width="65%"></div>
+                                        <div class="progress-fill" data-width="80%"></div>
                                     </div>
-                                    <p style="text-align: right; margin-top: 0.5rem;">65%</p>
+                                    <p style="text-align: right; margin-top: 0.5rem;">80%</p>
                                     <div class="card-divider">
                                         <a class="card-link" onclick="openEvidenceModal('aprendizaje-visible', event)">
                                             Ver evidências
@@ -2830,7 +2843,7 @@
                             </div>
                             <div class="flip-card-back">
                                 <h3>Aprendizaje visible</h3>
-                                <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem; flex: 1;">Explica en review qué cambió tu diseño gracias al feedback senior → que sea evidente que sumó valor.</p>
+                                <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem; flex: 1;">Accionar en tiempo y forma. Construir una visión clara del producto o proceso y empujarla en conjunto con tu dupla o resto del equipo.</p>
                             </div>
                         </div>
                     </div>
@@ -2839,21 +2852,22 @@
             
             <!-- Disrupción & Profundidad -->
             <div style="margin-bottom: 2rem;">
-                <h3 class="section-title" style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; font-size: 48px; font-weight: 300;">
+                <h3 class="section-title" style="margin-bottom: 0; display: flex; align-items: center; gap: 0.5rem; font-size: 48px; font-weight: 300;">
                     <span class="light-icon">💡</span> <span style="background: linear-gradient(90deg, #00d4ff, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Disrupción & Profundidad</span>
                 </h3>
+                <p class="section-subtitle">Consolidar el proceso de craft</p>
                 <div class="grid" id="disruptionGoals">
                     <div class="flip-card" onclick="flipCard(this)">
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
                                 <div class="card-content">
-                                    <h3>Trae siempre un plan B salvaje</h3>
+                                    <h3>Feedback senior</h3>
                                 </div>
                                 <div class="card-bottom">
                                     <div class="progress-bar" style="margin-top: 2rem;">
-                                        <div class="progress-fill" data-width="45%"></div>
+                                        <div class="progress-fill" data-width="30%"></div>
                                     </div>
-                                    <p style="text-align: right; margin-top: 0.5rem;">45%</p>
+                                    <p style="text-align: right; margin-top: 0.5rem;">30%</p>
                                     <div class="card-divider">
                                         <a class="card-link" onclick="openEvidenceModal('aprendizaje-visible', event)">
                                             Ver evidências
@@ -2865,8 +2879,8 @@
                                 </div>
                             </div>
                             <div class="flip-card-back">
-                                <h3>Trae siempre un plan B salvaje</h3>
-                                <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem; flex: 1;">Además de la opción segura, presenta una que incomode y abra debate.</p>
+                                <h3>Feedback senior</h3>
+                                <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem; flex: 1;">Integrar continuamente feedback de SR, TLs, líder y managers.</p>
                             </div>
                         </div>
                     </div>
@@ -2875,7 +2889,35 @@
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
                                 <div class="card-content">
-                                    <h3>Mira afuera</h3>
+                                    <h3>Mira afuera, benchmarka lo inesperado</h3>
+                                </div>
+                                <div class="card-bottom">
+                                    <div class="progress-bar" style="margin-top: 2rem;">
+                                        <div class="progress-fill" data-width="20%"></div>
+                                    </div>
+                                    <p style="text-align: right; margin-top: 0.5rem;">20%</p>
+                                    <div class="card-divider">
+                                        <a class="card-link" onclick="openEvidenceModal('aprendizaje-visible', event)">
+                                            Ver evidências
+                                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M4.89779 1.85254L4.10229 2.64803L7.45455 6.00029L4.10229 9.35254L4.89779 10.148L9.04554 6.00029L4.89779 1.85254Z" fill="currentColor" fill-opacity="0.9"/>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flip-card-back">
+                                <h3>Mira afuera, benchmarka lo inesperado</h3>
+                                <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem; flex: 1;">Nutrir tu visión con benchmark, tendencias, ideas que salgan de la norma de lo que hacemos siempre.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flip-card" onclick="flipCard(this)">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div class="card-content">
+                                    <h3>Rompe Andes con intención</h3>
                                 </div>
                                 <div class="card-bottom">
                                     <div class="progress-bar" style="margin-top: 2rem;">
@@ -2893,8 +2935,8 @@
                                 </div>
                             </div>
                             <div class="flip-card-back">
-                                <h3>Mira afuera</h3>
-                                <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem; flex: 1;">Inspírate en 2 productos de otra industria antes de diseñar (gaming, música, fintech, etc).</p>
+                                <h3>Rompe Andes con intención</h3>
+                                <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem; flex: 1;">Animarte a ser más disruptiva sin importar si rompemos con Andes o no.</p>
                             </div>
                         </div>
                     </div>
@@ -2903,7 +2945,35 @@
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
                                 <div class="card-content">
-                                    <h3>Rompe Andes con intención</h3>
+                                    <h3>Prototipa con IA</h3>
+                                </div>
+                                <div class="card-bottom">
+                                    <div class="progress-bar" style="margin-top: 2rem;">
+                                        <div class="progress-fill" data-width="70%"></div>
+                                    </div>
+                                    <p style="text-align: right; margin-top: 0.5rem;">70%</p>
+                                    <div class="card-divider">
+                                        <a class="card-link" onclick="openEvidenceModal('aprendizaje-visible', event)">
+                                            Ver evidências
+                                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M4.89779 1.85254L4.10229 2.64803L7.45455 6.00029L4.10229 9.35254L4.89779 10.148L9.04554 6.00029L4.89779 1.85254Z" fill="currentColor" fill-opacity="0.9"/>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flip-card-back">
+                                <h3>Prototipa con IA</h3>
+                                <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem; flex: 1;">Ir más allá en el uso de AI no solo para corregir o ajustar sino automatizar/agilizar el diseño.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flip-card" onclick="flipCard(this)">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div class="card-content">
+                                    <h3>Valida conceptos y genera mejores ideas más rápido con IA</h3>
                                 </div>
                                 <div class="card-bottom">
                                     <div class="progress-bar" style="margin-top: 2rem;">
@@ -2921,64 +2991,8 @@
                                 </div>
                             </div>
                             <div class="flip-card-back">
-                                <h3>Rompe Andes con intención</h3>
-                                <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem; flex: 1;">Cuestiona al menos un patrón de casa por proyecto, argumenta por qué.</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="flip-card" onclick="flipCard(this)">
-                        <div class="flip-card-inner">
-                            <div class="flip-card-front">
-                                <div class="card-content">
-                                    <h3>Prototipa con IA</h3>
-                                </div>
-                                <div class="card-bottom">
-                                    <div class="progress-bar" style="margin-top: 2rem;">
-                                        <div class="progress-fill" data-width="85%"></div>
-                                    </div>
-                                    <p style="text-align: right; margin-top: 0.5rem;">85%</p>
-                                    <div class="card-divider">
-                                        <a class="card-link" onclick="openEvidenceModal('aprendizaje-visible', event)">
-                                            Ver evidências
-                                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M4.89779 1.85254L4.10229 2.64803L7.45455 6.00029L4.10229 9.35254L4.89779 10.148L9.04554 6.00029L4.89779 1.85254Z" fill="currentColor" fill-opacity="0.9"/>
-                                            </svg>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="flip-card-back">
-                                <h3>Prototipa con IA</h3>
-                                <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem; flex: 1;">Usa Cursor, Make, GPT, Gemini para acelerar variaciones y explorar ideas radicales.</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="flip-card" onclick="flipCard(this)">
-                        <div class="flip-card-inner">
-                            <div class="flip-card-front">
-                                <div class="card-content">
-                                    <h3>Benchmarka lo inesperado</h3>
-                                </div>
-                                <div class="card-bottom">
-                                    <div class="progress-bar" style="margin-top: 2rem;">
-                                        <div class="progress-fill" data-width="55%"></div>
-                                    </div>
-                                    <p style="text-align: right; margin-top: 0.5rem;">55%</p>
-                                    <div class="card-divider">
-                                        <a class="card-link" onclick="openEvidenceModal('aprendizaje-visible', event)">
-                                            Ver evidências
-                                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M4.89779 1.85254L4.10229 2.64803L7.45455 6.00029L4.10229 9.35254L4.89779 10.148L9.04554 6.00029L4.89779 1.85254Z" fill="currentColor" fill-opacity="0.9"/>
-                                            </svg>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="flip-card-back">
-                                <h3>Benchmarka lo inesperado</h3>
-                                <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem; flex: 1;">Analiza una app o producto que el equipo nunca miraría, trae un insight accionable.</p>
+                                <h3>Valida conceptos y genera mejores ideas más rápido con IA</h3>
+                                <p style="color: #a1a1aa; line-height: 1.6; margin-top: 1rem; flex: 1;">Generar mejores ideas más rápido por medio de validaciones conceptuales con Cursor, Make, etc.</p>
                             </div>
                         </div>
                     </div>
@@ -3059,13 +3073,13 @@
                                     <option value="Ver site" data-icon="github">Ver site</option>
                                     <option value="Ver captura de pantalla" data-icon="screenshot">Ver captura de pantalla</option>
                                 </select>
-                            </div>
+                </div>
                         </div>
                         <div class="form-group">
                             <label for="evidenceLink">Link (URL):</label>
                             <input type="url" id="evidenceLink" name="link" placeholder="https://...">
-                        </div>
                     </div>
+                </div>
                 
                     <div class="form-actions">
                         <button type="button" class="btn-cancel" onclick="closeModal()">Cancelar</button>
