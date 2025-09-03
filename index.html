@@ -2058,7 +2058,7 @@
                 let githubEvidences = {};
                 try {
                     console.log('Buscando evidências do GitHub...');
-                    const response = await fetch('./evidences.json');
+                    const response = await fetch('./evidences.json?v=' + Date.now());
                     if (response.ok) {
                         const data = await response.json();
                         githubEvidences = data.evidences || {};
