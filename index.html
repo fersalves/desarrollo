@@ -2054,7 +2054,21 @@
         // Funções para carregar evidências (prioriza localStorage sobre GitHub vazio)
         async function loadSavedEvidences() {
             try {
-                // PRIORIZAR localStorage para não perder evidências do usuário
+                // Primeiro, tentar buscar do GitHub para sincronização
+                let githubEvidences = {};
+                try {
+                    console.log('Buscando evidências do GitHub...');
+                    const response = await fetch('./evidences.json');
+                    if (response.ok) {
+                        const data = await response.json();
+                        githubEvidences = data.evidences || {};
+                        console.log('Evidências do GitHub:', githubEvidences);
+                    }
+                } catch (error) {
+                    console.log('Erro ao buscar GitHub, usando dados locais:', error);
+                }
+                
+                // Buscar evidências locais
                 let localData = localStorage.getItem('dashboardEvidences');
                 
                 // Se não encontrar na chave nova, verificar chave antiga
@@ -2075,31 +2089,47 @@
                                 evidencesByGoal[goalKey].push(evidence);
                             });
                             
-                            // Salvar no formato novo
-                            localStorage.setItem('dashboardEvidences', JSON.stringify(evidencesByGoal));
+                            localData = JSON.stringify(evidencesByGoal);
+                            localStorage.setItem('dashboardEvidences', localData);
                             console.log('Evidências migradas automaticamente:', evidencesByGoal);
-                            return evidencesByGoal;
                         }
                     }
                 }
                 
+                // Fazer merge inteligente entre GitHub e localStorage
+                let localEvidences = {};
                 if (localData && localData !== '{}') {
-                    const localEvidences = JSON.parse(localData);
-                    console.log('Evidências carregadas do localStorage:', localEvidences);
-                    return localEvidences;
+                    localEvidences = JSON.parse(localData);
                 }
                 
-                // Se localStorage vazio, tentar GitHub
-                console.log('localStorage vazio, tentando carregar do GitHub...');
-                const response = await fetch('./evidences.json');
-                if (response.ok) {
-                    const data = await response.json();
-                    console.log('Evidências carregadas do GitHub:', data.evidences);
-                    return data.evidences || {};
+                // Merge: GitHub + Local (local tem prioridade para conflitos)
+                const mergedEvidences = { ...githubEvidences };
+                
+                // Adicionar evidências locais que não estão no GitHub
+                for (const goalKey in localEvidences) {
+                    if (!mergedEvidences[goalKey]) {
+                        mergedEvidences[goalKey] = [];
+                    }
+                    
+                    // Adicionar evidências locais que não existem no GitHub
+                    const localGoalEvidences = localEvidences[goalKey] || [];
+                    localGoalEvidences.forEach(localEvidence => {
+                        const exists = mergedEvidences[goalKey].some(githubEvidence => 
+                            githubEvidence.id === localEvidence.id || 
+                            (githubEvidence.title === localEvidence.title && githubEvidence.date === localEvidence.date)
+                        );
+                        
+                        if (!exists) {
+                            mergedEvidences[goalKey].push(localEvidence);
+                        }
+                    });
                 }
                 
-                console.log('Nenhuma evidência encontrada, usando dados vazios');
-                return {};
+                // Salvar merge no localStorage
+                localStorage.setItem('dashboardEvidences', JSON.stringify(mergedEvidences));
+                
+                console.log('Evidências após merge GitHub + Local:', mergedEvidences);
+                return mergedEvidences;
             } catch (error) {
                 console.error('Erro ao carregar evidências:', error);
                 return {};
@@ -2121,7 +2151,7 @@
             }
         }
         
-        // Função para atualizar evidences.json no GitHub
+        // Função para atualizar evidences.json no GitHub via API
         async function updateEvidencesInGitHub(evidences) {
             try {
                 console.log('Preparando para salvar no GitHub:', evidences);
@@ -2131,20 +2161,103 @@
                     last_updated: new Date().toISOString()
                 };
                 
-                console.log('JSON que seria salvo no GitHub:', jsonContent);
+                console.log('JSON que será salvo no GitHub:', jsonContent);
                 
-                // Simular salvamento bem-sucedido
-                showSnackbar('Evidência salva e sincronizada!');
+                // Verificar se tem token configurado
+                const token = localStorage.getItem('githubToken');
+                if (!token) {
+                    console.log('Token GitHub não configurado, salvando apenas localmente');
+                    showSnackbar('Evidência salva localmente (configure token para sincronização)');
+                    return;
+                }
                 
-                // Em produção, aqui seria feita a chamada para a API do GitHub
-                // ou um webhook que atualizaria o arquivo evidences.json
+                // Primeiro, buscar o SHA atual do arquivo
+                const getResponse = await fetch('https://api.github.com/repos/fersalves/desarrollo/contents/evidences.json', {
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                });
+                
+                let sha = null;
+                if (getResponse.ok) {
+                    const fileData = await getResponse.json();
+                    sha = fileData.sha;
+                } else if (getResponse.status !== 404) {
+                    throw new Error(`Erro ao buscar arquivo: ${getResponse.status}`);
+                }
+                
+                // Atualizar ou criar o arquivo
+                const content = btoa(JSON.stringify(jsonContent, null, 2));
+                const updateData = {
+                    message: `Atualizar evidências - ${new Date().toLocaleString('pt-BR')}`,
+                    content: content,
+                    branch: 'main'
+                };
+                
+                if (sha) {
+                    updateData.sha = sha;
+                }
+                
+                const updateResponse = await fetch('https://api.github.com/repos/fersalves/desarrollo/contents/evidences.json', {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Accept': 'application/vnd.github.v3+json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(updateData)
+                });
+                
+                if (updateResponse.ok) {
+                    console.log('Evidências sincronizadas com GitHub com sucesso!');
+                    showSnackbar('Evidência salva e sincronizada com GitHub! ✅');
+                } else {
+                    const error = await updateResponse.json();
+                    console.error('Erro na API do GitHub:', error);
+                    showSnackbar('Erro na sincronização, salvo localmente', 'error');
+                }
                 
             } catch (error) {
                 console.error('Erro ao salvar no GitHub:', error);
-                showSnackbar('Evidência salva localmente', 'success');
+                showSnackbar('Erro na sincronização, salvo localmente', 'error');
             }
         }
         
+        // Função para configurar token do GitHub (executar no console)
+        function configureGitHubToken(token) {
+            if (!token || typeof token !== 'string') {
+                console.error('Token inválido. Use: configureGitHubToken("seu_token_aqui")');
+                return false;
+            }
+            
+            localStorage.setItem('githubToken', token);
+            console.log('✅ Token GitHub configurado com sucesso!');
+            console.log('Agora todas as evidências serão sincronizadas automaticamente.');
+            showSnackbar('Token GitHub configurado! Sincronização ativada ✅');
+            return true;
+        }
+        
+        // Função para remover token do GitHub
+        function removeGitHubToken() {
+            localStorage.removeItem('githubToken');
+            console.log('❌ Token GitHub removido. Evidências serão salvas apenas localmente.');
+            showSnackbar('Token GitHub removido', 'error');
+        }
+        
+        // Função para verificar status da sincronização
+        function checkSyncStatus() {
+            const token = localStorage.getItem('githubToken');
+            if (token) {
+                console.log('✅ Sincronização GitHub: ATIVA');
+                console.log('Token configurado: ' + token.substring(0, 8) + '...');
+            } else {
+                console.log('❌ Sincronização GitHub: INATIVA');
+                console.log('Use configureGitHubToken("seu_token") para ativar');
+            }
+            return !!token;
+        }
+
         // Função para migrar evidências do localStorage para GitHub (executar uma vez)
         function migrateLocalEvidencesToGitHub() {
             try {
