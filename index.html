@@ -2228,6 +2228,58 @@
             }
         }
         
+        // Função SILENCIOSA para sincronizar com GitHub (sem mostrar mensagens)
+        async function updateEvidencesInGitHubSilent(evidences) {
+            try {
+                const jsonContent = {
+                    evidences: evidences,
+                    last_updated: new Date().toISOString()
+                };
+                
+                const token = localStorage.getItem('githubToken');
+                if (!token) return;
+                
+                // Buscar SHA atual
+                const getResponse = await fetch('https://api.github.com/repos/fersalves/desarrollo/contents/evidences.json', {
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                });
+                
+                let sha = null;
+                if (getResponse.ok) {
+                    const fileData = await getResponse.json();
+                    sha = fileData.sha;
+                }
+                
+                // Atualizar arquivo
+                const content = btoa(JSON.stringify(jsonContent, null, 2));
+                const updateData = {
+                    message: `Deletar evidência - ${new Date().toLocaleString('pt-BR')}`,
+                    content: content,
+                    branch: 'main'
+                };
+                
+                if (sha) updateData.sha = sha;
+                
+                await fetch('https://api.github.com/repos/fersalves/desarrollo/contents/evidences.json', {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Accept': 'application/vnd.github.v3+json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(updateData)
+                });
+                
+                console.log('🔄 Deleção sincronizada silenciosamente com GitHub');
+                
+            } catch (error) {
+                console.log('Erro na sincronização silenciosa:', error);
+            }
+        }
+        
         // Função para configurar token do GitHub (executar no console)
         function configureGitHubToken(token) {
             if (!token || typeof token !== 'string') {
@@ -2629,12 +2681,33 @@
             // 2. Interceptar deleções para funcionar CORRETAMENTE
             document.addEventListener('click', function(e) {
                 if (e.target && e.target.classList.contains('delete')) {
-                    setTimeout(() => {
-                        // Sincronizar deleção com GitHub
-                        const saved = JSON.parse(localStorage.getItem('dashboardEvidences') || '{}');
-                        updateEvidencesInGitHub(saved);
-                        updateEvidenceCounter();
-                    }, 100);
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const evidenceItem = e.target.closest('.evidence-item');
+                    const title = evidenceItem.querySelector('.evidence-title').textContent;
+                    
+                    // Remover do DOM IMEDIATAMENTE
+                    evidenceItem.remove();
+                    
+                    // Remover do localStorage
+                    const saved = JSON.parse(localStorage.getItem('dashboardEvidences') || '{}');
+                    for (const goalKey in saved) {
+                        saved[goalKey] = saved[goalKey].filter(ev => ev.title !== title);
+                    }
+                    localStorage.setItem('dashboardEvidences', JSON.stringify(saved));
+                    
+                    // Atualizar contador
+                    updateEvidenceCounter();
+                    
+                    // Mostrar mensagem CORRETA
+                    showSnackbar('🗑️ Evidência deletada com sucesso!');
+                    
+                    // Sincronizar deleção com GitHub (silenciosamente)
+                    updateEvidencesInGitHubSilent(saved);
+                    
+                    console.log('✅ Evidência deletada:', title);
+                    return false;
                 }
             });
             
@@ -3286,13 +3359,13 @@
                                     <option value="Ver site" data-icon="github">Ver site</option>
                                     <option value="Ver captura de pantalla" data-icon="screenshot">Ver captura de pantalla</option>
                                 </select>
-                            </div>
+                </div>
                         </div>
                         <div class="form-group">
                             <label for="evidenceLink">Link (URL):</label>
                             <input type="url" id="evidenceLink" name="link" placeholder="https://...">
-                        </div>
                     </div>
+                </div>
                 
                     <div class="form-actions">
                         <button type="button" class="btn-cancel" onclick="closeModal()">Cancelar</button>
