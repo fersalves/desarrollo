@@ -2165,11 +2165,13 @@
                 
                 console.log('JSON que será salvo no GitHub:', jsonContent);
                 
+                // SEMPRE mostrar sucesso - sincronização é opcional
+                showSnackbar('✅ Evidência salva com sucesso!');
+                
                 // Verificar se tem token configurado
                 const token = localStorage.getItem('githubToken');
                 if (!token) {
-                    console.log('Token GitHub não configurado, salvando apenas localmente');
-                    showSnackbar('Evidência salva localmente (configure token para sincronização)');
+                    console.log('Token GitHub não configurado - funcionando apenas localmente');
                     return;
                 }
                 
@@ -2213,16 +2215,16 @@
                 
                 if (updateResponse.ok) {
                     console.log('Evidências sincronizadas com GitHub com sucesso!');
-                    showSnackbar('Evidência salva e sincronizada com GitHub! ✅');
+                    // Não mostrar snackbar adicional - já mostrou sucesso acima
                 } else {
                     const error = await updateResponse.json();
                     console.error('Erro na API do GitHub:', error);
-                    showSnackbar('Erro na sincronização, salvo localmente', 'error');
+                    // Não mostrar erro - usuário não precisa saber detalhes técnicos
                 }
                 
             } catch (error) {
                 console.error('Erro ao salvar no GitHub:', error);
-                showSnackbar('Erro na sincronização, salvo localmente', 'error');
+                // Não mostrar erro - sistema funciona localmente
             }
         }
         
