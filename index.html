@@ -2054,21 +2054,7 @@
         // Funções para carregar evidências (prioriza localStorage sobre GitHub vazio)
         async function loadSavedEvidences() {
             try {
-                // Primeiro, tentar buscar do GitHub para sincronização
-                let githubEvidences = {};
-                try {
-                    console.log('Buscando evidências do GitHub...');
-                    const response = await fetch('./evidences.json?v=' + Date.now());
-                    if (response.ok) {
-                        const data = await response.json();
-                        githubEvidences = data.evidences || {};
-                        console.log('Evidências do GitHub:', githubEvidences);
-                    }
-                } catch (error) {
-                    console.log('Erro ao buscar GitHub, usando dados locais:', error);
-                }
-                
-                // Buscar evidências locais
+                // PRIORIZAR SEMPRE O LOCALSTORAGE - é a fonte da verdade!
                 let localData = localStorage.getItem('dashboardEvidences');
                 
                 // Se não encontrar na chave nova, verificar chave antiga
@@ -2096,40 +2082,32 @@
                     }
                 }
                 
-                // Fazer merge inteligente entre GitHub e localStorage
-                let localEvidences = {};
+                // USAR APENAS LOCALSTORAGE - sem merge confuso
                 if (localData && localData !== '{}') {
-                    localEvidences = JSON.parse(localData);
+                    const localEvidences = JSON.parse(localData);
+                    console.log('✅ Usando evidências do localStorage (fonte da verdade):', localEvidences);
+                    return localEvidences;
                 }
                 
-                // Merge: GitHub + Local (local tem prioridade para conflitos)
-                const mergedEvidences = { ...githubEvidences };
-                
-                // Adicionar evidências locais que não estão no GitHub
-                for (const goalKey in localEvidences) {
-                    if (!mergedEvidences[goalKey]) {
-                        mergedEvidences[goalKey] = [];
-                    }
-                    
-                    // Adicionar evidências locais que não existem no GitHub
-                    const localGoalEvidences = localEvidences[goalKey] || [];
-                    localGoalEvidences.forEach(localEvidence => {
-                        const exists = mergedEvidences[goalKey].some(githubEvidence => 
-                            githubEvidence.id === localEvidence.id || 
-                            (githubEvidence.title === localEvidence.title && githubEvidence.date === localEvidence.date)
-                        );
+                // Se localStorage vazio, tentar GitHub apenas como fallback inicial
+                console.log('localStorage vazio, tentando GitHub como fallback inicial...');
+                try {
+                    const response = await fetch('./evidences.json?v=' + Date.now());
+                    if (response.ok) {
+                        const data = await response.json();
+                        const githubEvidences = data.evidences || {};
+                        console.log('Evidências do GitHub (fallback inicial):', githubEvidences);
                         
-                        if (!exists) {
-                            mergedEvidences[goalKey].push(localEvidence);
-                        }
-                    });
+                        // Salvar no localStorage para próximas vezes
+                        localStorage.setItem('dashboardEvidences', JSON.stringify(githubEvidences));
+                        return githubEvidences;
+                    }
+                } catch (error) {
+                    console.log('Erro ao buscar GitHub:', error);
                 }
                 
-                // Salvar merge no localStorage
-                localStorage.setItem('dashboardEvidences', JSON.stringify(mergedEvidences));
-                
-                console.log('Evidências após merge GitHub + Local:', mergedEvidences);
-                return mergedEvidences;
+                console.log('Nenhuma evidência encontrada, usando dados vazios');
+                return {};
             } catch (error) {
                 console.error('Erro ao carregar evidências:', error);
                 return {};
