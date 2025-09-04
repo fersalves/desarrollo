@@ -2054,8 +2054,11 @@
         // Funções para carregar evidências (prioriza localStorage sobre GitHub vazio)
         async function loadSavedEvidences() {
             try {
+                console.log('🔄 loadSavedEvidences() chamada');
+                
                 // PRIORIZAR SEMPRE O LOCALSTORAGE - é a fonte da verdade!
                 let localData = localStorage.getItem('dashboardEvidences');
+                console.log('📱 localStorage atual:', localData);
                 
                 // Se não encontrar na chave nova, verificar chave antiga
                 if (!localData || localData === '{}') {
@@ -2665,15 +2668,25 @@
                     const evidenceItem = e.target.closest('.evidence-item');
                     const title = evidenceItem.querySelector('.evidence-title').textContent;
                     
+                    console.log('🗑️ DELETANDO evidência:', title);
+                    console.log('🔍 localStorage ANTES da deleção:', localStorage.getItem('dashboardEvidences'));
+                    
                     // Remover do DOM IMEDIATAMENTE
                     evidenceItem.remove();
                     
                     // Remover do localStorage
                     const saved = JSON.parse(localStorage.getItem('dashboardEvidences') || '{}');
+                    console.log('📦 Dados carregados do localStorage:', saved);
+                    
                     for (const goalKey in saved) {
+                        const beforeCount = saved[goalKey].length;
                         saved[goalKey] = saved[goalKey].filter(ev => ev.title !== title);
+                        const afterCount = saved[goalKey].length;
+                        console.log(`🎯 Meta ${goalKey}: ${beforeCount} → ${afterCount} evidências`);
                     }
+                    
                     localStorage.setItem('dashboardEvidences', JSON.stringify(saved));
+                    console.log('💾 localStorage APÓS deleção:', localStorage.getItem('dashboardEvidences'));
                     
                     // Atualizar contador
                     updateEvidenceCounter();
