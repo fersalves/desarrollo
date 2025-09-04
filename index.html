@@ -1712,91 +1712,8 @@
             `;
         }
         
-        // Dados das evidências estáticas (padrão)
-        const STATIC_EVIDENCES = {
-            'empuja-hoy': {
-                title: 'Dashboard Pessoal - Blocker Resolvido',
-                date: 'Agosto 2025',
-                description: 'Blocker na integração Google Sheets resolvido no mesmo dia com solução offline alternativa, mantendo projeto no prazo',
-                link: 'https://github.com/fersalves/desarrollo',
-                linkName: 'Ver projeto no GitHub'
-            },
-            'update-proactivo': {
-                title: 'Daily Updates Estruturados',
-                date: 'Agosto 2025', 
-                description: 'Updates diários proativos: progresso, blockers e próximos passos comunicados antes das 10h por 3 semanas consecutivas'
-            },
-            'decide-baja-fidelidad': {
-                title: 'API Design - Wireframes Express',
-                date: 'Agosto 2025',
-                description: 'Wireframes e mockups de API entregues em 18h para validação de stakeholders antes do desenvolvimento',
-                link: '',
-                linkName: 'Ver documentação'
-            },
-            'marca-pulso': {
-                title: 'Moderação Sprint Review',
-                date: 'Agosto 2025',
-                description: 'Sprint review perdeu foco: assumi moderação, trouxe agenda clara e direcionei 3 decisões pendentes',
-                link: '',
-                linkName: 'Ver ata da reunião'
-            },
-            'turnaround-express': {
-                title: 'Code Review Acelerado',
-                date: 'Agosto 2025',
-                description: 'Feedback técnico de 12 PRs respondido em menos de 8h, mantendo média de 4h por resposta sem bloquear time',
-                link: '',
-                linkName: 'Ver métricas'
-            },
-            'feedback-senior': {
-                title: 'Iteração Rápida com TL',
-                date: 'Agosto 2025',
-                description: 'Feedback do TL sobre arquitetura integrado em 24h: refatoração de componentes React com performance 40% melhor',
-                link: '',
-                linkName: 'Ver refatoração'
-            },
-            'aprendizaje-visible': {
-                title: 'Feedback Documentado',
-                date: 'Agosto 2025',
-                description: 'Sprint review: documentei como feedback senior mudou abordagem UX, evidenciando valor agregado ao processo',
-                link: '',
-                linkName: 'Ver documentação'
-            },
-            'plan-b-salvaje': {
-                title: 'Alternativa Radical para Dashboard',
-                date: 'Agosto 2025',
-                description: 'Além da versão segura, propus interface single-page radical que gerou debate e nova direção de produto',
-                link: '',
-                linkName: 'Ver proposta'
-            },
-            'mira-afuera': {
-                title: 'Análise Competitor Tech',
-                date: 'Agosto 2025',
-                description: 'Análise de stack Vercel/Netlify gerou insights para nossa infraestrutura: deploy preview automático implementado',
-                link: '',
-                linkName: 'Ver análise'
-            },
-            'rompe-andes': {
-                title: 'Zustand vs Redux Architecture',
-                date: 'Agosto 2025',
-                description: 'Questionei Redux padrão da empresa, argumentei e implementei Zustand com 40% menos boilerplate',
-                link: '',
-                linkName: 'Ver comparação'
-            },
-            'prototipa-ia': {
-                title: 'Cursor AI Development',
-                date: 'Agosto 2025',
-                description: 'Cursor AI: aceleração 3x no desenvolvimento deste dashboard, exploração de 5 layouts alternativos em 2h',
-                link: 'https://cursor.sh',
-                linkName: 'Ver ferramenta Cursor'
-            },
-            'benchmarka-inesperado': {
-                title: 'Figma Component System',
-                date: 'Agosto 2025',
-                description: 'Sistema de componentes Figma inspirado no Notion: hierarquia visual clara e reutilização 90% maior',
-                link: '',
-                linkName: 'Ver sistema'
-            }
-        };
+        // OBJETO VAZIO - Sem evidências estáticas/fixas
+        const STATIC_EVIDENCES = {};
         
         const GOAL_EVIDENCE_MAP = {
             'empuja-hoy': 'Empuja hoy, no mañana',
@@ -2410,58 +2327,8 @@
             }, 100);
         }
         
-        // Função para deletar evidência do modal
-        async function deleteEvidenceFromModal(button) {
-            const evidenceItem = button.closest('.evidence-item');
-            const evidenceId = evidenceItem.getAttribute('data-evidence-id');
-            const title = evidenceItem.querySelector('.evidence-title').textContent;
-            
-            if (confirm(`Tem certeza que deseja deletar a evidência "${title}"?`)) {
-                try {
-                    // Verificar se é evidência estática ou salva
-                    console.log('Deletando evidência com ID:', evidenceId);
-                    if (evidenceId.includes('-static')) {
-                        // Evidência estática - remover do objeto STATIC_EVIDENCES
-                        const goalKey = evidenceId.replace('-static', '');
-                        console.log('Removendo evidência estática para goalKey:', goalKey);
-                        console.log('STATIC_EVIDENCES antes:', Object.keys(STATIC_EVIDENCES));
-                        delete STATIC_EVIDENCES[goalKey];
-                        console.log('STATIC_EVIDENCES depois:', Object.keys(STATIC_EVIDENCES));
-                        console.log('Evidência estática removida:', goalKey);
-                    } else {
-                        // Evidência salva - remover do localStorage
-                        const savedEvidences = await loadSavedEvidences();
-                        const parts = evidenceId.split('-saved-');
-                        const goalKey = parts[0];
-                        const evidenceIndex = parseInt(parts[1]);
-                        
-                        if (savedEvidences[goalKey] && savedEvidences[goalKey][evidenceIndex]) {
-                            savedEvidences[goalKey].splice(evidenceIndex, 1);
-                            saveEvidences(savedEvidences);
-                            console.log('Evidência salva removida:', title);
-                        }
-                    }
-                    
-                    // Remover do DOM
-                    evidenceItem.remove();
-                    console.log('Evidência deletada:', title);
-                    
-                    // Atualizar contador na home
-                    updateEvidenceCounter();
-                    
-                    // Verificar se não há mais evidências e mostrar mensagem
-                    const evidenceGrid = document.getElementById('viewEvidenceModalGrid');
-                    if (evidenceGrid && evidenceGrid.children.length === 0) {
-                        evidenceGrid.innerHTML = '<p style="color: #a1a1aa;">Nenhuma evidência cadastrada ainda.</p>';
-                    }
-                    
-                    showSnackbar('Evidência deletada com sucesso');
-                } catch (error) {
-                    console.error('Erro ao deletar evidência:', error);
-                    showSnackbar('Erro ao deletar evidência', 'error');
-                }
-            }
-        }
+        // FUNÇÃO REMOVIDA: deleteEvidenceFromModal
+        // Agora usamos apenas o interceptador em setupSimpleEvidenceSystem()
         
         // Função para processar submit do formulário
         async function handleFormSubmit() {
@@ -2666,36 +2533,57 @@
                     e.stopPropagation();
                     
                     const evidenceItem = e.target.closest('.evidence-item');
+                    const evidenceId = evidenceItem.getAttribute('data-evidence-id');
                     const title = evidenceItem.querySelector('.evidence-title').textContent;
                     
-                    console.log('🗑️ DELETANDO evidência:', title);
-                    console.log('🔍 localStorage ANTES da deleção:', localStorage.getItem('dashboardEvidences'));
+                    console.log('🗑️ DELETANDO evidência:', title, 'ID:', evidenceId);
+                    
+                    // Confirmar deleção
+                    if (!confirm(`Tem certeza que deseja deletar a evidência "${title}"?`)) {
+                        return false;
+                    }
                     
                     // Remover do DOM IMEDIATAMENTE
                     evidenceItem.remove();
                     
-                    // Remover do localStorage
-                    const saved = JSON.parse(localStorage.getItem('dashboardEvidences') || '{}');
-                    console.log('📦 Dados carregados do localStorage:', saved);
-                    
-                    for (const goalKey in saved) {
-                        const beforeCount = saved[goalKey].length;
-                        saved[goalKey] = saved[goalKey].filter(ev => ev.title !== title);
-                        const afterCount = saved[goalKey].length;
-                        console.log(`🎯 Meta ${goalKey}: ${beforeCount} → ${afterCount} evidências`);
+                    // Verificar se é evidência estática ou salva
+                    if (evidenceId && evidenceId.includes('-static')) {
+                        // Evidência estática - remover do objeto STATIC_EVIDENCES
+                        const goalKey = evidenceId.replace('-static', '');
+                        console.log('🏛️ Removendo evidência ESTÁTICA:', goalKey);
+                        delete STATIC_EVIDENCES[goalKey];
+                    } else {
+                        // Evidência salva - remover do localStorage
+                        console.log('🔍 localStorage ANTES da deleção:', localStorage.getItem('dashboardEvidences'));
+                        
+                        const saved = JSON.parse(localStorage.getItem('dashboardEvidences') || '{}');
+                        console.log('📦 Dados carregados do localStorage:', saved);
+                        
+                        for (const goalKey in saved) {
+                            const beforeCount = saved[goalKey].length;
+                            saved[goalKey] = saved[goalKey].filter(ev => ev.title !== title);
+                            const afterCount = saved[goalKey].length;
+                            console.log(`🎯 Meta ${goalKey}: ${beforeCount} → ${afterCount} evidências`);
+                        }
+                        
+                        localStorage.setItem('dashboardEvidences', JSON.stringify(saved));
+                        console.log('💾 localStorage APÓS deleção:', localStorage.getItem('dashboardEvidences'));
+                        
+                        // Sincronizar deleção com GitHub (silenciosamente)
+                        updateEvidencesInGitHubSilent(saved);
                     }
-                    
-                    localStorage.setItem('dashboardEvidences', JSON.stringify(saved));
-                    console.log('💾 localStorage APÓS deleção:', localStorage.getItem('dashboardEvidences'));
                     
                     // Atualizar contador
                     updateEvidenceCounter();
                     
+                    // Verificar se não há mais evidências no modal
+                    const evidenceGrid = document.getElementById('viewEvidenceModalGrid');
+                    if (evidenceGrid && evidenceGrid.children.length === 0) {
+                        evidenceGrid.innerHTML = '<p style="color: #a1a1aa;">Nenhuma evidência cadastrada ainda.</p>';
+                    }
+                    
                     // Mostrar mensagem CORRETA
                     showSnackbar('🗑️ Evidência deletada com sucesso!');
-                    
-                    // Sincronizar deleção com GitHub (silenciosamente)
-                    updateEvidencesInGitHubSilent(saved);
                     
                     console.log('✅ Evidência deletada:', title);
                     return false;
