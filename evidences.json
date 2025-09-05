@@ -46,10 +46,10 @@
         "user": "fe"
       },
       {
-        "title": "Benchmark emotional design",
-        "date": "22 de agosto 2025",
-        "description": "Comparti un bench que nos puede ayudar a pensar en este proyecto como algo que nos puede conectar de forma emocional con las personas",
-        "link": "https://www.figma.com/board/a60Aae6rpXSIEboXv6ZAdf/Fix-the-basics---Adelantos?node-id=3477-16332&t=QblypNYOodrqMVRi-4 ",
+        "title": "Benchmark de app de vuelos para Adelantos",
+        "date": "08 de agosto 2025",
+        "description": "Comparti un bench que nos sirvió en el proyecto de rediseño de adelantos para pensar en como podría ser un crossover entre los productos de créditos y Adelantos",
+        "link": "https://www.figma.com/board/a60Aae6rpXSIEboXv6ZAdf/Fix-the-basics---Adelantos?node-id=2962-14266&t=QblypNYOodrqMVRi-4 ",
         "linkName": "Ver no Figma",
         "user": "fe"
       },
@@ -73,5 +73,5 @@
       }
     ]
   },
-  "last_updated": "2025-09-05T05:18:20.658Z"
+  "last_updated": "2025-09-05T05:18:22.896Z"
 }
