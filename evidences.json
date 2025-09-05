@@ -54,6 +54,14 @@
         "link": "https://meli.slack.com/archives/C055RLPPC05/p1756392802413069 ",
         "linkName": "Ver no Slack",
         "user": "fe"
+      },
+      {
+        "title": "Pedi feedback para o Bosco sobre como poderíamos apresentar melhor o tema de IA em Backoffice",
+        "date": "04 de setembro 2025",
+        "description": "Pedi feedback para entender se a forma proposta estaba ok ou se ele via que poderíamos apresentar de outra maneira",
+        "link": " https://meli.slack.com/archives/C09BASKEDC3/p1757020329603379",
+        "linkName": "Ver no Slack",
+        "user": "fe"
       }
     ],
     "plan-b-salvaje": [
@@ -137,5 +145,5 @@
       }
     ]
   },
-  "last_updated": "2025-09-05T05:31:20.968Z"
+  "last_updated": "2025-09-05T05:35:47.706Z"
 }
