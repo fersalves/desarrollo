@@ -1698,7 +1698,7 @@
                                 </svg>
                                 Copiar
                             </button>
-                            <button class="evidence-action delete" onclick="deleteEvidenceFromModal(this)" title="Deletar evidência">
+                            <button class="evidence-action delete"  title="Deletar evidência">
                                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M4.19995 8.99973V4.59973H5.39995V8.99973H4.19995Z" fill="currentColor" fill-opacity="0.9"/>
                                     <path d="M6.6001 8.99973V4.59973H7.8001V8.99973H6.6001Z" fill="currentColor" fill-opacity="0.9"/>
@@ -2288,7 +2288,7 @@
                                 </svg>
                                 Copiar
                             </button>
-                            <button class="evidence-action delete" onclick="deleteEvidenceFromModal(this)" title="Deletar evidência">
+                            <button class="evidence-action delete"  title="Deletar evidência">
                                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M4.19995 8.99973V4.59973H5.39995V8.99973H4.19995Z" fill="currentColor" fill-opacity="0.9"/>
                                     <path d="M6.6001 8.99973V4.59973H7.8001V8.99973H6.6001Z" fill="currentColor" fill-opacity="0.9"/>
@@ -2507,26 +2507,27 @@
             // 1. Interceptar adições para mostrar IMEDIATAMENTE
             document.addEventListener('click', function(e) {
                 if (e.target && (e.target.classList.contains('btn-save') || e.target.textContent.includes('Adicionar'))) {
+                    console.log('🚀 Interceptando criação de evidência...');
+                    
+                    // Aguardar processamento e atualizar TUDO
                     setTimeout(() => {
-                        // Forçar atualização do modal após adicionar
+                        console.log('🔄 Atualizando interface após criação...');
+                        
+                        // Atualizar contador PRIMEIRO
+                        updateEvidenceCounter();
+                        
+                        // Se modal estiver aberto, recarregar evidências
                         if (currentModalGoal) {
-                            const saved = JSON.parse(localStorage.getItem('dashboardEvidences') || '{}');
-                            const goalEvidences = saved[currentModalGoal] || [];
+                            console.log('📋 Recarregando modal para:', currentModalGoal);
                             
-                            // Recarregar modal com evidências atualizadas
-                            const grid = document.getElementById('viewEvidenceModalGrid');
-                            if (grid && goalEvidences.length > 0) {
-                                // Limpar e recarregar
-                                grid.innerHTML = '';
-                                goalEvidences.forEach((evidence, index) => {
-                                    const evidenceHTML = createEvidenceHTML(evidence, `${currentModalGoal}-saved-${index}`, false);
-                                    grid.innerHTML += evidenceHTML;
-                                });
-                            }
-                            
-                            updateEvidenceCounter();
+                            // Reabrir modal com dados atualizados
+                            setTimeout(() => {
+                                openEvidenceModal(currentModalGoal);
+                            }, 200);
                         }
-                    }, 100);
+                        
+                        console.log('✅ Interface atualizada!');
+                    }, 300);
                 }
             });
             
@@ -2577,8 +2578,10 @@
                         updateEvidencesInGitHubSilent(saved);
                     }
                     
-                    // Atualizar contador
-                    updateEvidenceCounter();
+                    // Atualizar contador IMEDIATAMENTE
+                    setTimeout(() => {
+                        updateEvidenceCounter();
+                    }, 100);
                     
                     // Verificar se não há mais evidências no modal
                     const evidenceGrid = document.getElementById('viewEvidenceModalGrid');
