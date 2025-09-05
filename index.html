@@ -527,7 +527,7 @@
             
             .evidence-modal-content {
                 background: #1e1e2e;
-                margin: 0 auto;
+                margin: 0;
                 padding: 0;
                 border-radius: 12px;
                 width: 90%;
@@ -537,10 +537,9 @@
                 overflow-y: auto;
                 box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
                 position: fixed;
-                top: 50%;
-                left: 5%;
-                right: 5%;
-                transform: translateY(-50%);
+                top: 100px;
+                left: 50%;
+                transform: translateX(-50%);
                 display: flex;
                 flex-direction: column;
                 z-index: 1001;
@@ -3297,7 +3296,7 @@
                 
     <!-- Snackbar para feedback -->
     <div id="snackbar" class="snackbar"></div>
-    
+
     <script>
         // 🚀 INICIALIZAÇÃO AUTOMÁTICA
         document.addEventListener('DOMContentLoaded', function() {
