@@ -35,7 +35,17 @@
         "linkName": "Ver no Slack",
         "user": "fe"
       }
+    ],
+    "aprendizaje-visible": [
+      {
+        "title": "Update de Backoffice",
+        "date": "26 de agosto 2025",
+        "description": "Update de la reu de seguimiento",
+        "link": "https://meli.slack.com/archives/C06M0E2PN72/p1756231223069699",
+        "linkName": "Ver no Slack",
+        "user": "fe"
+      }
     ]
   },
-  "last_updated": "2025-09-05T04:53:20.947Z"
+  "last_updated": "2025-09-05T04:56:50.346Z"
 }
