@@ -2002,28 +2002,28 @@
                     }
                 }
                 
-                // USAR APENAS LOCALSTORAGE - sem merge confuso
-                if (localData && localData !== '{}') {
-                    const localEvidences = JSON.parse(localData);
-                    console.log('✅ Usando evidências do localStorage (fonte da verdade):', localEvidences);
-                    return localEvidences;
-                }
-                
-                // Se localStorage vazio, tentar GitHub apenas como fallback inicial
-                console.log('localStorage vazio, tentando GitHub como fallback inicial...');
+                // PRIORIZAR GITHUB PARA COLABORAÇÃO MULTI-USUÁRIO
+                console.log('🌐 Tentando carregar do GitHub primeiro (colaborativo)...');
                 try {
                     const response = await fetch('./evidences.json?v=' + Date.now());
                     if (response.ok) {
                         const data = await response.json();
                         const githubEvidences = data.evidences || {};
-                        console.log('Evidências do GitHub (fallback inicial):', githubEvidences);
+                        console.log('✅ Evidências do GitHub (fonte da verdade colaborativa):', githubEvidences);
                         
-                        // Salvar no localStorage para próximas vezes
+                        // Atualizar localStorage com dados do GitHub
                         localStorage.setItem('dashboardEvidences', JSON.stringify(githubEvidences));
                         return githubEvidences;
                     }
                 } catch (error) {
-                    console.log('Erro ao buscar GitHub:', error);
+                    console.log('❌ Erro ao buscar GitHub:', error);
+                }
+                
+                // FALLBACK: localStorage apenas se GitHub falhar
+                if (localData && localData !== '{}') {
+                    const localEvidences = JSON.parse(localData);
+                    console.log('📱 Usando evidências do localStorage (backup local):', localEvidences);
+                    return localEvidences;
                 }
                 
                 console.log('Nenhuma evidência encontrada, usando dados vazios');
@@ -2205,9 +2205,13 @@
             if (token) {
                 console.log('✅ Sincronização GitHub: ATIVA');
                 console.log('Token configurado: ' + token.substring(0, 8) + '...');
+                console.log('🌐 Evidências são compartilhadas entre computadores!');
             } else {
                 console.log('❌ Sincronização GitHub: INATIVA');
-                console.log('Use configureGitHubToken("seu_token") para ativar');
+                console.log('🚨 PROBLEMA: Evidências só ficam neste computador!');
+                console.log('📝 SOLUÇÃO: Use configureGitHubToken("seu_token") para ativar');
+                console.log('🔗 Token: https://github.com/settings/tokens');
+                showSnackbar('⚠️ Sincronização desativada - evidências só locais!', 'error');
             }
             return !!token;
         }
@@ -3281,6 +3285,20 @@
                 
     <!-- Snackbar para feedback -->
     <div id="snackbar" class="snackbar"></div>
+    
+    <script>
+        // 🚀 INICIALIZAÇÃO AUTOMÁTICA
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Inicializando dashboard...');
+            
+            // Verificar status da sincronização
+            setTimeout(() => {
+                checkSyncStatus();
+            }, 2000);
+            
+            console.log('✅ Dashboard inicializado!');
+        });
+    </script>
     
 </body>
 </html>
