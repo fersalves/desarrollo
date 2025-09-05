@@ -1800,12 +1800,17 @@
                 addCTA.onclick = function() {
                     // Salvar qual meta está sendo editada
                     currentModalGoal = goalKey;
+                    console.log('🎯 CTA CLICKED - currentModalGoal definido como:', currentModalGoal);
+                    
+                    // Garantir que a variável seja global
+                    window.currentModalGoal = goalKey;
                     
                     // Fechar modal de visualização
                     closeViewEvidenceModal();
                     
                     // Abrir modal de criação
                     setTimeout(() => {
+                        console.log('🎯 Antes de abrir modal - currentModalGoal:', currentModalGoal);
                         openModal();
                     }, 100);
                 };
