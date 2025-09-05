@@ -2,14 +2,6 @@
   "evidences": {
     "empuja-hoy": [
       {
-        "title": "teste 4 set v2",
-        "date": "04 de setembro 2025",
-        "description": "teste",
-        "link": "",
-        "linkName": "",
-        "user": "fe"
-      },
-      {
         "title": "teste noite",
         "date": "04 de setembro 2025",
         "description": "teste",
@@ -19,5 +11,5 @@
       }
     ]
   },
-  "last_updated": "2025-09-05T00:12:26.332Z"
+  "last_updated": "2025-09-05T00:17:56.864Z"
 }
