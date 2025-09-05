@@ -100,8 +100,16 @@
         "link": "https://fersalves.github.io/landing-merchants/",
         "linkName": "Ver site",
         "user": "fe"
+      },
+      {
+        "title": "Criei o protótipo navegável de Adelantos",
+        "date": "08 de agosto 2025",
+        "description": "Criei o protótipo usando somente Cursor e GitHub para que pudéssemos explorar as possibilidades do novo admin de Adelantos",
+        "link": "https://fersalves.github.io/adelantos/ ",
+        "linkName": "Ver site",
+        "user": "fe"
       }
     ]
   },
-  "last_updated": "2025-09-05T05:27:03.844Z"
+  "last_updated": "2025-09-05T05:28:04.128Z"
 }
