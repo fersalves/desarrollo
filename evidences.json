@@ -108,8 +108,16 @@
         "link": "https://fersalves.github.io/adelantos/ ",
         "linkName": "Ver site",
         "user": "fe"
+      },
+      {
+        "title": "Criação deste site para acompanhamento das metas",
+        "date": "27 de agosto 2025",
+        "description": "Criei o site inteiro usando somente Cursor e GitHub",
+        "link": "ttps://fersalves.github.io/desarrollo/",
+        "linkName": "Ver site",
+        "user": "fe"
       }
     ]
   },
-  "last_updated": "2025-09-05T05:28:04.128Z"
+  "last_updated": "2025-09-05T05:29:16.724Z"
 }
