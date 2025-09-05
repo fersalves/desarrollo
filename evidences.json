@@ -60,6 +60,14 @@
         "link": "https://www.figma.com/board/a60Aae6rpXSIEboXv6ZAdf/Fix-the-basics---Adelantos?node-id=3477-16332&t=QblypNYOodrqMVRi-4 ",
         "linkName": "Ver no Figma",
         "user": "fe"
+      },
+      {
+        "title": "Banch de apps con listas para configuración de reglas de adelantos!",
+        "date": "03 de setembro 2025",
+        "description": "Hice bench de apps que tienen funciones que nos pueden servir y unas otras que están lejos que lo que necesitamos, pero siempre nos sirve tener esta mirada!",
+        "link": "https://www.figma.com/design/U9ybLTsZCc3BkziEY7Q452/Merchant--Playground--Adelanto-de-Dinero?node-id=22620-11256&t=CPmwg5ExtJlHPE8a-4 ",
+        "linkName": "Ver no Figma",
+        "user": "fe"
       }
     ],
     "feedback-senior": [
@@ -73,5 +81,5 @@
       }
     ]
   },
-  "last_updated": "2025-09-05T05:07:54.907Z"
+  "last_updated": "2025-09-05T05:08:38.424Z"
 }
