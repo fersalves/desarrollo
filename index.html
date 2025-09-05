@@ -2504,32 +2504,8 @@
         function setupSimpleEvidenceSystem() {
             console.log('🔧 Configurando sistema simplificado de evidências...');
             
-            // 1. Interceptar adições para mostrar IMEDIATAMENTE
-            document.addEventListener('click', function(e) {
-                if (e.target && (e.target.classList.contains('btn-save') || e.target.textContent.includes('Adicionar'))) {
-                    console.log('🚀 Interceptando criação de evidência...');
-                    
-                    // Aguardar processamento e atualizar TUDO
-                    setTimeout(() => {
-                        console.log('🔄 Atualizando interface após criação...');
-                        
-                        // Atualizar contador PRIMEIRO
-                        updateEvidenceCounter();
-                        
-                        // Se modal estiver aberto, recarregar evidências
-                        if (currentModalGoal) {
-                            console.log('📋 Recarregando modal para:', currentModalGoal);
-                            
-                            // Reabrir modal com dados atualizados
-                            setTimeout(() => {
-                                openEvidenceModal(currentModalGoal);
-                            }, 200);
-                        }
-                        
-                        console.log('✅ Interface atualizada!');
-                    }, 300);
-                }
-            });
+            // INTERCEPTADOR REMOVIDO - estava causando conflitos
+            console.log('🔧 Interceptador de criação removido para evitar conflitos');
             
             // 2. Interceptar deleções para funcionar CORRETAMENTE
             document.addEventListener('click', function(e) {
