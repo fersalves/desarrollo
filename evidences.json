@@ -91,7 +91,17 @@
         "linkName": "Ver no Figma",
         "user": "fe"
       }
+    ],
+    "prototipa-ia": [
+      {
+        "title": "Criei a landing page de merchants",
+        "date": "30 de julho 2025",
+        "description": "Criei a landing page de merchants para ajudar a agilizar o desenvolvimento do produto",
+        "link": "https://fersalves.github.io/landing-merchants/",
+        "linkName": "Ver site",
+        "user": "fe"
+      }
     ]
   },
-  "last_updated": "2025-09-05T05:26:24.445Z"
+  "last_updated": "2025-09-05T05:27:03.844Z"
 }
