@@ -8,8 +8,16 @@
         "link": "",
         "linkName": "",
         "user": "fe"
+      },
+      {
+        "title": "Resposta rápida a pedidos por Slack",
+        "date": "03 de setembro 2025",
+        "description": "Max me pediu para disponibilizar a versão final dos cards de produto da landing page e, em menos de meia hora, eu já havia entregado para que ele pudesse seguir com as explorações\n",
+        "link": "https://meli.slack.com/archives/C094RCMM0LQ/p1756912334479279",
+        "linkName": "Ver no Slack",
+        "user": "fe"
       }
     ]
   },
-  "last_updated": "2025-09-05T00:33:10.183Z"
+  "last_updated": "2025-09-05T02:13:10.902Z"
 }
