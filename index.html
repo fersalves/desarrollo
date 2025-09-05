@@ -2089,8 +2089,9 @@
                     throw new Error(`Erro ao buscar arquivo: ${getResponse.status}`);
                 }
                 
-                // Atualizar ou criar o arquivo
-                const content = btoa(JSON.stringify(jsonContent, null, 2));
+                // Atualizar ou criar o arquivo - FIX para caracteres UTF-8
+                const jsonString = JSON.stringify(jsonContent, null, 2);
+                const content = btoa(unescape(encodeURIComponent(jsonString)));
                 const updateData = {
                     message: `Atualizar evidências - ${new Date().toLocaleString('pt-BR')}`,
                     content: content,
@@ -2151,8 +2152,9 @@
                     sha = fileData.sha;
                 }
                 
-                // Atualizar arquivo
-                const content = btoa(JSON.stringify(jsonContent, null, 2));
+                // Atualizar arquivo - FIX para caracteres UTF-8
+                const jsonString = JSON.stringify(jsonContent, null, 2);
+                const content = btoa(unescape(encodeURIComponent(jsonString)));
                 const updateData = {
                     message: `Deletar evidência - ${new Date().toLocaleString('pt-BR')}`,
                     content: content,
