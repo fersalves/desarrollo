@@ -52,8 +52,16 @@
         "link": "https://meli.slack.com/archives/C06M0E2PN72/p1756231223069699",
         "linkName": "Ver no Slack",
         "user": "fe"
+      },
+      {
+        "title": "Cuestioné lógicas de backoffice al seleccionar campos numéricos del ID para grupo de control",
+        "date": "28 de agosto 2025",
+        "description": "Cuestioné la forma como estábamos creando esta experiencia una vez que parecia estar muy complejo y se podría llevar demasiada complejidad para los users en la experiencia final. Además de que estábamos generando una autonomia \"fake\" con la propuesta inicial, ya que la muestra seria aleatoria de toda forma.",
+        "link": "https://meli.slack.com/archives/C055RLPPC05/p1756392802413069 ",
+        "linkName": "Ver no Slack",
+        "user": "fe"
       }
     ]
   },
-  "last_updated": "2025-09-05T04:58:11.522Z"
+  "last_updated": "2025-09-05T05:04:29.103Z"
 }
