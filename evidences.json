@@ -2,11 +2,11 @@
   "evidences": {
     "empuja-hoy": [
       {
-        "title": "teste noite",
-        "date": "04 de setembro 2025",
-        "description": "teste",
-        "link": "",
-        "linkName": "",
+        "title": "Resposta r�pida a pedidos por Slack",
+        "date": "03 de setembro 2025",
+        "description": "Max me pediu para disponibilizar a vers�o final dos cards de produto da landing page e, em menos de meia hora, eu j� havia entregado para que ele pudesse seguir com as explora��es\n",
+        "link": "https://meli.slack.com/archives/C094RCMM0LQ/p1756912334479279",
+        "linkName": "Ver no Slack",
         "user": "fe"
       },
       {
@@ -27,5 +27,5 @@
       }
     ]
   },
-  "last_updated": "2025-09-05T02:31:59.823Z"
+  "last_updated": "2025-09-05T02:32:03.389Z"
 }
