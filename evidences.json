@@ -117,7 +117,17 @@
         "linkName": "Ver site",
         "user": "fe"
       }
+    ],
+    "benchmarka-inesperado": [
+      {
+        "title": "IA para grupo control en Backoffice",
+        "date": "28 de agosto 2025",
+        "description": "Utilizamos la IA para tener lista la propuesta inicial de UX en apenas 1 reunión",
+        "link": "https://www.figma.com/design/3fjmCkVWWgx9juRkttgOSg/-Playground--Backoffice-EOC-Universos-%7C-Reglas-%7C-Campa%C3%B1as?node-id=18982-84941&t=VkrLLR2P81G201XD-4",
+        "linkName": "Ver no Figma",
+        "user": "fe"
+      }
     ]
   },
-  "last_updated": "2025-09-05T05:29:16.724Z"
+  "last_updated": "2025-09-05T05:30:29.237Z"
 }
