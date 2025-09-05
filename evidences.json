@@ -45,7 +45,17 @@
         "linkName": "Ver no Slack",
         "user": "fe"
       }
+    ],
+    "feedback-senior": [
+      {
+        "title": "Pedi feedback e agendei reunião com TL (Pablo) sobre animaç!oes da landing",
+        "date": "02 de setembro 2025",
+        "description": "Pedi feedback e compartilhei de forma assíncrona para que ele pudesse ir se inteirando do assunto antes da nossa reunião\nSlack",
+        "link": "https://meli.slack.com/archives/C055RLPPC05/p1756392802413069 ",
+        "linkName": "Ver no Slack",
+        "user": "fe"
+      }
     ]
   },
-  "last_updated": "2025-09-05T05:04:50.182Z"
+  "last_updated": "2025-09-05T05:06:02.902Z"
 }
