@@ -2380,6 +2380,26 @@
                 console.log('Nova evidência preparada:', newEvidence);
                 
                 // Salvar evidência
+                console.log('🎯 currentModalGoal antes de salvar:', currentModalGoal);
+                
+                // Se currentModalGoal não estiver definido, tentar detectar automaticamente
+                if (!currentModalGoal) {
+                    console.log('⚠️ currentModalGoal undefined, tentando detectar...');
+                    const modalTitle = document.getElementById('viewEvidenceModalEyebrow');
+                    if (modalTitle) {
+                        const titleText = modalTitle.textContent;
+                        console.log('📋 Título do modal:', titleText);
+                        // Mapear título para goalKey
+                        for (const [key, value] of Object.entries(GOAL_EVIDENCE_MAP)) {
+                            if (value === titleText) {
+                                currentModalGoal = key;
+                                console.log('✅ Meta detectada:', currentModalGoal);
+                                break;
+                            }
+                        }
+                    }
+                }
+                
                 if (currentModalGoal) {
                     console.log('Salvando evidência para meta:', currentModalGoal);
                     const savedEvidences = await loadSavedEvidences();
