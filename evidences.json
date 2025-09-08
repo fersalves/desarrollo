@@ -171,7 +171,17 @@
         "linkName": "Ver no Slack",
         "user": "fe"
       }
+    ],
+    "rompe-andes": [
+      {
+        "title": "Experiencia de nuevas reglas para adelantos",
+        "date": "03 de setembro 2025",
+        "description": "Esto fue justo lo que hicimos para crear la forma como la persona puede configurar las reglas de automación de adelantos. O sea, dejamos Andes de lado e pensamos en algo que pudiera ser útil antes de estar alineado con cualquier padrón visual de Meli",
+        "link": "https://www.figma.com/design/U9ybLTsZCc3BkziEY7Q452/Merchant--Playground--Adelanto-de-Dinero?node-id=22584-9396&t=BPeqtF9RehhgcoH1-4",
+        "linkName": "Ver no Figma",
+        "user": "fe"
+      }
     ]
   },
-  "last_updated": "2025-09-08T19:06:39.906Z"
+  "last_updated": "2025-09-08T19:11:51.069Z"
 }
