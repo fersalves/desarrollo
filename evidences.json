@@ -151,7 +151,17 @@
         "linkName": "Ver no Figma",
         "user": "fe"
       }
+    ],
+    "update-proactivo": [
+      {
+        "title": "Updates de Backoffice",
+        "date": "04 de setembro 2025",
+        "description": "siempre hago los updates para que Santi esté al tanto de los acuerdos que se generó en la ultima semana para el Backoffice de EOC",
+        "link": "https://meli.slack.com/archives/C06M0E2PN72/p1757021936227859?thread_ts=1757016008.259009&cid=C06M0E2PN72",
+        "linkName": "Ver no Slack",
+        "user": "fe"
+      }
     ]
   },
-  "last_updated": "2025-09-08T13:49:11.295Z"
+  "last_updated": "2025-09-08T18:59:03.302Z"
 }
