@@ -168,6 +168,14 @@
         "link": "https://meli.slack.com/archives/C08MS7JR6HE/p1756497278325209",
         "linkName": "Ver no Slack",
         "user": "fe"
+      },
+      {
+        "title": "Update de la reu de seguimiento de Backoffice de EOC",
+        "date": "09 de setembro 2025",
+        "description": "Update para que Santi pueda estar al tanto de que ha pasado en el backoffice de EOC y pueda tener la vision de los estatus de las tareas de la semana",
+        "link": "https://meli.slack.com/archives/C06M0E2PN72/p1757434179632949",
+        "linkName": "Ver no Slack",
+        "user": "fe"
       }
     ],
     "marca-pulso": [
@@ -191,5 +199,5 @@
       }
     ]
   },
-  "last_updated": "2025-09-09T12:21:37.841Z"
+  "last_updated": "2025-09-09T16:12:34.014Z"
 }
