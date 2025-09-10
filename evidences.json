@@ -205,7 +205,17 @@
         "linkName": "Ver no Figma",
         "user": "fe"
       }
+    ],
+    "turnaround-express": [
+      {
+        "title": "Reu de animaciones de la landing",
+        "date": "10 de setembro 2025",
+        "description": "Es posible ver un cambio de comportamiento por la forma en que me presenté en la reunión, presionando para que podamos obtener un resultado y salir adelante con el proyecto a tiempo",
+        "link": "https://docs.google.com/document/d/1C_FuiIBVnjUpMkDiNuWP2rLmwM8m1YTcxahFFTa5Y9M/edit?tab=t.8tm898c8nqam",
+        "linkName": "Ver nota do Gemini",
+        "user": "fe"
+      }
     ]
   },
-  "last_updated": "2025-09-10T16:31:48.854Z"
+  "last_updated": "2025-09-10T16:38:27.945Z"
 }
