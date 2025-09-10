@@ -176,6 +176,14 @@
         "link": "https://meli.slack.com/archives/C06M0E2PN72/p1757434179632949",
         "linkName": "Ver no Slack",
         "user": "fe"
+      },
+      {
+        "title": "Update animaciones landing",
+        "date": "10 de setembro 2025",
+        "description": "Update para que Mari y Hector estén alineados con las iteracciones propuestas para las animaciones en la landing",
+        "link": "https://meli.slack.com/archives/C088CJ608LR/p1757520554138169",
+        "linkName": "Ver no Slack",
+        "user": "fe"
       }
     ],
     "marca-pulso": [
@@ -199,5 +207,5 @@
       }
     ]
   },
-  "last_updated": "2025-09-09T16:12:34.014Z"
+  "last_updated": "2025-09-10T16:31:48.854Z"
 }
