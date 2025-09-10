@@ -150,6 +150,14 @@
         "link": "https://www.figma.com/design/3fjmCkVWWgx9juRkttgOSg/-Playground--Backoffice-EOC-Universos-%7C-Reglas-%7C-Campa%C3%B1as?node-id=19161-13659&t=6jVC7n6FRgA3Nbkb-4 ",
         "linkName": "Ver no Figma",
         "user": "fe"
+      },
+      {
+        "title": "Uso de Cursor y GPT para probar animaciones de forma rápida",
+        "date": "10 de setembro 2025",
+        "description": "Se hizo testes de forma super rapida, validando la viabilidad tecnica de las ideias que surgieron para la animación del hero de la landing",
+        "link": "https://chatgpt.com/share/e/68c1aa42-53c4-8007-9560-e63b26ea2e99",
+        "linkName": "Ver GPT",
+        "user": "fe"
       }
     ],
     "update-proactivo": [
@@ -217,5 +225,5 @@
       }
     ]
   },
-  "last_updated": "2025-09-10T16:38:27.945Z"
+  "last_updated": "2025-09-10T16:42:44.483Z"
 }
