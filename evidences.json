@@ -16,6 +16,14 @@
         "link": "https://meli.slack.com/archives/C088CJ608LR/p1756862698187559?thread_ts=1756762931.700019&cid=C088CJ608LR",
         "linkName": "Ver no Slack",
         "user": "fe"
+      },
+      {
+        "title": "Resposta rápida a iteracción en BO de Banco Mexico",
+        "date": "11 de setembro 2025",
+        "description": "Feli pediu que eu iterasse a experiencia e, de forma ágil, pude revisar o que era necessário para a entrega, realizar ajustes na proposta e gerar 2 alternativas de experiencia para que o time possa avaliar.",
+        "link": "https://meli.slack.com/archives/C08VCVCT0SK/p1757600632764249?thread_ts=1757525091.922349&cid=C08VCVCT0SK",
+        "linkName": "Ver no Slack",
+        "user": "fe"
       }
     ],
     "decide-baja-fidelidad": [
@@ -225,5 +233,5 @@
       }
     ]
   },
-  "last_updated": "2025-09-10T16:42:44.483Z"
+  "last_updated": "2025-09-11T14:32:38.017Z"
 }
