@@ -210,6 +210,14 @@
         "link": "https://meli.slack.com/archives/C08LXR2J2RY/p1757342456000579",
         "linkName": "Ver no Slack",
         "user": "fe"
+      },
+      {
+        "title": "Revisión de wording para MLM en la landing",
+        "date": "10 de setembro 2025",
+        "description": "Patri solicitó que Mari iterara la versión MLM del video que se muestra en la sección \"Lo pides, lo tienes\" de la landing por un cambio de wording. Entonces Mari me pidió para iterar el video, pero la versión que yo tenia como base estava con wording viejo, asi que le pedi a Patri que revisara para que tengamos siempre la mejor experiencia :)",
+        "link": "https://www.figma.com/design/ipcJA4jsWDi0RnaWctoPdH?node-id=8237-79326#1420577547",
+        "linkName": "Ver no Figma",
+        "user": "fe"
       }
     ],
     "rompe-andes": [
@@ -233,5 +241,5 @@
       }
     ]
   },
-  "last_updated": "2025-09-11T14:32:38.017Z"
+  "last_updated": "2025-09-11T14:44:14.686Z"
 }
