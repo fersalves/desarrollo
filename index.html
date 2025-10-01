@@ -444,7 +444,7 @@
             transition: all 0.3s ease;
         }
 
-        .fire-animation {
+        .fire-static {
             width: 64px;
             height: 64px;
             display: inline-block;
@@ -452,7 +452,7 @@
             transition: all 0.3s ease;
         }
 
-        .sparkles-animation {
+        .sparkles-static {
             width: 64px;
             height: 64px;
             display: inline-block;
@@ -460,16 +460,16 @@
             transition: all 0.3s ease;
         }
 
-        .section-title:hover .fire-animation {
-            animation: fireFlicker 2.5s ease-in-out infinite alternate;
-            filter: brightness(1.1) saturate(1.05);
+        .section-title:hover .fire-static {
+            content: url('./imagens/fire-animation.png');
             transform: scale(1.1);
+            filter: brightness(1.1) saturate(1.05);
         }
 
-        .section-title:hover .sparkles-animation {
-            animation: sparklesTwinkle 2.5s ease-in-out infinite alternate;
-            filter: brightness(1.2) saturate(1.1);
+        .section-title:hover .sparkles-static {
+            content: url('./imagens/sparkles-animation.png');
             transform: scale(1.1) rotate(5deg);
+            filter: brightness(1.2) saturate(1.1);
         }
 
         @keyframes fireFlicker {
@@ -2865,7 +2865,7 @@
             <!-- Urgência & Ritmo -->
             <div style="margin-bottom: 5rem;">
                 <h3 class="section-title" style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; font-size: 48px; font-weight: 300;">
-                    <img src="./imagens/fire-animation.png" alt="Fire" class="fire-animation" /> <span style="background: linear-gradient(90deg, #00d4ff, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Urgencia & Ritmo</span>
+                    <img src="./imagens/Fire.svg" alt="Fire" class="fire-static" /> <span style="background: linear-gradient(90deg, #00d4ff, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Urgencia & Ritmo</span>
                 </h3>
                 <div class="grid" id="urgencyGoals">
                     <div class="flip-card" onclick="flipCard(this)">
@@ -3069,7 +3069,7 @@
             <!-- Disrupción & Profundidad -->
             <div style="margin-bottom: 2rem;">
                 <h3 class="section-title" style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; font-size: 48px; font-weight: 300;">
-                    <img src="./imagens/sparkles-animation.png" alt="Sparkles" class="sparkles-animation" /> <span style="background: linear-gradient(90deg, #00d4ff, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Disrupción & Profundidad</span>
+                    <img src="./imagens/Sparkles.svg" alt="Sparkles" class="sparkles-static" /> <span style="background: linear-gradient(90deg, #00d4ff, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Disrupción & Profundidad</span>
                 </h3>
                 <div class="grid" id="disruptionGoals">
                     <div class="flip-card" onclick="flipCard(this)">
