@@ -88,22 +88,6 @@
         "link": "https://meli.slack.com/archives/C055RLPPC05/p1756392802413069 ",
         "linkName": "Ver no Slack",
         "user": "fe"
-      },
-      {
-        "title": "Comunicaciones ágiles y constantes con Mari para desarrollo de la landing",
-        "date": "22 de setembro 2025",
-        "description": "Con Mari charlamos casi a diario para revisar la landing y agilizar detalles, lo que demuestra que logramos un ritmo de trabajo ágil",
-        "link": "https://fersalves.github.io/desarrollo/imagens/slack-mari.png",
-        "linkName": "Ver captura de pantalla",
-        "user": "fe"
-      },
-      {
-        "title": "Comunicaciones ágiles y constantes con Mari para desarrollo de la landing",
-        "date": "22 de setembro 2025",
-        "description": "Con Mari charlamos casi a diario para revisar la landing y agilizar detalles, lo que demuestra que logramos un ritmo de trabajo ágil",
-        "link": "https://fersalves.github.io/desarrollo/imagens/slack-mari",
-        "linkName": "",
-        "user": "fe"
       }
     ],
     "mira-afuera": [
@@ -265,5 +249,5 @@
       }
     ]
   },
-  "last_updated": "2025-10-01T01:44:17.211Z"
+  "last_updated": "2025-10-01T01:45:00.445Z"
 }
