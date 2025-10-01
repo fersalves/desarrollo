@@ -444,44 +444,28 @@
             transition: all 0.3s ease;
         }
 
-        .fire-animation {
-            width: 64px;
-            height: 64px;
+        .fire-icon-css {
+            font-size: 64px;
             display: inline-block;
             vertical-align: middle;
-            /* CONGELAR GIF - só mostra primeiro frame */
-            animation: none;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
+            /* COMPLETAMENTE ESTÁTICO - SEM MOVIMENTO */
         }
 
-        .sparkles-animation {
-            width: 64px;
-            height: 64px;
+        .sparkles-icon-css {
+            font-size: 64px;
             display: inline-block;
             vertical-align: middle;
-            /* CONGELAR GIF - só mostra primeiro frame */
-            animation: none;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
+            /* COMPLETAMENTE ESTÁTICO - SEM MOVIMENTO */
         }
 
-        .section-title:hover .fire-animation {
-            background-image: url('./imagens/fire-animation.png') !important;
-            background-size: 64px 64px !important;
-            background-position: center !important;
+        .section-title:hover .fire-icon-css {
             animation: fireFlicker 2.5s ease-in-out infinite alternate;
             filter: brightness(1.1) saturate(1.05);
             transform: scale(1.1);
             transition: filter 0.3s ease, transform 0.3s ease;
         }
 
-        .section-title:hover .sparkles-animation {
-            background-image: url('./imagens/sparkles-animation.png') !important;
-            background-size: 64px 64px !important;
-            background-position: center !important;
+        .section-title:hover .sparkles-icon-css {
             animation: sparklesTwinkle 2.5s ease-in-out infinite alternate;
             filter: brightness(1.2) saturate(1.1);
             transform: scale(1.1) rotate(5deg);
@@ -2881,7 +2865,7 @@
             <!-- Urgência & Ritmo -->
             <div style="margin-bottom: 5rem;">
                 <h3 class="section-title" style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; font-size: 48px; font-weight: 300;">
-                    <div class="fire-animation" style="background-image: url('./imagens/fire-animation.png'); background-size: 64px 64px; background-position: 0 0; background-repeat: no-repeat;"></div> <span style="background: linear-gradient(90deg, #00d4ff, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Urgencia & Ritmo</span>
+                    <div class="fire-icon-css">🔥</div> <span style="background: linear-gradient(90deg, #00d4ff, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Urgencia & Ritmo</span>
                 </h3>
                 <div class="grid" id="urgencyGoals">
                     <div class="flip-card" onclick="flipCard(this)">
@@ -3085,7 +3069,7 @@
             <!-- Disrupción & Profundidad -->
             <div style="margin-bottom: 2rem;">
                 <h3 class="section-title" style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; font-size: 48px; font-weight: 300;">
-                    <div class="sparkles-animation" style="background-image: url('./imagens/sparkles-animation.png'); background-size: 64px 64px; background-position: 0 0; background-repeat: no-repeat;"></div> <span style="background: linear-gradient(90deg, #00d4ff, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Disrupción & Profundidad</span>
+                    <div class="sparkles-icon-css">✨</div> <span style="background: linear-gradient(90deg, #00d4ff, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Disrupción & Profundidad</span>
                 </h3>
                 <div class="grid" id="disruptionGoals">
                     <div class="flip-card" onclick="flipCard(this)">
