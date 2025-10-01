@@ -448,30 +448,30 @@
             width: 64px;
             height: 64px;
             display: inline-block;
-            transition: all 0.3s ease;
             vertical-align: middle;
-            /* Estática por padrão - sem animação */
+            /* COMPLETAMENTE ESTÁTICA - SEM ANIMAÇÃO OU TRANSIÇÃO */
         }
 
         .sparkles-animation {
             width: 64px;
             height: 64px;
             display: inline-block;
-            transition: all 0.3s ease;
             vertical-align: middle;
-            /* Estática por padrão - sem animação */
+            /* COMPLETAMENTE ESTÁTICA - SEM ANIMAÇÃO OU TRANSIÇÃO */
         }
 
         .section-title:hover .fire-animation {
             animation: fireFlicker 2.5s ease-in-out infinite alternate;
             filter: brightness(1.1) saturate(1.05);
             transform: scale(1.1);
+            transition: filter 0.3s ease, transform 0.3s ease;
         }
 
         .section-title:hover .sparkles-animation {
             animation: sparklesTwinkle 2.5s ease-in-out infinite alternate;
             filter: brightness(1.2) saturate(1.1);
             transform: scale(1.1) rotate(5deg);
+            transition: filter 0.3s ease, transform 0.3s ease;
         }
 
         @keyframes fireFlicker {
