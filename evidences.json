@@ -284,6 +284,14 @@
         "link": "https://www.figma.com/design/U9ybLTsZCc3BkziEY7Q452/Merchant--Playground--Adelanto-de-Dinero?node-id=22584-9396&t=BPeqtF9RehhgcoH1-4",
         "linkName": "Ver no Figma",
         "user": "fe"
+      },
+      {
+        "title": "Uso de proporción áurea áurea en los ajustes de las fotografias de la landing",
+        "date": "27 de agosto 2025",
+        "description": "El uso de la Proporción Áurea en la composición de las imágenes de la landing page de merchants asegura una presentación clara y atractiva de la propuesta de valor. Esta técnica guía de manera natural la mirada hacia los sentimientos de éxito reflejados en cada foto, transmitiendo profesionalismo, confianza y solidez de marca. De esta forma, se potencia la percepción de calidad y se facilita que los vendedores comprendan rápidamente cómo la plataforma puede impulsar sus negocios.",
+        "link": "https://www.figma.com/design/gbplqYDdmUZooyR2tep4nk/Merchant--Handoff--Landing-P%C3%BAblica?node-id=7439-18040&t=vRCoOuA6CvMTCXsV-4",
+        "linkName": "Ver no Figma",
+        "user": "fe"
       }
     ],
     "turnaround-express": [
@@ -305,5 +313,5 @@
       }
     ]
   },
-  "last_updated": "2025-10-01T18:44:04.378Z"
+  "last_updated": "2025-10-01T18:52:57.476Z"
 }
