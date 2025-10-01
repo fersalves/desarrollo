@@ -114,6 +114,14 @@
         "link": "https://www.figma.com/design/U9ybLTsZCc3BkziEY7Q452/Merchant--Playground--Adelanto-de-Dinero?node-id=22620-11256&t=CPmwg5ExtJlHPE8a-4 ",
         "linkName": "Ver no Figma",
         "user": "fe"
+      },
+      {
+        "title": "Bench micro interações para landing",
+        "date": "24 de setembro 2025",
+        "description": "Busquei referências para a versão 2.o da landing que vamos fazer em Q4",
+        "link": "https://www.figma.com/design/PMshPstxGSPloIkHsBh6WG/Referencias-landing-2.0?node-id=1-8&t=GkoXLiIOIIdO665h-4",
+        "linkName": "Ver no Figma",
+        "user": "fe"
       }
     ],
     "prototipa-ia": [
@@ -241,5 +249,5 @@
       }
     ]
   },
-  "last_updated": "2025-09-11T14:44:14.686Z"
+  "last_updated": "2025-10-01T01:19:32.928Z"
 }
