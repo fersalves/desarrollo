@@ -444,34 +444,32 @@
             transition: all 0.3s ease;
         }
 
-        .fire-static {
+        .fire-animation {
             width: 64px;
             height: 64px;
             display: inline-block;
             vertical-align: middle;
-            /* COMPLETAMENTE ESTÁTICO - SEM MOVIMENTO */
+            transition: all 0.3s ease;
         }
 
-        .sparkles-static {
+        .sparkles-animation {
             width: 64px;
             height: 64px;
             display: inline-block;
             vertical-align: middle;
-            /* COMPLETAMENTE ESTÁTICO - SEM MOVIMENTO */
+            transition: all 0.3s ease;
         }
 
-        .section-title:hover .fire-static {
+        .section-title:hover .fire-animation {
             animation: fireFlicker 2.5s ease-in-out infinite alternate;
             filter: brightness(1.1) saturate(1.05);
             transform: scale(1.1);
-            transition: filter 0.3s ease, transform 0.3s ease;
         }
 
-        .section-title:hover .sparkles-static {
+        .section-title:hover .sparkles-animation {
             animation: sparklesTwinkle 2.5s ease-in-out infinite alternate;
             filter: brightness(1.2) saturate(1.1);
             transform: scale(1.1) rotate(5deg);
-            transition: filter 0.3s ease, transform 0.3s ease;
         }
 
         @keyframes fireFlicker {
@@ -2867,7 +2865,7 @@
             <!-- Urgência & Ritmo -->
             <div style="margin-bottom: 5rem;">
                 <h3 class="section-title" style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; font-size: 48px; font-weight: 300;">
-                    <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTMyIDhDMjQgOCAxNiAxNiAxNiAyNEMxNiAzMiAyNCA0MCAzMiA0MEMzNiA0MCA0MCAzNiA0MCAzMkM0MCAyOCAzNiAyNCAzMiAyNEMzMCAyNCAyOCAyNiAyOCAyOEMyOCAzMCAzMCAzMiAzMiAzMkMzNCAzMiAzNiAzMCAzNiAyOEMzNiAyNCAzMiAyMCAyOCAyMEMyNCAyMCAyMCAyNCAyMCAyOEMyMCAzNiAyOCA0NCAzNiA0NEMzOCA0NCA0MCA0MiA0MCA0MEMzOCA0MCAzNiAzOCAzNiAzNkMzNiAzNCAzOCAzMiA0MCAzMkM0MiAzMiA0NCAzNCA0NCAzNkM0NCA0MCA0MCA0NCAzNiA0NEMzMiA0NCAyOCA0MCAyOCAzNkMyOCAzMiAzMiAyOCAzNiAyOEMzOCAyOCA0MCAzMCA0MCAzMkM0MCAzNCAzOCAzNiAzNiAzNkMzNCAzNiAzMiAzNCAzMiAzMloiIGZpbGw9InVybCgjZ3JhZGllbnQwX2xpbmVhcl8xXzEpIi8+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImdyYWRpZW50MF9saW5lYXJfMV8xIiB4MT0iMzIiIHkxPSI4IiB4Mj0iMzIiIHkyPSI0NCIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgo8c3RvcCBzdG9wLWNvbG9yPSIjRkY2QjM1Ii8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI0ZGQzEwNyIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+Cjwvc3ZnPgo=" alt="Fire" class="fire-static" /> <span style="background: linear-gradient(90deg, #00d4ff, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Urgencia & Ritmo</span>
+                    <img src="./imagens/fire-animation.png" alt="Fire" class="fire-animation" /> <span style="background: linear-gradient(90deg, #00d4ff, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Urgencia & Ritmo</span>
                 </h3>
                 <div class="grid" id="urgencyGoals">
                     <div class="flip-card" onclick="flipCard(this)">
@@ -3071,7 +3069,7 @@
             <!-- Disrupción & Profundidad -->
             <div style="margin-bottom: 2rem;">
                 <h3 class="section-title" style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; font-size: 48px; font-weight: 300;">
-                    <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTMyIDRMMzQgMTRMMzggMTBMMzYgMjBMNDAgMTZMNDIgMjZMNDYgMjJMNDQgMzJMNDggMjhMNTAgMzhMNTQgMzRMNTIgNDRMNTYgNDBMNTggNTBMNjIgNDZMNjAgNTZMNTYgNTJMNTQgNjJMNTAgNThMNDggNjhMNDQgNjRMNDIgNzRMNDAgNzBMMzggODBMMzYgNzZMMzQgODZMMzIgODJMMzAgOTJMMjggODhMMjYgOThMMjQgOTRMMjIgMTA0TDIwIDEwMEwxOCAxMTBMMTYgMTA2TDE0IDExNkwxMiAxMTJMMTAgMTIyTDggMTE4TDYgMTI4TDQgMTI0TDIgMTM0TDAgMTMwTDIgMTIwTDQgMTE2TDYgMTA2TDggMTAyTDEwIDkyTDEyIDg4TDE0IDc4TDE2IDc0TDE4IDY0TDIwIDYwTDIyIDUwTDI0IDQ2TDI2IDM2TDI4IDMyTDMwIDIyTDMyIDRaIiBmaWxsPSJ1cmwoI2dyYWRpZW50MF9saW5lYXJfMl8yKSIvPgo8ZGVmcz4KPGxpbmVhckdyYWRpZW50IGlkPSJncmFkaWVudDBfbGluZWFyXzJfMiIgeDE9IjMyIiB5MT0iNCIgeDI9IjMyIiB5Mj0iMTM0IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CjxzdG9wIHN0b3AtY29sb3I9IiNGRkQ3MDAiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjRkZBNTAwIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHN2Zz4K" alt="Sparkles" class="sparkles-static" /> <span style="background: linear-gradient(90deg, #00d4ff, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Disrupción & Profundidad</span>
+                    <img src="./imagens/sparkles-animation.png" alt="Sparkles" class="sparkles-animation" /> <span style="background: linear-gradient(90deg, #00d4ff, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Disrupción & Profundidad</span>
                 </h3>
                 <div class="grid" id="disruptionGoals">
                     <div class="flip-card" onclick="flipCard(this)">
