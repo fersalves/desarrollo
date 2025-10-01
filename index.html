@@ -453,9 +453,13 @@
             /* Estática por padrão - sem animação */
         }
 
-        .light-icon {
+        .sparkles-animation {
+            width: 64px;
+            height: 64px;
             display: inline-block;
             transition: all 0.3s ease;
+            vertical-align: middle;
+            /* Estática por padrão - sem animação */
         }
 
         .section-title:hover .fire-animation {
@@ -464,10 +468,10 @@
             transform: scale(1.1);
         }
 
-        .section-title:hover .light-icon {
-            animation: lightGlow 2.5s ease-in-out infinite alternate;
-            filter: brightness(1.1) saturate(1.05);
-            text-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+        .section-title:hover .sparkles-animation {
+            animation: sparklesTwinkle 2.5s ease-in-out infinite alternate;
+            filter: brightness(1.2) saturate(1.1);
+            transform: scale(1.1) rotate(5deg);
         }
 
         @keyframes fireFlicker {
@@ -513,6 +517,34 @@
                 transform: scale(1.01);
                 filter: brightness(1.12) saturate(1.06);
                 text-shadow: 0 0 4px rgba(255, 215, 0, 0.3);
+            }
+        }
+
+        @keyframes sparklesTwinkle {
+            0% {
+                transform: scale(1) rotate(0deg);
+                filter: brightness(1.2) saturate(1.1);
+                opacity: 1;
+            }
+            25% {
+                transform: scale(1.05) rotate(2deg);
+                filter: brightness(1.3) saturate(1.15);
+                opacity: 0.9;
+            }
+            50% {
+                transform: scale(1.1) rotate(5deg);
+                filter: brightness(1.4) saturate(1.2);
+                opacity: 0.8;
+            }
+            75% {
+                transform: scale(1.05) rotate(3deg);
+                filter: brightness(1.25) saturate(1.12);
+                opacity: 0.9;
+            }
+            100% {
+                transform: scale(1.02) rotate(1deg);
+                filter: brightness(1.2) saturate(1.1);
+                opacity: 1;
             }
         }
             
@@ -3039,7 +3071,7 @@
             <!-- Disrupción & Profundidad -->
             <div style="margin-bottom: 2rem;">
                 <h3 class="section-title" style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; font-size: 48px; font-weight: 300;">
-                    <span class="light-icon">💡</span> <span style="background: linear-gradient(90deg, #00d4ff, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Disrupción & Profundidad</span>
+                    <img src="./imagens/sparkles-animation.png" alt="Sparkles" class="sparkles-animation" /> <span style="background: linear-gradient(90deg, #00d4ff, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Disrupción & Profundidad</span>
                 </h3>
                 <div class="grid" id="disruptionGoals">
                     <div class="flip-card" onclick="flipCard(this)">
