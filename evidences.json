@@ -52,6 +52,14 @@
         "link": "https://meli.slack.com/archives/C06M0E2PN72/p1756231223069699",
         "linkName": "Ver no Slack",
         "user": "fe"
+      },
+      {
+        "title": "Conhecimento dos CDU da landing page",
+        "date": "30 de setembro 2025",
+        "description": "É visível para os stakeholders que eu tenho conhecimento dos casos de uso e variações por site da landing page",
+        "link": "https://meli.slack.com/archives/C088CJ608LR/p1759256091992139?thread_ts=1759153220.158479&cid=C088CJ608LR",
+        "linkName": "Ver no Slack",
+        "user": "fe"
       }
     ],
     "feedback-senior": [
@@ -297,5 +305,5 @@
       }
     ]
   },
-  "last_updated": "2025-10-01T16:05:29.335Z"
+  "last_updated": "2025-10-01T18:44:04.378Z"
 }
