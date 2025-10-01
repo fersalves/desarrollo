@@ -444,9 +444,12 @@
             transition: all 0.3s ease;
         }
 
-        .fire-icon {
+        .fire-animation {
+            width: 64px;
+            height: 64px;
             display: inline-block;
             transition: all 0.3s ease;
+            vertical-align: middle;
         }
 
         .light-icon {
@@ -454,10 +457,10 @@
             transition: all 0.3s ease;
         }
 
-        .section-title:hover .fire-icon {
+        .section-title:hover .fire-animation {
             animation: fireFlicker 2.5s ease-in-out infinite alternate;
             filter: brightness(1.1) saturate(1.05);
-            text-shadow: 0 0 5px rgba(255, 107, 53, 0.3);
+            transform: scale(1.1);
         }
 
         .section-title:hover .light-icon {
@@ -2831,7 +2834,7 @@
             <!-- Urgência & Ritmo -->
             <div style="margin-bottom: 5rem;">
                 <h3 class="section-title" style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; font-size: 48px; font-weight: 300;">
-                    <span class="fire-icon">🔥</span> <span style="background: linear-gradient(90deg, #00d4ff, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Urgencia & Ritmo</span>
+                    <img src="./imagens/fire-animation.png" alt="Fire" class="fire-animation" /> <span style="background: linear-gradient(90deg, #00d4ff, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Urgencia & Ritmo</span>
                 </h3>
                 <div class="grid" id="urgencyGoals">
                     <div class="flip-card" onclick="flipCard(this)">
