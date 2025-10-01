@@ -78,6 +78,14 @@
         "link": "https://docs.google.com/spreadsheets/d/1abpgc3I2F4ozY6mawiwNybO73ApldV3oQeeEFrwt-2A/edit",
         "linkName": "Ver Google Sheets",
         "user": "fe"
+      },
+      {
+        "title": "Respuesta muy positiva a los cambios que hice en las animaciones de la landing basándome en los feedbacks de Pablo",
+        "date": "09 de outubro 2025",
+        "description": "Compartí con Pablo el resultado de la animación que había creado en Cursor y recibí comentarios muy positivos sobre mi trabajo, así que mantuve esa versión basándome en este feedback positivo de mi liderazgo técnico.",
+        "link": "https://fersalves.github.io/desarrollo/imagens/slack-Pablo.png",
+        "linkName": "Ver captura de pantalla",
+        "user": "fe"
       }
     ],
     "plan-b-salvaje": [
@@ -257,5 +265,5 @@
       }
     ]
   },
-  "last_updated": "2025-10-01T14:04:39.538Z"
+  "last_updated": "2025-10-01T14:36:54.120Z"
 }
