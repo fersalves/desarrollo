@@ -146,6 +146,14 @@
         "link": "https://www.figma.com/design/PMshPstxGSPloIkHsBh6WG/Referencias-landing-2.0?node-id=1-8&t=GkoXLiIOIIdO665h-4",
         "linkName": "Ver no Figma",
         "user": "fe"
+      },
+      {
+        "title": "Criei um perfil no Savee para colecionar referências visuais",
+        "date": "30 de setembro 2025",
+        "description": "No meu perfil fiz esse board só para referencias de animações, muitas das quais vou usar para a versão 2.0 da landing!",
+        "link": "https://savee.com/fernanda/boards/animacoes/",
+        "linkName": "Ver site",
+        "user": "fe"
       }
     ],
     "prototipa-ia": [
@@ -289,5 +297,5 @@
       }
     ]
   },
-  "last_updated": "2025-10-01T15:16:36.368Z"
+  "last_updated": "2025-10-01T16:05:29.335Z"
 }
