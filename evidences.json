@@ -104,6 +104,14 @@
         "link": "https://fersalves.github.io/desarrollo/imagens/slack-mari.png",
         "linkName": "Ver captura de pantalla",
         "user": "fe"
+      },
+      {
+        "title": "Resposta super rápida pra garantir agilidade no desenvolvimento da landing",
+        "date": "30 de setembro 2025",
+        "description": "En menos de un minuto aclaré la lógica detrás de las fotografías de la sección de requisitos que inicialmente se habían aplicado incorrectamente en la landing.",
+        "link": "https://meli.slack.com/archives/C088CJ608LR/p1759256245022119?thread_ts=1759153220.158479&cid=C088CJ608LR",
+        "linkName": "Ver no Slack",
+        "user": "fe"
       }
     ],
     "mira-afuera": [
@@ -281,5 +289,5 @@
       }
     ]
   },
-  "last_updated": "2025-10-01T15:05:42.217Z"
+  "last_updated": "2025-10-01T15:16:36.368Z"
 }
