@@ -190,6 +190,14 @@
         "link": "https://chatgpt.com/share/e/68c1aa42-53c4-8007-9560-e63b26ea2e99",
         "linkName": "Ver GPT",
         "user": "fe"
+      },
+      {
+        "title": "Uso da IA para generar versión de asset para la landing",
+        "date": "29 de setembro 2025",
+        "description": "Creé rápidamente una versión del asset del medidor de scoring para poder proporcionar a Mari las imágenes de scoring actualizadas. Utilicé la captura que compartió Pluma y, en pocos minutos, conseguí una versión del activo para utilizar en la landing y ponerla a disposición de Mari.",
+        "link": "https://chatgpt.com/share/e/68dd4318-ff40-8007-8f14-dc4b4fd70efc",
+        "linkName": "Ver GPT",
+        "user": "fe"
       }
     ],
     "update-proactivo": [
@@ -273,5 +281,5 @@
       }
     ]
   },
-  "last_updated": "2025-10-01T14:56:12.487Z"
+  "last_updated": "2025-10-01T15:05:42.217Z"
 }
