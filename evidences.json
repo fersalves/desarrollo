@@ -222,6 +222,14 @@
         "link": "https://chatgpt.com/share/e/68dd4318-ff40-8007-8f14-dc4b4fd70efc",
         "linkName": "Ver GPT",
         "user": "fe"
+      },
+      {
+        "title": "Presentación de la herramienta Cursor para el equipo de cobranza",
+        "date": "04 de setembro 2025",
+        "description": "Compartí mi experiencia con Cursor y ayudé a que el equipo de cobranzas pudiera conocer la herramienta y sus posibilidades para el desarrollo de un trabajo mas eficiente",
+        "link": "https://meli.slack.com/archives/G015GHXSJ4R/p1757019316227409",
+        "linkName": "Ver no Slack",
+        "user": "fe"
       }
     ],
     "update-proactivo": [
@@ -313,5 +321,5 @@
       }
     ]
   },
-  "last_updated": "2025-10-01T18:52:57.476Z"
+  "last_updated": "2025-10-06T16:11:04.315Z"
 }
