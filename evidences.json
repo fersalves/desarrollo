@@ -264,6 +264,14 @@
         "link": "https://meli.slack.com/archives/C088CJ608LR/p1757520554138169",
         "linkName": "Ver no Slack",
         "user": "fe"
+      },
+      {
+        "title": "Update sobre el nuevo escenário para Multiscoring en Backoffice",
+        "date": "06 de outubro 2025",
+        "description": "Tuve una reu con Mati el lunes por la mañana y cuando terminó la reu ya envié un mensaje en el canal para darle update a Santi sobre estas iteraciones que son necesarias en el proyecto para la versión intermedia.",
+        "link": "https://meli.slack.com/archives/C052Y0J7LVC/p1759757462976909",
+        "linkName": "Ver no Slack",
+        "user": "fe"
       }
     ],
     "marca-pulso": [
@@ -321,5 +329,5 @@
       }
     ]
   },
-  "last_updated": "2025-10-06T16:11:04.315Z"
+  "last_updated": "2025-10-06T18:22:44.093Z"
 }
