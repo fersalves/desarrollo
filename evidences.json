@@ -280,6 +280,14 @@
         "link": "https://meli.slack.com/archives/C052Y0J7LVC/p1760381983227099",
         "linkName": "Ver no Slack",
         "user": "fe"
+      },
+      {
+        "title": "Update EOC: aprobación de políticas",
+        "date": "13 de outubro 2025",
+        "description": "Tan pronto como terminó la reu, dejé un mensaje en nuestro canal para darle update a Santi de los nuevos roles y capas de seguridad que con Mati y Karlo estuvimos discutiendo para el Ecosistema de Ofertas de Crédito.",
+        "link": "https://meli.slack.com/archives/C052Y0J7LVC/p1760387156116459",
+        "linkName": "Ver no Slack",
+        "user": "fe"
       }
     ],
     "marca-pulso": [
@@ -337,5 +345,5 @@
       }
     ]
   },
-  "last_updated": "2025-10-13T19:12:28.908Z"
+  "last_updated": "2025-10-13T20:27:50.288Z"
 }
