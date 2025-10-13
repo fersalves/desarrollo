@@ -272,6 +272,14 @@
         "link": "https://meli.slack.com/archives/C052Y0J7LVC/p1759757462976909",
         "linkName": "Ver no Slack",
         "user": "fe"
+      },
+      {
+        "title": "Update documentación Banco México",
+        "date": "13 de outubro 2025",
+        "description": "Tan pronto como terminó la reu, dejé un mensaje en nuestro canal para darle update a Santi al respecto de porque se está complejizando la salida de esta iniciativa ya que desde UX ya lo teníamos como \"done\".",
+        "link": "https://meli.slack.com/archives/C052Y0J7LVC/p1760381983227099",
+        "linkName": "Ver no Slack",
+        "user": "fe"
       }
     ],
     "marca-pulso": [
@@ -329,5 +337,5 @@
       }
     ]
   },
-  "last_updated": "2025-10-06T18:22:44.093Z"
+  "last_updated": "2025-10-13T19:12:28.908Z"
 }
