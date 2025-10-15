@@ -42,6 +42,14 @@
         "link": "https://meli.slack.com/archives/C055RLPPC05/p1756931182018539 ",
         "linkName": "Ver no Slack",
         "user": "fe"
+      },
+      {
+        "title": "Atualização do NotebookLM de férias",
+        "date": "12 de setembro 2025",
+        "description": "Atualizei o NotebookLM que criei nas últimas férias para que o time possa estar atualizado sobre as últimas coisas que estive fazendo e status dos projetos enquanto estou de férias.",
+        "link": "https://meli.slack.com/archives/C052Y0J7LVC/p1757729666723449",
+        "linkName": "Ver no Slack",
+        "user": "fe"
       }
     ],
     "aprendizaje-visible": [
@@ -345,5 +353,5 @@
       }
     ]
   },
-  "last_updated": "2025-10-13T20:27:50.288Z"
+  "last_updated": "2025-10-15T14:13:57.441Z"
 }
